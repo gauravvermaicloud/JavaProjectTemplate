@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<bean id="widgetService" class="com.boilerplate.service.implemetations.WidgetService">
+		</bean>
+		
+		<!-- Beans for Users, use either MySQLUsers or one of the other implementations of users -->
+		<bean id="userService" class="com.boilerplate.service.implemetations.UserService">
+		   <!-- <property name="configurationManager" ref="configurationManager"></property> -->
+		    <property name="userDataAccess" ref="userDataAccess"></property>
+		    <property name="configurationManager" ref="configurationManager" ></property>
+		</bean>
+		<!-- Use one of the possible implementations of the User -->
+		<bean id="userDataAccess" class="com.boilerplate.database.implementations.MySQLUsers">
+		</bean>
+		
+
+	<!-- Bean for configuration from database, select between 
+	one possible confirguration stores from MySQL, Cassandra, Mongo etc.-->
+	<bean id="databaseConfiguration" class="com.boilerplate.database.implementations.MySQLConfigurations">
+	</bean>
+	<bean id="configurationManager" class="com.boilerplate.configurations.ConfigurationManager"  init-method="initialize">
+		<property name="databaseConfiguration" ref="databaseConfiguration"></property>
+	</bean>
+		
+	<bean id="sourceObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+	<bean id="acmObjectMapper" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetObject" ref="sourceObjectMapper"/>
+	    <property name="targetMethod" value="disable"/>
+	    <property name="arguments" value="WRITE_DATES_AS_TIMESTAMPS"/>
+	</bean>
+	<bean id="acmJacksonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	    <property name="objectMapper" ref="acmObjectMapper"/>
+	</bean>			
+</beans>

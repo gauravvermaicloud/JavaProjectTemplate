@@ -1,0 +1,12 @@
+<databases>
+	<database name="BoilerplateMySQLDatabase">
+		<tables>
+			<table name="UsersMetaDatum">
+				<column name="Id" datatype="bigint()" primaryKey="true" identity="true" identityInitialValue="1" identityIncrement="1"/>
+				<column name="UserId" datatype="varchar(64)" notNull="True" ForeignKeyTable="Users" ForeignKeyColumn="Id"/>
+				<column name="Key" datatype="varchar(64)" notNull="True"/>
+				<column name="Value" datatype="varchar(512)" />
+			</table>
+		</tables>
+	</database>
+</databases>

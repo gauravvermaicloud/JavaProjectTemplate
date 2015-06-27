@@ -1,0 +1,82 @@
+												1. Create a Spring MVC Project for REST Services - Done
+												2. Add AOP support - Done
+												3. Add automated logging support via AOP - Done
+												4. Add DI support - Done
+												5. Add Swagger Support
+												6. Add support for Offline jobs
+												7. Add support for cache of various cache provider
+												8. Add support for background job so that jobs to be read can be configured per server
+												9. Add jobs to pick data from queue
+10. Add support for DB management for Cassandra, Mongo, Redis and MySQL
+												11. Add support for UT's - Done
+							12. Add support for automated build and deployment using Jenkins
+												13. Add support for Sonar
+												14. Request Id for web in thread and headers - Done
+15. Support for log parser
+												16. Custom collections - Done
+												17. Exception handling and converting it into REST based errors
+												18. Base objects and DTO's - Done
+19. Base classes for DB, exception, code and others
+20. Interface for DB and Service for CRUD, Read all, Read by Id
+21. BDD QA test using JBehave 
+												22. Add custom logger wrapper 
+23. Add support for printing full and query names only
+24. Create reports based on custom logs based on views
+25. Create zabbix based instrumentation 
+26. Base interface for DB and Service layer to have - Create, Update, Get, Get by Id, 
+											27. Date to be in ISO format - Done
+											28. UT to run in mvn - Done
+											29. UT to publish results into Sonar
+									30. Logger with required strucutre - Done
+									31. Add request id in logs
+									32. Add request id in non web scenarios
+									33. Add automated exception handling support via AOP
+									34. Add X-Http-Methdod-Override Support
+									35. Add custom items to Http logs - X_Http_Request_Id will be logged using tomcat
+36. Session, User and Claims based authentication
+37. Auth providers
+38. Authorization claims based read from config into session and then have methods to check and execute the same
+39. Code for Session to be put in the joinpoint
+40. Code for permissions framework in which using lambdas we put in session and then call operation.
+41. Base layer for a method for service layer
+									42. Read isDebugEnabled from a config
+									43. DB Based config in mysql
+44. API's for config reset, add new config value, check Server status, reset cache, queue and other forms of errors
+46. Support for Kibana + Logstash and Elastic Search
+										49. UT for each kind of queue for background processing
+										50. UT for each kind of cache 
+										51. For redis test in cluster
+										52. In cache for keys add - application name and version id  and environment before the key
+53. JMeter perf test and analysis support and this to be done via Jenkins
+54. In the AOP code put code such that authenticated users and authorised users are allowed to call methods. Controllers may be decorated with such details
+										55. Add support for phonegap
+56. Add code to ensure methods have proper and minimum permissions to run in the code for AOP by matching method name with permission set
+57. Add DB based config in cassandra
+58. Redis and MemCache to pick up server details from config in database
+59. Write code for Apache MQ and its tests
+60. Add OAuth,SAML,WS-Federated as need be to integrate with those Auth systems (related to #37)
+61. Ensure cookies in system are secure cookies to prevent session hijack
+62. Add salt along with hashing to ensure user password security. Also give ability choose hashing algo. 
+
+												63. Embed Jetty into the war for self running
+64. In the POM to have UTs working we have placed this line     				${project.basedir}/src/test/resources this copies the import.sql file this will be removed when the DB creation script is done which will essentially create the DB automatically with data
+												65. Jobs to turn on and off from config in .properties as we want the job to be able to turn on and off on a per server basis
+66. Ability to send lambda as a parameter to the call to execute custom code.
+67. Fix all todo ’s all over the code
+68. Review entire code and ensure it has comments + xdoclet comments
+
+69. Build f/w for phone gap
+70. Buil f/w for java script
+												71. sonar to have code coverage
+72. Fix all sonar issues
+73. Add code so that the number of fields can be limited
+74. Email sending and reading using queue
+75. Send message using various channgels - EMail, chat sms anything else?
+76. Jenkins Dev
+77. Jenkins QA
+78. Jenkins PreProd
+79. Jenkins Perf
+80. Jenkins Prod
+81. UI testing automation and mobile testing UI automation
+82. Make the DB connection string configurable and picked from properties file
+83. Add support for http://fbinfer.com/

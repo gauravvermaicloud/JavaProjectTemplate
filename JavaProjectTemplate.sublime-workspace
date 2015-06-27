@@ -1,0 +1,280 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/main/java/com/boilerplate/cache/MemCache.java",
+			"settings":
+			{
+				"buffer_size": 3678,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Volumes/Extended/Git/JavaProjectTemplate",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database/interfaces",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/exceptions",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue"
+	],
+	"file_history":
+	[
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects/LogAndTraceExceptionAspect.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/WidgetController.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/pom.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/jenkins.sh",
+		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/www/index.html",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/HealthController.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring/root-context.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/resources/test-context.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestConfiguration.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Configurations.table",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Departments.table",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/DepartmentController.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/IQueue.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/BoilerplateNonProductionInMemoryQueue.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/RabbitMQ.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/ApacheMQ.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BoilerplateNonProductionInMemoryCache.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/MemCache.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BaseCache.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/UserMetaDatum.table",
+		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/config.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestInRabbitMQ.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestDeployedQueue.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/JenkinsJobs/jobs/LocalFullDevBuild/config.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
+		"/Users/gaurav/Git/JavaProjectTemplate/charter.txt",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/resources/log4j.xml",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/test/resources/log4j.xml",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/test/java/hibernate.cfg.xml",
+		"/Users/gaurav/Git/JavaProjectTemplate/pom.xml",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/hibernate.cfg.xml",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/ConfigurationManager.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/test/resources/boilerplate.properties",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database/implementations/MySQLConfigurations.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Configurations.table",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/PostScript/PostScript.sql",
+		"/Users/gaurav/Git/JavaProjectTemplate/import.sql",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/resources/boilerplate.properties",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Configuration.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database/interfaces/IConfigurations.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database/implementations/MySQLConfigurations.hbm.xml",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/BaseController.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/BoilerPlateRDBMS.properties",
+		"/Users/gaurav/Git/JavaProjectTemplate/BoilerPlateRDBMS.script",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BoilerplateNonProductionInMemoryCache.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/ICache.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/test/resources/test-context.xml",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/test/java/UnitTests/TestAsyncJob.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/Logger.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/test/java/UnitTests/TestDeployedCache.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/test/java/UnitTests/TestConfiguration.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/exceptions/QueueServiceUnavailableException.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/Base.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/collections/BoilerplateList.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database/interfaces/IUser.java",
+		"/Users/gaurav/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database/implementations/MySQLUsers.hbm.xml"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"jacoco",
+			"sonar"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/main/java/com/boilerplate/cache/MemCache.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3678,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								945,
+								950
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 80.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "JavaProjectTemplate.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 391.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

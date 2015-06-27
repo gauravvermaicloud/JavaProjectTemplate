@@ -1,0 +1,16 @@
+<databases>
+	<database name="BoilerplateMySQLDatabase">
+		<tables>
+			<table name="Users">
+				<column name="Id" datatype="bigint()" primaryKey="true" identity="true" identityInitialValue="1" identityIncrement="1"/>
+				<column name="UserId" datatype="varchar(64)" notNull="True"/>
+				<column name="PasswordHash" datatype="bigint()" notNull="True/>
+				<column name="AuthenticationProvider" datatype="varchar(64)" notNull="True"/>
+				<column name="ExternalSystemId" datatype="varchar(64)" notNull="True"/>
+				<column name="ExternalSystemIdHash" datatype="bigint()" notNull="True"/>
+				<column name="ManagerId" datatype="bigint()" ForeignKeyTable="Users" ForeignKeyColumn="Id"  />
+				<column name="DepartmentId" datatype="bigint()" ForeignKeyTable="Departments" ForeignKeyColumn="Id"  />
+			</table>
+		</tables>
+	</database>
+</databases>

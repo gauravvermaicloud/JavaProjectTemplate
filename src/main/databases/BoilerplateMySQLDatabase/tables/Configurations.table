@@ -1,0 +1,13 @@
+<databases>
+	<database name="BoilerplateMySQLDatabase">
+		<tables>
+			<table name="Configurations">
+				<column name="Id" datatype="bigint()" primaryKey="true" identity="true" identityInitialValue="1" identityIncrement="1"/>
+				<column name="ConfigurationKey" datatype="varchar(64)" notNull="True"/>
+				<column name="ConfigurationValue" datatype="varchar(512)" />
+				<column name="Version" datatype="varchar(10)" notNull="true"/>
+				<column name="Enviornment" datatype="varchar(10)" notNull="true"/>
+			</table>
+		</tables>
+	</database>
+</databases>

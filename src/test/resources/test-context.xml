@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<bean id="widgetService" class="com.boilerplate.service.implemetations.WidgetService">
+		</bean>
+		
+		<bean id="widgetController" class="com.boilerplate.java.controllers.WidgetController">
+		</bean>
+		
+		<bean id="userController" class="com.boilerplate.java.controllers.UserController">
+		</bean>
+		
+		<bean id="healthController" class="com.boilerplate.java.controllers.HealthController">
+		</bean>
+		
+<!-- Enable AOP -->
+  <aop:aspectj-autoproxy/>
+  <bean id="logAndTraceExceptionAspect" class="com.boilerplate.aspects.LogAndTraceExceptionAspect" />
+  
+  <!--This is the instance of cache. This may be changed by end programmers
+  	  Enable one of the 3 caches-->
+  <bean id="iCache" class="com.boilerplate.cache.BoilerplateNonProductionInMemoryCache" />
+  <!-- 
+  <bean id="iCache" class="com.boilerplate.cache.MemCache" />
+  <bean id="iCache" class="com.boilerplate.cache.RedisCache" />
+   -->
+
+
+<bean id="queueReaderJob" class="com.boilerplate.jobs.QueueReaderJob" /> 
+
+ <!-- Add or remover observers for the jobs here -->
+	<bean id="asyncWorkDispatcher" class="com.boilerplate.asyncWork.AsyncWorkDispatcher">
+		<property name="dispatchMap">
+			<map>
+			 <!-- Each entry should have a subject and observer -->
+				<entry
+					 key ="ALL"
+					 value-ref="allAsyncJobObservers"
+				/> <!-- The value ref is the list of observers for the subject -->
+				
+				<entry
+					 key ="ONE"
+					 value-ref="oneObserverList"
+				/> <!-- The value ref is the list of observers for the subject -->
+				
+				<entry
+					 key ="TWO"
+					 value-ref="twoObserverList"
+				/> <!-- The value ref is the list of observers for the subject -->
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="oneObserverList" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
+		<property name="asyncJobList">
+			<list>
+				<!-- Add observers for the subject. -->
+				<bean class="asyncWorkObservers.SubtractNumberAsyncWorkObserver"/>
+			</list>
+		</property>
+	</bean>	
+	
+		<bean id="twoObserverList" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
+		<property name="asyncJobList">
+			<list>
+				<!-- Add observers for the subject. -->
+				<bean class="asyncWorkObservers.MultiplyNumbersAsyncWorkObservers"/>
+				<bean class="asyncWorkObservers.DivideNumberAsyncWorkObserver"/>
+			</list>
+		</property>
+	</bean>	
+	
+		<bean id="allAsyncJobObservers" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
+		<property name="asyncJobList">
+			<list>
+				<!-- Add observers for the subject. -->
+				<bean class="asyncWorkObservers.AddNumberAsyncWorkObserver"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="databaseConfiguration" class="com.boilerplate.database.implementations.MySQLConfigurations">
+	</bean>
+	<bean id="configurationManager" class="com.boilerplate.configurations.ConfigurationManager" scope="singleton" init-method="initialize">
+		<property name="databaseConfiguration" ref="databaseConfiguration"></property>
+	</bean>		
+	
+			<!-- Beans for Users, use either MySQLUsers or one of the other implementations of users -->
+	<bean id="userService" class="com.boilerplate.service.implemetations.UserService">
+		   <!-- <property name="configurationManager" ref="configurationManager"></property> -->
+		    <property name="userDataAccess" ref="userDataAccess"></property>
+		    <property name="configurationManager" ref="configurationManager" ></property>
+	</bean>
+		<!-- Use one of the possible implementations of the User -->
+	<bean id="userDataAccess" class="com.boilerplate.database.implementations.MySQLUsers">
+	</bean>
+</beans>

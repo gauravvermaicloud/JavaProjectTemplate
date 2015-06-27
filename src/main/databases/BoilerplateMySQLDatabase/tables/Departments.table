@@ -1,0 +1,10 @@
+<databases>
+	<database name="BoilerplateMySQLDatabase">
+		<tables>
+			<table name="Departments">
+				<column name="Id" datatype="bigint()" primaryKey="true" identity="true" identityInitialValue="1" identityIncrement="1"/>
+				<column name="DepartmentName" datatype="varchar(64)" notNull="True"/>
+			</table>
+		</tables>
+	</database>
+</databases>	
