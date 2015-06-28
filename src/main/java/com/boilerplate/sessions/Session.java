@@ -3,7 +3,10 @@ package com.boilerplate.sessions;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.boilerplate.exceptions.rest.ValidationFailedException;
+import com.boilerplate.java.Base;
 import com.boilerplate.java.collections.BoilerplateMap;
+import com.boilerplate.java.entities.BaseEntity;
 import com.boilerplate.java.entities.ExternalFacingUser;
 
 /**
@@ -13,20 +16,9 @@ import com.boilerplate.java.entities.ExternalFacingUser;
  * @author gaurav
  *
  */
-public class Session implements Serializable{
+public class Session extends BaseEntity implements Serializable{
 	
-	/**
-	 * This is the unique session id of the session.
-	 */
-	private String sessionId;
 	
-	/**
-	 * This method returns the session id of the session
-	 * @return The session id
-	 */
-	public String getSessionId(){
-		return this.sessionId;
-	}
 	/**
 	 * This is the user associated with the session.
 	 */
@@ -50,7 +42,32 @@ public class Session implements Serializable{
 	 * @param externalFacingUser The user whose session is being created
 	 */
 	public Session(ExternalFacingUser externalFacingUser){
-		this.sessionId = UUID.randomUUID().toString();
+		super.setId(UUID.randomUUID().toString());
 		this.user = externalFacingUser;
+	}
+
+	/**
+	 * @see BaseEntity.validate
+	 */
+	@Override
+	public boolean validate() throws ValidationFailedException {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	/**
+	 * @see BaseEntity.transformToInternal
+	 */
+	@Override
+	public BaseEntity transformToInternal() {
+		return this;
+	}
+
+	/**
+	 * @see BaseEntity.transformToExternal
+	 */
+	@Override
+	public BaseEntity transformToExternal() {
+		return this;
 	}
 }

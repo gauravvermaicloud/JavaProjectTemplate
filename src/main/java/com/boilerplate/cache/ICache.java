@@ -20,14 +20,14 @@ public interface ICache {
 	 * @param value The value of object
 	 * @param timeoutInSeconds Time out
 	 */
-	public <T> void add(String key,T value, int timeoutInSeconds);
+	public <T extends Base> void add(String key,T value, int timeoutInSeconds);
 	/**
 	 * This method is used to read an item from cache
 	 * @param key This is the key of the item
 	 * @param typeOfClass The type of the class
 	 * @return This is the value associated with the key.
 	 */
-	public <T> T get(String key,Class<T> typeOfClass);
+	public <T extends Base> T get(String key,Class<T> typeOfClass);
 	
 	/**
 	 * This removes the item from cache. If one is found

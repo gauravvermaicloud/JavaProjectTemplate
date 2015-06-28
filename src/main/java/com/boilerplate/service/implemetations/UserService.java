@@ -32,16 +32,40 @@ public class UserService implements IUserService {
 	 */
 	@Autowired
 	com.boilerplate.configurations.ConfigurationManager configurationManager;
-
+	
+	/**
+	 * The setter to set the configuration manager
+	 * @param configurationManager
+	 */
 	public void setConfigurationManager(
 			com.boilerplate.configurations.ConfigurationManager 
 			configurationManager){
 		this.configurationManager = configurationManager;
 	}
+	/**
+	 * The autowired instance of session manager
+	 */
+	@Autowired
+	com.boilerplate.sessions.SessionManager sessionManager;
+	
+	/**
+	 * This sets the session manager
+	 * @param sessionManager The session manager
+	 */
+	public void setSessionManager(com.boilerplate.sessions.SessionManager sessionManager){
+		this.sessionManager = sessionManager;
+	}
 
+	/**
+	 * The autowired instance of user data access
+	 */
 	@Autowired
 	IUser userDataAccess;
 	
+	/**
+	 * This is the setter for user data acess
+	 * @param iUser
+	 */
 	public void setUserDataAccess(IUser iUser){
 		this.userDataAccess = iUser;
 	}
@@ -102,19 +126,12 @@ public class UserService implements IUserService {
 					"User name or password incorrect", null);
 		}
 		user.setPassword("Password Encrypted");
+		
+		//getthe roles, ACL and ther details of this user
+		
 		//if the user is valid create a new session, in the session add details 
-		Session session = sessionManager().createNewSession(user);
+		Session session = sessionManager.createNewSession(user);
 		
-		
-
-		//like  user's roles, ACL, session time, last access time and so on.
-		
-		//once the session is on cache/db, it is accessable to base controller
-		//by using the session service
-		
-		//put the session on cache
-		
-		//put the session on D
 		return session;
 		}
 		catch(NotFoundException nfe){
