@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.boilerplate.configurations.ConfigurationManager;
 import com.boilerplate.configurations.IConfiguratonManager;
-import com.boilerplate.database.implementations.MySQLConfigurations;
 import com.boilerplate.database.interfaces.IConfigurations;
+import com.boilerplate.database.mysql.implementations.MySQLConfigurations;
 import com.boilerplate.exceptions.BaseBoilerplateException;
 import com.boilerplate.framework.Logger;
 import com.boilerplate.java.collections.BoilerplateList;

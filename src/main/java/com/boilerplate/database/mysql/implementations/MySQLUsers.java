@@ -1,4 +1,4 @@
-package com.boilerplate.database.implementations;
+package com.boilerplate.database.mysql.implementations;
 
 import java.util.List;
 

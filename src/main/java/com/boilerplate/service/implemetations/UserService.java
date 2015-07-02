@@ -45,7 +45,7 @@ public class UserService implements IUserService {
 	/**
 	 * The autowired instance of session manager
 	 */
-	@Autowired
+	//@Autowired
 	com.boilerplate.sessions.SessionManager sessionManager;
 	
 	/**

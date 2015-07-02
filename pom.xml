@@ -344,10 +344,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>target/classes/com/boilerplate/database/implementations</outputDirectory>
+              <outputDirectory>target/classes/com/boilerplate/database/mysql/implementations</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>src/main/java/com/boilerplate/database/implementations</directory>
+                  <directory>src/main/java/com/boilerplate/database/mysql/implementations</directory>
                   <includes>
 	              	<include>*.hbm.xml</include>
 	              </includes>

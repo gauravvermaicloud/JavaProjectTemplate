@@ -16,8 +16,8 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import com.boilerplate.database.implementations.MySQLConfigurations;
 import com.boilerplate.database.interfaces.IConfigurations;
+import com.boilerplate.database.mysql.implementations.MySQLConfigurations;
 import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.Configuration;
