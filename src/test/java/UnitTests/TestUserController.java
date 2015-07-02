@@ -43,7 +43,7 @@ public class TestUserController {
 		externalFacingUser.setUserId(userId);
 		externalFacingUser.setPassword(userId);
 		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
-		Assert.assertEquals("DEFAULT:"+userId, externalFacingUserReturned.getUserId());
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
 		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
 		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
 		//need to write code for get / auth to check the user creation worked
@@ -60,10 +60,10 @@ public class TestUserController {
 		externalFacingUser.setUserId(userId);
 		externalFacingUser.setPassword(userId);
 		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
-		Assert.assertEquals("DEFAULT:"+userId, externalFacingUserReturned.getUserId());
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
 		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
 		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
-		Assert.assertEquals(userId, externalFacingUserReturned.getExternalSystemId());
+		Assert.assertEquals(userId.toUpperCase(), externalFacingUserReturned.getExternalSystemId().toUpperCase());
 		//need to write code for get / auth to check the user creation worked
 		RequestThreadLocal.remove();
 	}
@@ -79,10 +79,10 @@ public class TestUserController {
 		externalFacingUser.setUserId(userId);
 		externalFacingUser.setPassword(userId);
 		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
-		Assert.assertEquals("DEFAULT:"+userId, externalFacingUserReturned.getUserId());
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
 		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
 		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
-		Assert.assertEquals(userId, externalFacingUserReturned.getExternalSystemId());
+		Assert.assertEquals(userId.toUpperCase(), externalFacingUserReturned.getExternalSystemId().toUpperCase());
 		//need to write code for get / auth to check the user creation worked
 		RequestThreadLocal.remove();
 	}
@@ -99,10 +99,10 @@ public class TestUserController {
 		externalFacingUser.setUserId(userId);
 		externalFacingUser.setPassword(userId);
 		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
-		Assert.assertEquals("DEFAULT:"+userId, externalFacingUserReturned.getUserId());
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
 		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
 		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
-		Assert.assertEquals(userId, externalFacingUserReturned.getExternalSystemId());
+		Assert.assertEquals(userId.toUpperCase(), externalFacingUserReturned.getExternalSystemId());
 		externalFacingUser.setUserId(userId);
 		userController.createUser(externalFacingUser);
 		//need to write code for get / auth to check the user creation worked
@@ -120,13 +120,13 @@ public class TestUserController {
 		externalFacingUser.setUserId(userId);
 		externalFacingUser.setPassword(userId);
 		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
-		Assert.assertEquals("DEFAULT:"+userId, externalFacingUserReturned.getUserId());
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
 		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
 		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
 		externalFacingUser.setUserId(userId);
 		externalFacingUser.setAuthenticationProvider("NotDefault");
 		userController.createUser(externalFacingUser);
-		Assert.assertEquals("NOTDEFAULT:"+userId, externalFacingUserReturned.getUserId());
+		Assert.assertEquals(("NOTDEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
 		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "NOTDEFAULT");
 		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
 		//need to write code for get / auth to check the user creation worked
