@@ -7,11 +7,19 @@
 		<bean id="widgetService" class="com.boilerplate.service.implemetations.WidgetService">
 		</bean>
 		
+		<!--bean For Session, this will be used by User -->
+		<bean id="sessionManager" class="com.boilerplate.sessions.SessionManager">
+			<property name="configurationManager" ref="configurationManager" ></property>
+			<property name="session" ref="session" />
+		</bean>
+		<!-- This is one of the possible implementations for session -->
+		<bean id="session" class="com.boilerplate.database.mysql.implementations.MySQLSession"/>
+		
 		<!-- Beans for Users, use either MySQLUsers or one of the other implementations of users -->
 		<bean id="userService" class="com.boilerplate.service.implemetations.UserService">
-		   <!-- <property name="configurationManager" ref="configurationManager"></property> -->
 		    <property name="userDataAccess" ref="userDataAccess"></property>
 		    <property name="configurationManager" ref="configurationManager" ></property>
+		     <property name="sessionManager" ref="sessionManager" ></property>
 		</bean>
 		<!-- Use one of the possible implementations of the User -->
 		<bean id="userDataAccess" class="com.boilerplate.database.mysql.implementations.MySQLUsers">
@@ -25,6 +33,7 @@
 	<bean id="configurationManager" class="com.boilerplate.configurations.ConfigurationManager"  init-method="initialize">
 		<property name="databaseConfiguration" ref="databaseConfiguration"></property>
 	</bean>
+	
 		
 	<bean id="sourceObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 	<bean id="acmObjectMapper" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

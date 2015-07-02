@@ -47,7 +47,7 @@ public class UserService implements IUserService {
 	/**
 	 * The autowired instance of session manager
 	 */
-	//@Autowired
+	@Autowired
 	com.boilerplate.sessions.SessionManager sessionManager;
 	
 	/**
@@ -112,11 +112,11 @@ public class UserService implements IUserService {
 	public Session authenticate(AuthenticationRequest authenitcationRequest) throws UnauthorizedException{
 		
 		//check if the user starts with DEFAULT:, if not then put in Default: before it
-		if(!authenitcationRequest.getUserName().startsWith(
+		if(!authenitcationRequest.getUserId().startsWith(
 					this.configurationManager.get("DefaultAuthenticationProvider").toUpperCase()+":")){
-			authenitcationRequest.setUserName(
+			authenitcationRequest.setUserId(
 					this.configurationManager.get("DefaultAuthenticationProvider")+":"+
-							authenitcationRequest.getUserName().toUpperCase()
+							authenitcationRequest.getUserId().toUpperCase()
 					);
 		}
 		ExternalFacingUser user =null;
@@ -124,7 +124,7 @@ public class UserService implements IUserService {
 		//we store everything in upper case hence chanhing it to upper
 		try{
 			user = userDataAccess.getUser(
-					authenitcationRequest.getUserName().toUpperCase());
+					authenitcationRequest.getUserId().toUpperCase());
 		String hashedPassword = String.valueOf(Encryption.getHashCode(authenitcationRequest.getPassword()));
 		if(!user.getPassword().equals(hashedPassword)){
 			throw new UnauthorizedException("USER",

@@ -20,7 +20,7 @@ public class AuthenticationRequest implements Serializable{
 	/**
 	 * The name of the user
 	 */
-	private String userName;
+	private String userId;
 	
 	@ApiModelProperty(value="This is the password of the user"
 			,required=true,notes="The password of the user")
@@ -33,16 +33,16 @@ public class AuthenticationRequest implements Serializable{
 	 * This returns the name of the use
 	 * @return The user name
 	 */
-	public String getUserName() {
-		return userName;
+	public String getUserId() {
+		return this.userId;
 	}
 
 	/**
 	 * This method sets the user name
-	 * @param userName The name of the user
+	 * @param userId The name of the user
 	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	/**

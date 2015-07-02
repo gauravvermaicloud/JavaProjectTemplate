@@ -83,7 +83,7 @@ public class UserController extends BaseController{
 		//Call authentication service to check if user name and password are valid
 		Session session = this.userService.authenticate(authenticationRequest);
 		
-		//now put session in a cookie, header and also as response back
+		//now put sessionId in a cookie, header and also as response back
 		
 		//There will also be a job to clear unused sessions evey x number of days
 		

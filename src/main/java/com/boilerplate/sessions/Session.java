@@ -1,6 +1,7 @@
 package com.boilerplate.sessions;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 import com.boilerplate.exceptions.rest.ValidationFailedException;
@@ -8,6 +9,7 @@ import com.boilerplate.java.Base;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.BaseEntity;
 import com.boilerplate.java.entities.ExternalFacingUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * This class is used to implement a session.
@@ -18,6 +20,13 @@ import com.boilerplate.java.entities.ExternalFacingUser;
  */
 public class Session extends BaseEntity implements Serializable{
 	
+	/**
+	 * This is the session Id.
+	 */
+	private String sessionId;
+	
+	
+	private String userId;
 	
 	/**
 	 * This is the user associated with the session.
@@ -42,8 +51,12 @@ public class Session extends BaseEntity implements Serializable{
 	 * @param externalFacingUser The user whose session is being created
 	 */
 	public Session(ExternalFacingUser externalFacingUser){
-		super.setId(UUID.randomUUID().toString());
+		this.setSessionId(UUID.randomUUID().toString());
 		this.user = externalFacingUser;
+		//The primary key Id of the user
+		this.setUserId(externalFacingUser.getId());
+		super.setCreationDate(new Date());
+		super.setUpdationDate(new Date());
 	}
 
 	/**
@@ -70,4 +83,42 @@ public class Session extends BaseEntity implements Serializable{
 	public BaseEntity transformToExternal() {
 		return this;
 	}
+
+	//TODO - The session entity should not be sent back as it is just the entire session
+	/**
+	 * This returns a session entity as a JSON.
+	 * @return A JSON for session
+	 */
+	public String getSessionEntity(){
+		return this.toJSON();
+	}
+	
+	public void setSessionEntity(String sessionEntity){
+		
+	}
+	
+	/**
+	 * This methods returns the session id
+	 * @return Returns a session id
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	/**
+	 * This method sets a session id
+	 * @param sessionId The session id 
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 }

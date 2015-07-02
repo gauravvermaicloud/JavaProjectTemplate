@@ -30,6 +30,7 @@
 
  <mapping resource="com/boilerplate/database/mysql/implementations/MySQLConfigurations.hbm.xml"/>
  <mapping resource="com/boilerplate/database/mysql/implementations/MySQLUsers.hbm.xml"/>
+ <mapping resource="com/boilerplate/database/mysql/implementations/MySQLSessions.hbm.xml"/>
  
   </session-factory>
 </hibernate-configuration>

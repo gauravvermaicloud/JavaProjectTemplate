@@ -80,3 +80,11 @@
 81. UI testing automation and mobile testing UI automation
 82. Make the DB connection string configurable and picked from properties file
 83. Add support for http://fbinfer.com/
+84. Add support for reporting framework, make reports for production monitoring using it
+85. Prod monitoring reports
+	- Machine -URL-method- Http Status - Time - Count Mapping
+	- 500 - Machine - Type - Count
+	- Failed Pings by machine
+	- Failed Pings by non criticality by machine
+	- Raw view of http to logs
+	- 
