@@ -11,5 +11,7 @@
 			<property name="authenticationProvider" column="AuthenticationProvider" />
 			<property name="externalSystemId" column="ExternalSystemId" />		
 			<property name="password" column="PasswordHash" />
+			<property name="creationDate" column="CreatedDateTime" type="timestamp" />
+			<property name="updationDate" column="UpdateDateTime" type="timestamp" />
 	</class>
 </hibernate-mapping>

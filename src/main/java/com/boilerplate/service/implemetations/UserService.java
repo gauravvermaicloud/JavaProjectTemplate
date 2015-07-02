@@ -1,6 +1,8 @@
 package com.boilerplate.service.implemetations;
 
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.boilerplate.cache.CacheFactory;
@@ -93,6 +95,9 @@ public class UserService implements IUserService {
 				+":"+externalFacingUser.getUserId());
 		//before save lets hash the password
 		externalFacingUser.hashPassword();
+		//set create and update date
+		externalFacingUser.setCreationDate(new Date());
+		externalFacingUser.setUpdationDate(externalFacingUser.getCreationDate());
 		//call the database to save the user
 		externalFacingUser =  (ExternalFacingUser) userDataAccess.create(externalFacingUser).transformToExternal();
 		//we dont want to share the hash hence sending bacj the text
