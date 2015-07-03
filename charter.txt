@@ -87,4 +87,7 @@
 	- Failed Pings by machine
 	- Failed Pings by non criticality by machine
 	- Raw view of http to logs
-	- 
+86. Add support for Hadoop
+87. Add support for Storm
+88. How can we get performance and instrumentation in this along with reports?
+89. Design perofrmance tuning strateies into the testing and modelling

@@ -8,18 +8,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/main/java/com/boilerplate/cache/MemCache.java",
+			"file": "src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 			"settings":
 			{
-				"buffer_size": 3678,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/main/java/com/boilerplate/java/controllers/HealthController.java",
-			"settings":
-			{
-				"buffer_size": 2738,
+				"buffer_size": 5607,
 				"line_ending": "Unix"
 			}
 		}
@@ -59,28 +51,40 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/database/interfaces",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/exceptions",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue"
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs"
 	],
 	"file_history":
 	[
+		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/ParseLogs.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/IConfiguratonManager.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/ConfigurationManager.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/mysql.hibernate.cfg.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/resources/boilerplate.properties",
+		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/platforms/platforms.json",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/CleanupSessionJob.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/PreprocessMonitoringReports.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Configuration.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/MemCache.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/HealthController.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/Base.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/BaseEntity.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/IdEntity.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Department.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/AuthenticationRequest.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/sessions/Session.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Widget.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Ping.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects/LogAndTraceExceptionAspect.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/WidgetController.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/pom.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/jenkins.sh",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/www/index.html",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/HealthController.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring/root-context.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/resources/test-context.xml",
@@ -93,14 +97,12 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/RabbitMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/ApacheMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BoilerplateNonProductionInMemoryCache.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/MemCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BaseCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/UserMetaDatum.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/config.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestInRabbitMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestDeployedQueue.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/JenkinsJobs/jobs/LocalFullDevBuild/config.xml",
-		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
 		"/Users/gaurav/Git/JavaProjectTemplate/charter.txt",
 		"/Users/gaurav/Git/JavaProjectTemplate/src/main/resources/log4j.xml",
 		"/Users/gaurav/Git/JavaProjectTemplate/src/test/resources/log4j.xml",
@@ -168,24 +170,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/main/java/com/boilerplate/cache/MemCache.java",
+					"file": "src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3678,
+						"buffer_size": 5607,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								945,
-								950
+								0,
+								0
 							]
 						],
 						"settings":
@@ -194,36 +196,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 80.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/main/java/com/boilerplate/java/controllers/HealthController.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2738,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2550,
-								2637
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 496.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

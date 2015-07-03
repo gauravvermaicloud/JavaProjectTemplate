@@ -6,12 +6,15 @@ import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.Encryption;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+@ApiModel(value="A User", description="This is a user", parent=BaseEntity.class)
 public class ExternalFacingUser extends BaseEntity implements Serializable{
 	
 	@ApiModelProperty(value="This is the id of the user."
-			,required=true,notes="The id of the user is unique in the system, it is analogous to user name")
+			,required=true,notes="The id of the user is unique in the system, it is analogous to user name"
+			)
 	/**
 	 * This is the user's Id, this is not the system generated Id, it is the id created
 	 * by the user.

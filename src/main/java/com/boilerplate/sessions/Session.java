@@ -10,6 +10,7 @@ import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.BaseEntity;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mangofactory.swagger.annotations.ApiIgnore;
 
 /**
  * This class is used to implement a session.
@@ -93,6 +94,7 @@ public class Session extends BaseEntity implements Serializable{
 		return this.toJSON();
 	}
 	
+	@ApiIgnore
 	public void setSessionEntity(String sessionEntity){
 		
 	}
@@ -101,6 +103,7 @@ public class Session extends BaseEntity implements Serializable{
 	 * This methods returns the session id
 	 * @return Returns a session id
 	 */
+	@ApiIgnore
 	public String getSessionId() {
 		return sessionId;
 	}
