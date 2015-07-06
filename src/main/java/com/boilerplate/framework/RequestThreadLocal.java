@@ -81,4 +81,29 @@ public class RequestThreadLocal {
 			RequestThreadLocal.threadLocal.remove();
 		}
 	}
+	
+	/**
+	 * This method sets a custom attribute on the thread
+	 * @param key This is the key
+	 * @return The object for the key
+	 */
+	public static Object getAttribute(String key){
+		if(RequestThreadLocal.threadLocal != null){
+			return RequestThreadLocal.threadLocal.get().getAttribute(key);
+		}
+		else{
+			return null;
+		}
+	}
+	
+	/**
+	 * This method sets a custom attribute on the thread
+	 * @param key The key
+	 * @param object The object
+	 */
+	public static void setAttribute(String key, Object object){
+		if(RequestThreadLocal.threadLocal != null){
+			RequestThreadLocal.threadLocal.get().setAttribute(key, object);
+		}
+	}
 }

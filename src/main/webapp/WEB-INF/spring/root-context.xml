@@ -11,6 +11,7 @@
 		<bean id="sessionManager" class="com.boilerplate.sessions.SessionManager" init-method="initialize">
 			<property name="configurationManager" ref="configurationManager" ></property>
 			<property name="session" ref="session" />
+			<property name="queueReaderJob" ref="queueReaderJob"></property>
 		</bean>
 		<!-- This is one of the possible implementations for session -->
 		<bean id="session" class="com.boilerplate.database.mysql.implementations.MySQLSession"/>
@@ -25,13 +26,17 @@
 		<bean id="userDataAccess" class="com.boilerplate.database.mysql.implementations.MySQLUsers">
 		</bean>
 		
-
+	 <bean id="queueReaderJob" class="com.boilerplate.jobs.QueueReaderJob">
+	 	<property name="configurationManager" ref="configurationManager"></property>
+	 	<property name="asyncWorkDispatcher" ref="asyncWorkDispatcher"></property>
+	 </bean> 
+		
 	<!-- Bean for configuration from database, select between 
 	one possible confirguration stores from MySQL, Cassandra, Mongo etc.-->
 	<bean id="databaseConfiguration" class="com.boilerplate.database.mysql.implementations.MySQLConfigurations">
 	</bean>
 	<bean id="configurationManager" class="com.boilerplate.configurations.ConfigurationManager"  init-method="initialize">
-		<property name="databaseConfiguration" ref="databaseConfiguration"></property>
+		<property name="databaseConfiguration" ref="databaseConfiguration"></property>		
 	</bean>
 	
 		
@@ -43,5 +48,47 @@
 	</bean>
 	<bean id="acmJacksonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	    <property name="objectMapper" ref="acmObjectMapper"/>
-	</bean>			
+	</bean>	
+	
+<!-- Add or remover observers for the jobs here -->
+	<bean id="asyncWorkDispatcher" class="com.boilerplate.asyncWork.AsyncWorkDispatcher">
+		<property name="dispatchMap">
+			<map>
+			 <!-- Each entry should have a subject and observer -->
+				<entry
+					 key ="ALL"
+					 value-ref="allAsyncJobObservers"
+				/> <!-- The value ref is the list of observers for the subject -->
+				
+				<!-- This is for saving the work to the database async -->
+				<entry
+				    key="SaveSessionToDatabase"
+				    value-ref="saveSessionToDatabaseObservers"
+				/>    
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="allAsyncJobObservers" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
+		<property name="asyncJobList">
+			<list>
+				<!-- Add observers for the subject. -->
+				<!-- This observer logs every action done asynchronously and should be removed/disabled -->
+				<bean class="com.boilerplate.asyncWork.LogObserver"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="saveSessionToDatabaseObservers" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
+	<property name="asyncJobList">
+		<list>
+			<!-- This is the class that will save sessions to the database
+				Also the data we put in will get logged as the log observer is enabled for everything
+			 -->
+			<bean class="com.boilerplate.asyncWork.SaveSessionToDatabaseObserver">
+				<property name="sessionManager" ref="sessionManager"></property>
+			</bean>
+		</list>
+	</property>
+</bean>			
 </beans>

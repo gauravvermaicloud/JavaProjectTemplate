@@ -1,5 +1,6 @@
 package com.boilerplate.database.mysql.implementations;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -27,24 +28,9 @@ public class MySQLSession implements ISession{
 	 */
 	@Override
 	public Session create(Session session) {
-		org.hibernate.Session hibernateSession =null;	
-		try{
-			//open a session
-			hibernateSession = HibernateUtility.getSessionFactory().openSession();
-			//get all the configurations from the DB as a list
-			Transaction transaction = hibernateSession.beginTransaction();
-			hibernateSession.save(session);
-			//commit the transaction
-			transaction.commit();
-		}
-		finally{
-			if(hibernateSession !=null && hibernateSession.isOpen()){
-				hibernateSession.close();
-			}
-		}
-		return session;
+		return this.update(session);
 	}
-
+	
 	/**
 	 * @see ISession.getSession
 	 */
@@ -90,6 +76,57 @@ public class MySQLSession implements ISession{
 				hibernateSession.close();
 			}
 		}
+	}
+
+	/**
+	 * @see ISession.update
+	 */
+	@Override
+	public Session update(Session session) {
+		org.hibernate.Session hibernateSession =null;	
+		try{
+			//open a session
+			hibernateSession = HibernateUtility.getSessionFactory().openSession();
+			//get all the configurations from the DB as a list
+			Transaction transaction = hibernateSession.beginTransaction();
+			hibernateSession.saveOrUpdate(session);
+			//commit the transaction
+			transaction.commit();
+		}
+		finally{
+			if(hibernateSession !=null && hibernateSession.isOpen()){
+				hibernateSession.close();
+			}
+		}
+		return session;
+	}
+
+	/**
+	 * @see ISession.deleteSessionOlderThan
+	 */
+	@Override
+	public void deleteSessionOlderThan(Date date) {
+		org.hibernate.Session hibernateSession =null;
+		try{
+			//open a session
+			hibernateSession = HibernateUtility.getSessionFactory().openSession();
+			//get all the configurations from the DB as a list
+			Transaction transaction = hibernateSession.beginTransaction();
+			String hsql = "Delete From Session S where S.updationDate < :UpdationDate";
+			Query query = hibernateSession.createQuery(hsql);	
+			//Get the session JSON for the session id
+			query.setParameter("UpdationDate", date);
+			query.executeUpdate();
+			//commit the transaction
+			transaction.commit();
+		}
+		finally{
+			//close the hibernate
+			if(hibernateSession !=null && hibernateSession.isOpen()){
+				hibernateSession.close();
+			}
+		}		
+		
 	}
 
 }

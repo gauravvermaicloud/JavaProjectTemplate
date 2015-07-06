@@ -3,6 +3,7 @@ package com.boilerplate.framework;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.sessions.Session;
 
 /**
@@ -95,6 +96,29 @@ public class RequestParameters{
 		return this.httpServletResponse;
 	}
 	
-	//TODO - add custom attributes on theread
+	/**
+	 * This is a dictionary to define custom attributes on thread.
+	 * These attributes will be removed once the thread is out
+	 * of execution context via web or job
+	 */
+	private BoilerplateMap<String, Object> attributes = new BoilerplateMap();
+	
+	/**
+	 * Gets the object for the attribute
+	 * @param key This is the key
+	 * @return The object
+	 */
+	public Object getAttribute(String key){
+		return attributes.get(key);
+	}
+	
+	/**
+	 * Puts an attribute on thread context
+	 * @param key The key
+	 * @param object The object
+	 */
+	public void setAttribute(String key, Object object){
+		attributes.put(key, object);
+	}
 }
 

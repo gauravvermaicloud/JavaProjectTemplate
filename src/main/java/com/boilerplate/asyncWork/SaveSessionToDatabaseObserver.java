@@ -1,17 +1,16 @@
-package com.boilerplate.jobs;
+package com.boilerplate.asyncWork;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.boilerplate.sessions.Session;
+
 /**
- * This job will cleanup any session older than session time out.
- * This is not required in Cassandra based databases where we use time to live
- * on records.
- * The job is enabled or diabled from the spring configuration file.
+ * This job saves session to the database
  * @author gaurav.verma.icloud
  *
  */
-public class CleanupSessionJob{
-	
+public class SaveSessionToDatabaseObserver implements IAsyncWorkObserver{
+
 	/**
 	 * The autowired instance of session manager
 	 */
@@ -25,8 +24,15 @@ public class CleanupSessionJob{
 	public void setSessionManager(com.boilerplate.sessions.SessionManager sessionManager){
 		this.sessionManager = sessionManager;
 	}
-
-	public void cleanup(){
-		this.sessionManager.cleanupExpiredSession();
+	
+	/**
+	 * This method saves the session to the database asynchronously 
+	 */
+	@Override
+	public void observe(AsyncWorkItem asyncWorkItem) {
+		//get the session
+		Session session =(Session) asyncWorkItem.getPayload();
+		sessionManager.updateSession(session);
 	}
+
 }

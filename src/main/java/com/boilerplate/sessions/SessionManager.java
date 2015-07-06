@@ -11,6 +11,7 @@ import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.Logger;
 import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.Constants;
+import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.service.implemetations.UserService;
 
@@ -52,9 +53,29 @@ public class SessionManager {
 	}
 	
 	/**
+	 * This is an instance of the queue job, to save the session
+	 * back on to the database async
+	 */
+	@Autowired
+	com.boilerplate.jobs.QueueReaderJob queueReaderJob;
+	
+	/**
+	 * This sets the queue reader jon
+	 * @param queueReaderJob The queue reader jon
+	 */
+	public void setQueueReaderJob(com.boilerplate.jobs.QueueReaderJob queueReaderJob){
+		this.queueReaderJob = queueReaderJob;
+	}
+	
+	/**
 	 * The time out of session	
 	 */
 	private int sessionTimeOut =20*60*1000;
+	
+	/**
+	 * The subject for saving to background database
+	 */
+	private BoilerplateList<String> subjects = new BoilerplateList<String>();
 	
 	/**
 	 * This method gets a session with the given id.
@@ -75,29 +96,36 @@ public class SessionManager {
 		}
 		if(session != null){
  			//if session has expired
- 			if(session.validate()){
+ 			if(!session.validate()){
  				session = null;
  			}
  			else{
  				//if the session has not expired update the last update date 
  				//to increase the life of session
  				session.setUpdationDate(new Date());
+ 				//put the session back on cache with new expiry
+ 				putSessionOnCache(session);
+ 				
+ 				//the queue job will put it back  in database we dont write back to DB
+ 				//from here itself because it will cause performance issue
+ 				//and we cant just rely upon cache because during a memeory preassure 
+ 				//the cache may be evicted
+ 				
+ 				try {
+ 					queueReaderJob.requestBackroundWorkItem(
+ 							session, subjects, "SessionManager", "getSession");
+ 				} catch (Exception ex) {
+ 					//if there is an issue during accessing queue we should save the
+ 					//session to the database
+ 					this.saveSession(session);
+ 				}
  			}
  		}
-		
-		//put the session back on cache with new expiry
-		putSessionOnCache(session);
-		
-		//the queue job will put it back  in database we dont write back to DB
-		//from here itself because it will cause performance issue
-		//and we cant just rely upon cache because during a memeory preassure 
-		//the cache may be evicted
-		
-		//TODO - put code to put the session into the database using queue
 		
 		//return the session or return null
 		return session;
 	}
+	
 	
 	/**
 	 * This method gets a session if available from cache
@@ -151,10 +179,29 @@ public class SessionManager {
 		Session session = new Session(externalFacingUser);
 		
 		//Save session on DB
-		this.session.create(session);
+		this.saveSession(session);
 		//Save session on cache
 		putSessionOnCache(session);		
 		return session;
+	}
+	
+	/**
+	 * Saves the session to the databaase
+	 * @param session the session
+	 * @return The session
+	 */
+	public Session saveSession(Session session){		
+		//Save session on DB
+		return this.session.create(session);
+	}
+	
+	/**
+	 * This method updates a session
+	 * @param session The session
+	 * @return The session
+	 */
+	public Session updateSession(Session session){
+		return this.session.update(session);
 	}
 	
 	/**
@@ -169,8 +216,11 @@ public class SessionManager {
 	 */
 	public void initialize(){
 		this.sessionTimeOut = Integer.parseInt(configurationManager.get("SessionTimeOutInMinutes"))*60;
+		this.subjects.add(Constants.SaveSessionToDatabase);
+
 	}
 	
+
 	/**
 	 * This method returns the session time out.
 	 * @return
@@ -179,4 +229,17 @@ public class SessionManager {
 		return this.sessionTimeOut;
 	}
 	
+	/**
+	 * This method cleansup old and expired sessions.
+	 * It is a good practice to cleanup sessions from code
+	 * rather than to rely upon a DBA.
+	 * Further the logs we generate keep all the information about the session and user
+	 * to trace any actitvity.
+	 */
+	public void cleanupExpiredSession(){
+		long time = new Date().getTime();
+		time = time - this.getSessionTimeout()*1000;
+		Date date = new Date(time);
+		this.session.deleteSessionOlderThan(date);
+	}
 }

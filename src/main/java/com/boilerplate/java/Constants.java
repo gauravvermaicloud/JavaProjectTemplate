@@ -40,4 +40,9 @@ public class Constants {
 	 * The header for user id
 	 */
 	public static final String X_User_Id = "X-User-Id";
+
+	/**
+	 * The queue subject to save session to the database
+	 */
+	public static final String SaveSessionToDatabase = "SaveSessionToDatabase";
 }

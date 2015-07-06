@@ -1,6 +1,7 @@
 package com.boilerplate.asyncWork;
 
 import com.boilerplate.framework.Logger;
+import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.jobs.QueueReaderJob;
 
@@ -54,33 +55,28 @@ public class AsyncWorkDispatcher {
 		
 		//Get the list of all observers.
 		AsyncWorkDispatcherObserverList allList = dispatchMap.get("ALL");
-		//in parallel on multiple threads send request
-		allList.getAsyncJobList().forEach(x-> 
-			{
-				//log the message
+		
+		BoilerplateList<IAsyncWorkObserver> allObserverList = allList.getAsyncJobList();
+		for(Object observer:allObserverList){
+			if(logger.isDebugEnabled()){
+				logger.logDebug("AsyncWorkDispatcher", "dispatch"
+						, "Subject : ALL"
+						, "Dispatching "+workItem ==null?"Null":workItem.toJSON()+"to observer "+observer.getClass());
+			}
+			((IAsyncWorkObserver)observer).observe(workItem);
+		}
+		
+		for(Object subject:workItem.getSubjects()){
+			AsyncWorkDispatcherObserverList observerListForSubject = dispatchMap.get((String)subject);
+			BoilerplateList<IAsyncWorkObserver> observerList = observerListForSubject.getAsyncJobList();
+			for(Object observer:observerList){
 				if(logger.isDebugEnabled()){
 					logger.logDebug("AsyncWorkDispatcher", "dispatch"
 							, "Subject : ALL"
-							, "Dispatching "+workItem ==null?"Null":workItem.toJSON()+"to observer "+x.getClass());
+							, "Dispatching "+workItem ==null?"Null":workItem.toJSON()+"to observer "+observer.getClass());
 				}
-				//observer
-				((IAsyncWorkObserver)x).observe(workItem);
+				((IAsyncWorkObserver)observer).observe(workItem);
 			}
-		);
-		workItem.getSubjects().forEach(y->{
-			AsyncWorkDispatcherObserverList observerListForSubject = dispatchMap.get(y);
-			observerListForSubject.getAsyncJobList().forEach(x-> 
-			{
-				//log the message
-				if(logger.isDebugEnabled()){
-					logger.logDebug("AsyncWorkDispatcher", "dispatch"
-							, "Subject : ALL"
-							, "Dispatching "+workItem ==null?"Null":workItem.toJSON()+"to observer "+x.getClass());
-				}
-				//observer
-				((IAsyncWorkObserver)x).observe(workItem);
-			}
-		);
-		});
+		}
 	}
 }

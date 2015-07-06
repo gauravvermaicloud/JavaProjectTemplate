@@ -34,6 +34,14 @@ public class QueueReaderJob {
 	com.boilerplate.asyncWork.AsyncWorkDispatcher asyncWorkDispatcher;
 	
 	/**
+	 * Sets the async work dispatcher
+	 * @param asyncWorkDispatcher The instance of async work dispatcher.
+	 */
+	public void setAsyncWorkDispatcher(com.boilerplate.asyncWork.AsyncWorkDispatcher asyncWorkDispatcher){
+		this.asyncWorkDispatcher = asyncWorkDispatcher;
+	}
+	
+	/**
 	 * This is the logger
 	 */
 	private Logger logger = Logger.getInstance(QueueReaderJob.class);

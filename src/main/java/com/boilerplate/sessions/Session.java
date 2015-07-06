@@ -25,12 +25,6 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(value="Session", description="A session entity", parent=BaseEntity.class)
 public class Session extends BaseEntity implements Serializable{
-	/**
-	 * This is the session manager
-	 */
-	@JsonIgnore
-	@Autowired
-	private SessionManager sessionManager;
 	
 	/**
 	 * This is the session Id.
@@ -90,7 +84,17 @@ public class Session extends BaseEntity implements Serializable{
 	@Override
 	public boolean validate() throws ValidationFailedException {
 		//session is valid if it is not expired
-		return ((new Date()).getTime() - this.getUpdationDate().getTime())>sessionManager.getSessionTimeout()*1000;
+		long nowTime = new Date().getTime();
+		long lastUpdateTime = this.getUpdationDate().getTime();
+		long diff = nowTime-lastUpdateTime;
+		long timeOut = (long) 20*60*1000; //TODO get this from config
+		if(diff >timeOut){
+			return false;
+		}
+		else{
+			return true;
+		}
+		//return ((new Date()).getTime() - this.getUpdationDate().getTime())>sessionManager.getSessionTimeout()*1000;
 	}
 	
 	/**

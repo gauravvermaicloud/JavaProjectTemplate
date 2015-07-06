@@ -54,13 +54,6 @@ public class LogAndTraceExceptionAspect {
        		if(RequestThreadLocal.getHttpRequest() != null){
 	       		String authToken = RequestThreadLocal.getHttpRequest().getHeader(
 	       				"X-Http-Auth-Token");
-	    		/*if(authToken !=null){
-	    			RequestThreadLocal.threadLocal.get().setSession(
-	    					SessionManager.getSession(authToken));
-	    		}
-	    		else{
-	    			RequestThreadLocal.threadLocal.get().setSession(null);
-	    		}*/
        		}
        		
        		//TODO - Add code to check method and its permissions to execute
