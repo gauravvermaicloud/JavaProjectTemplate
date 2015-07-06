@@ -103,7 +103,7 @@
 	</bean>
 	
 			<!--bean For Session, this will be used by User -->
-		<bean id="sessionManager" class="com.boilerplate.sessions.SessionManager">
+		<bean id="sessionManager" class="com.boilerplate.sessions.SessionManager" init-method="initialize">
 			<property name="configurationManager" ref="configurationManager" ></property>
 			<property name="session" ref="session" />
 		</bean>

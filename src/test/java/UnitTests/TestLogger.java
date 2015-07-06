@@ -92,7 +92,7 @@ public class TestLogger {
 	 */
 	@Test
 	public void test() {
-		RequestThreadLocal.setRequest(UUID.randomUUID().toString(),null);
+		RequestThreadLocal.setRequest(UUID.randomUUID().toString(),null,null,null);
 		logger.isDebugEnabled();
 		logger.logDebug("TestLogger", "test", "test", "Test Message");
 		logger.logError("TestLogger", "test", "test", "Test Message");

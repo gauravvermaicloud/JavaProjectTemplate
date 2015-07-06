@@ -67,7 +67,17 @@ public class MemCache  extends BaseCache implements ICache{
 	 */
 	@Override
 	public <T extends Base> void add(String key, T value) {
-		this.add(this.cacheKeyPrefix+":"+key, value,MemCache.defaultExpiry);
+		
+		try{
+			this.memcachedClient.set(this.cacheKeyPrefix+":"+key, MemCache.defaultExpiry,value.toJSON());
+		}
+		catch(Exception ex){
+			//we do not expect cache to fail hence we
+			//this exception is not thrown.
+			MemCache.logger.logException("MemCache", "getInstance"
+					, "Catch Block", "Error setting into cache", ex);
+			MemCache.cacheErrorCount++;
+		}
 	}
 
 	/**

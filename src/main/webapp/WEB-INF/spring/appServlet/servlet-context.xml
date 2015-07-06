@@ -73,10 +73,12 @@
 	 <bean id="queueReaderJob" class="com.boilerplate.jobs.QueueReaderJob">
 	 	<property name="configurationManager" ref="configurationManager"></property>
 	 </bean> 
+	 
 	 <task:scheduled-tasks scheduler="scheduler">
 		<task:scheduled ref="queueReaderJob" method="readQueueAndDispatch" fixed-delay="1000"/>
 	 </task:scheduled-tasks>	
-
+ 	
+ 
  <!-- Add or remover observers for the jobs here -->
 	<bean id="asyncWorkDispatcher" class="com.boilerplate.asyncWork.AsyncWorkDispatcher">
 		<property name="dispatchMap">

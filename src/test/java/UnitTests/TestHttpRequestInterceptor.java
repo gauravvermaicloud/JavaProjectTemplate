@@ -35,6 +35,8 @@ public class TestHttpRequestInterceptor {
        Assert.assertEquals(requestId, RequestThreadLocal.getRequestId());
        httpRequestIdInterceptor.afterCompletion(request, response, new Object(), new Exception());
        Assert.assertNull(RequestThreadLocal.getRequestId());
+       //TODO - test method to test new code - This method needs more testing
+       //we should call this after login and pass session id form various places, we should also test it by removing the session from cache
 	}
 
 }

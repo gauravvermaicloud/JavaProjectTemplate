@@ -1,6 +1,7 @@
 package com.boilerplate.framework;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class is used to set and unset a request id on thread
@@ -19,12 +20,18 @@ public class RequestThreadLocal {
 	 * This sets the request id on thread
 	 * @param requestId The request id
 	 * @param httpServletRequest The http request
+	 * @param httpServletResponse The http response
+	 * @param session The user session if available
 	 */
-	public static void setRequest(String requestId,HttpServletRequest httpServletRequest){
+	public static void setRequest(String requestId,HttpServletRequest httpServletRequest
+			, HttpServletResponse httpServletResponse, com.boilerplate.sessions.Session session){
 		RequestParameters requestParameters = new RequestParameters();
 		requestParameters.setRequestId(requestId);
 		requestParameters.setHttpServletRequest(httpServletRequest);
+		requestParameters.setHttpResponse(httpServletResponse);
+		requestParameters.setSession(session);
 		RequestThreadLocal.threadLocal.set(requestParameters);
+		
 	}
 	
 	/**
@@ -52,6 +59,20 @@ public class RequestThreadLocal {
 			return null;
 		}
 	}
+	
+	/**
+	 * This method sends back the http response
+	 * @return
+	 */
+	public static HttpServletResponse getHttpResponse(){
+		if(RequestThreadLocal.threadLocal.get() != null){
+			return RequestThreadLocal.threadLocal.get().getHttpServletResponse();
+		}
+		else{
+			return null;
+		}
+	}
+	
 	/**
 	 * This removes the request id from thread.
 	 */

@@ -14,10 +14,12 @@ import com.boilerplate.configurations.IConfiguratonManager;
 import com.boilerplate.exceptions.rest.ConflictException;
 import com.boilerplate.exceptions.rest.UnauthorizedException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
+import com.boilerplate.java.Constants;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.service.interfaces.IUserService;
 import com.boilerplate.sessions.Session;
+import com.boilerplate.sessions.SessionManager;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -38,6 +40,9 @@ public class UserController extends BaseController{
 	 */
 	@Autowired
 	IUserService userService;
+	
+	@Autowired
+	SessionManager sessionManager;
 	
 	/**
 	 * This is the instance of configuration manager
@@ -76,6 +81,14 @@ public class UserController extends BaseController{
 	 * @throws UnauthorizedException This excption is thrown if the user name password
 	 * is incorrect
 	 */
+	@ApiOperation(	value="Authenticates a user by passing user name, password for default provider"
+			,notes="The user is unique in the system for a given provider."
+					+ "The user may passed as a user id or as DEFAULT:userId"
+		 )
+@ApiResponses(value={
+					@ApiResponse(code=200, message="Ok")
+				,	@ApiResponse(code=404, message="Not Found")
+				})
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public @ResponseBody Session authenticate(@RequestBody AuthenticationRequest 
 			authenticationRequest) throws UnauthorizedException{
@@ -84,10 +97,15 @@ public class UserController extends BaseController{
 		Session session = this.userService.authenticate(authenticationRequest);
 		
 		//now put sessionId in a cookie, header and also as response back
+		super.addHeader(Constants.AuthTokenHeaderKey, session.getSessionId());
 		
-		//There will also be a job to clear unused sessions evey x number of days
+		super.addCookie(Constants.AuthTokenCookieKey, session.getSessionId()
+				,sessionManager.getSessionTimeout());
 		
-		//Sessions will not be picked if they are older than x minutes 
+		//add the user id for logging, we have to explictly do it here only in this case all other cases
+		//are handeled by HttpRequestInterseptor
+		super.addHeader(Constants.X_User_Id, session.getExternalFacingUser().getUserId());
+		 
 		return session;
 	}
 }

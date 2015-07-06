@@ -66,7 +66,7 @@ public class BoilerplateNonProductionInMemoryCache extends BaseCache implements 
 	 */
 	@Override
 	public <T extends Base> void add(String key,T value, int timeoutInSeconds){
-		this.add(this.cacheKeyPrefix+":"+key, value);
+		this.boilerplateMap.put(this.cacheKeyPrefix+":"+key, value);
 	}
 	
 	/**

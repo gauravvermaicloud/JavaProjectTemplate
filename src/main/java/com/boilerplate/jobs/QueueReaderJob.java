@@ -97,7 +97,7 @@ public class QueueReaderJob {
 		//if the queue is enabled then work
 		if(isBackgroundJobEnabled){
 			//Create a unique request id for the job and set it on thread
-			RequestThreadLocal.setRequest(UUID.randomUUID().toString(), null);
+			RequestThreadLocal.setRequest(UUID.randomUUID().toString(), null,null,null);
 			AsyncWorkItem asyncWorkItem =null;
 			try{
 				if(QueueFactory.getInstance().isQueueEnabled()){

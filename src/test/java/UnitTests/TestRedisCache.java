@@ -87,4 +87,6 @@ public boolean canRunTest(){
 		returnValue = CacheFactory.getInstance("RedisCache").get(key,BaseWrapper.class);
 		Assert.assertNull(returnValue);
 	}
+	
+	//test cache with explictly putting cache time out
 }

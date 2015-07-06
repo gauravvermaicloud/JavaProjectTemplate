@@ -46,4 +46,5 @@ public interface ICache {
 	 * Reset the cache if it was disabled due to errors.
 	 */
 	public void resetCacheExceptionCount();
+	
 }

@@ -1,6 +1,8 @@
 package com.boilerplate.java.controllers;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -158,4 +160,33 @@ public abstract class BaseController extends Base {
 	public String getRequestId() {
 		return RequestThreadLocal.threadLocal.get().getRequestId();
 	}
+	
+	/**
+	 * This method adds a cookie to response
+	 * @param key The key for the cookie
+	 * @param value The value for the cookie
+	 */
+	public void addCookie(String key, String value,int maxAge){	
+		Cookie cookie=new Cookie (key, value);
+		//as a best practice cookies should be secure
+		cookie.setSecure(true);
+		//TODO - pick timeout from config
+		cookie.setMaxAge(maxAge);
+		RequestThreadLocal.threadLocal.get().getHttpServletResponse().addCookie(cookie);
+	}
+	
+	/**
+	 * This method adds a header to response
+	 * @param key The key to the header
+	 * @param value The value for the header
+	 */
+	public void addHeader(String key, String value){
+		RequestThreadLocal.threadLocal.get().getHttpServletResponse().setHeader(key, value);
+	}
+
+	
+	public HttpServletResponse getHttpServletResponse(){
+		return RequestThreadLocal.threadLocal.get().getHttpServletResponse();
+	}
+	
 }

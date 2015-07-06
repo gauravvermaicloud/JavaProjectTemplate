@@ -10,4 +10,11 @@ public interface ISession {
 	 * @return A session
 	 */
 	public Session create(Session session);
+
+	/**
+	 * This method gets the given session by id from the database
+	 * @param sessionId The id of the session
+	 * @return The session
+	 */
+	public Session getSession(String sessionId);
 }

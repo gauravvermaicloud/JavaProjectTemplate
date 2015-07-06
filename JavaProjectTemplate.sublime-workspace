@@ -11,7 +11,7 @@
 			"file": "src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 			"settings":
 			{
-				"buffer_size": 5607,
+				"buffer_size": 5612,
 				"line_ending": "Unix"
 			}
 		}
@@ -179,7 +179,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5607,
+						"buffer_size": 5612,
 						"regions":
 						{
 						},

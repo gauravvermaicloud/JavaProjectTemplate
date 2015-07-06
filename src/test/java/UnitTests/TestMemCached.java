@@ -90,4 +90,6 @@ public class TestMemCached {
 		returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
 		Assert.assertNull(returnValue);
 	}
+	
+	//test cache with explictly putting cache time out
 }

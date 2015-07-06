@@ -40,6 +40,8 @@ public class TestDeployedCache {
 		CacheFactory.getInstance().remove(key);
 		returnValue = CacheFactory.getInstance().get(key,BaseWrapper.class);
 		Assert.assertNull(returnValue);
+		
+		//TODO test cache with explictly putting cache time out
 	}
 
 }

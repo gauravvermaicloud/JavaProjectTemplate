@@ -145,7 +145,21 @@ public class RedisCache  extends BaseCache implements ICache{
 	 */
 	@Override
 	public <T extends Base> void add(String key, T value) {
-		this.add(this.cacheKeyPrefix+":"+key,value,this.timeOutInSeconds);
+		if(this.isCacheEnabled()){
+			try{
+				this.jedisCommands.setex(this.cacheKeyPrefix+":"+key, this.timeOutInSeconds, value.toJSON());
+				if(this.cacheExceptionCount>0){
+					this.cacheExceptionCount =0;
+				}
+			}
+			catch(Exception ex){
+				//The reason we do not throw the exceptions is because 
+				//we expect the code to work without cache
+				this.cacheExceptionCount++;
+				logger.logException("RedisCache", "add", "Catch Block"
+						, "Exception in adding a new key", ex);
+			}
+		}
 	}
 
 	/**

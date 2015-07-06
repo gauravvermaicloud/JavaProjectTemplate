@@ -1,6 +1,7 @@
 package com.boilerplate.framework;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.boilerplate.sessions.Session;
 
@@ -73,5 +74,27 @@ public class RequestParameters{
 		this.session = session;
 	}
 	
+	/**
+	 * This is the http servlet response
+	 */
+	private HttpServletResponse httpServletResponse;
+	
+	/**
+	 * This method sets the http servlet response
+	 * @param httpServletResponse
+	 */
+	public void setHttpResponse(HttpServletResponse httpServletResponse){
+		this.httpServletResponse = httpServletResponse;
+	}
+	
+	/**
+	 * This method returns the Http response associated with rwquest
+	 * @return
+	 */
+	public HttpServletResponse getHttpServletResponse(){
+		return this.httpServletResponse;
+	}
+	
+	//TODO - add custom attributes on theread
 }
 

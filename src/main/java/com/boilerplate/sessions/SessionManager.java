@@ -1,12 +1,15 @@
 package com.boilerplate.sessions;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 
 import com.boilerplate.cache.CacheFactory;
+import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.Logger;
+import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.Constants;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.service.implemetations.UserService;
@@ -51,13 +54,88 @@ public class SessionManager {
 	/**
 	 * The time out of session	
 	 */
-	int sessionTimeOut=1000; 
+	private int sessionTimeOut =20*60*1000;
 	
+	/**
+	 * This method gets a session with the given id.
+	 * The method first checks if the session is on cache, if not then the method gets it from database
+	 * @param sessionId The id of the session
+	 * @return A session
+	 * @throws ValidationFailedException This exception will not be thrown as it is required by validation failed exception
+	 * which in this case is made to false
+	 */
+	public Session getSession(String sessionId) throws ValidationFailedException{
+		
+		//first check if the session exists in cache
+		Session session =getSessionFromCache(sessionId);
+		
+		//if not then check session exists in DB
+		if(session == null){
+			session = this.session.getSession(sessionId);
+		}
+		if(session != null){
+ 			//if session has expired
+ 			if(session.validate()){
+ 				session = null;
+ 			}
+ 			else{
+ 				//if the session has not expired update the last update date 
+ 				//to increase the life of session
+ 				session.setUpdationDate(new Date());
+ 			}
+ 		}
+		
+		//put the session back on cache with new expiry
+		putSessionOnCache(session);
+		
+		//the queue job will put it back  in database we dont write back to DB
+		//from here itself because it will cause performance issue
+		//and we cant just rely upon cache because during a memeory preassure 
+		//the cache may be evicted
+		
+		//TODO - put code to put the session into the database using queue
+		
+		//return the session or return null
+		return session;
+	}
 	
-	public Session getSession(String sessionId){
-		//TODO - validate session id from cache or DB and deserialize 
-		//TODO - construct it
-		return null;
+	/**
+	 * This method gets a session if available from cache
+	 * @param sessionId This is the id of the session
+	 * @return A session
+	 */
+	private Session getSessionFromCache(String sessionId){
+		Session session = null;
+		try {
+			if(CacheFactory.getInstance().isCacheEnabled()){
+				session = CacheFactory.getInstance().get(Constants.SESSION+sessionId.toUpperCase(), Session.class);
+			}
+		} catch (Exception ex) {
+			logger.logException("SessionManager", "getSession"
+					, "Get Session From cache",ex.toString(),ex);
+		}
+		return session;
+	}
+	
+	/**
+	 * This method puts session on cache
+	 * @param session The session
+	 */
+	private void putSessionOnCache(Session session){
+		try {
+			if(CacheFactory.getInstance().isCacheEnabled()){
+				CacheFactory.getInstance().add(Constants.SESSION+session.getSessionId()
+						, session, sessionTimeOut);
+			}
+		} catch (Exception ex) {
+			//although there is an error in accessing cache
+			//but we will move ahead as the DB is getting saved
+			//So someone who will be doing monitoring will know
+			//cache issue from here or from the ping
+			//which is expected to be run 
+			logger.logException("SessionManager", "getSession"
+					, "Get Session From cache",ex.toString(),ex);
+		}
 	}
 	
 	/**
@@ -75,23 +153,30 @@ public class SessionManager {
 		//Save session on DB
 		this.session.create(session);
 		//Save session on cache
-		try{
-			CacheFactory.getInstance().add(Constants.SESSION+session.getId()
-					, session, sessionTimeOut);
-		}
-		//although there is an error in accessing cache
-		//but we will move ahead as the DB is getting saved
-		//So someone who will be doing monitoring will know
-		//cache issue from here or from the ping
-		//which is expected to be run 
-		catch(Exception ex){
-			logger.logException("SessionManager", "createNewSession"
-					, "Save Session to Cache",ex.toString(),ex);
-		}
+		putSessionOnCache(session);		
 		return session;
 	}
 	
+	/**
+	 * Default constructor
+	 */
 	public SessionManager(){
-		//this.sessionTimeOut=Integer.parseInt(configurationManager.get("SessionTimeOutInMinutes"))*60;
+	
 	}
+	
+	/**
+	 * Initializes configuration after bean creation
+	 */
+	public void initialize(){
+		this.sessionTimeOut = Integer.parseInt(configurationManager.get("SessionTimeOutInMinutes"))*60;
+	}
+	
+	/**
+	 * This method returns the session time out.
+	 * @return
+	 */
+	public int getSessionTimeout(){
+		return this.sessionTimeOut;
+	}
+	
 }
