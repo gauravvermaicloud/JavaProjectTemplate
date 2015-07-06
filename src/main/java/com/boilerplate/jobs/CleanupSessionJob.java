@@ -26,6 +26,9 @@ public class CleanupSessionJob{
 		this.sessionManager = sessionManager;
 	}
 
+	/**
+	 * Cleansup the session
+	 */
 	public void cleanup(){
 		this.sessionManager.cleanupExpiredSession();
 	}

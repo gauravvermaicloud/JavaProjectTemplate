@@ -33,10 +33,11 @@
 									33. Add automated exception handling support via AOP
 									34. Add X-Http-Methdod-Override Support
 									35. Add custom items to Http logs - X_Http_Request_Id will be logged using tomcat
-36. Session, User and Claims based authentication
+									36. Session, User 
+and Claims based authentication
 37. Auth providers
 38. Authorization claims based read from config into session and then have methods to check and execute the same
-39. Code for Session to be put in the joinpoint
+									39. Code for Session to be put in the joinpoint
 40. Code for permissions framework in which using lambdas we put in session and then call operation.
 41. Base layer for a method for service layer
 									42. Read isDebugEnabled from a config
@@ -55,7 +56,7 @@
 58. Redis and MemCache to pick up server details from config in database
 59. Write code for Apache MQ and its tests
 60. Add OAuth,SAML,WS-Federated as need be to integrate with those Auth systems (related to #37)
-61. Ensure cookies in system are secure cookies to prevent session hijack
+										61. Ensure cookies in system are secure cookies to prevent session hijack
 62. Add salt along with hashing to ensure user password security. Also give ability choose hashing algo. 
 
 												63. Embed Jetty into the war for self running
