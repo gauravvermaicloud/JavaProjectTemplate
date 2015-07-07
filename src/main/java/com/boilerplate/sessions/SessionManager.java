@@ -70,7 +70,7 @@ public class SessionManager {
 	/**
 	 * The time out of session	
 	 */
-	private int sessionTimeOut =20*60*1000;
+	private static int sessionTimeOut =20*60*1000;
 	
 	/**
 	 * The subject for saving to background database
@@ -215,7 +215,7 @@ public class SessionManager {
 	 * Initializes configuration after bean creation
 	 */
 	public void initialize(){
-		this.sessionTimeOut = Integer.parseInt(configurationManager.get("SessionTimeOutInMinutes"))*60;
+		sessionTimeOut = Integer.parseInt(configurationManager.get("SessionTimeOutInMinutes"))*60;
 		this.subjects.add(Constants.SaveSessionToDatabase);
 
 	}
@@ -225,8 +225,8 @@ public class SessionManager {
 	 * This method returns the session time out.
 	 * @return
 	 */
-	public int getSessionTimeout(){
-		return this.sessionTimeOut;
+	public static int getSessionTimeout(){
+		return sessionTimeOut;
 	}
 	
 	/**

@@ -87,7 +87,7 @@ public class Session extends BaseEntity implements Serializable{
 		long nowTime = new Date().getTime();
 		long lastUpdateTime = this.getUpdationDate().getTime();
 		long diff = nowTime-lastUpdateTime;
-		long timeOut = (long) 20*60*1000; //TODO get this from config
+		long timeOut = (long) SessionManager.getSessionTimeout();
 		if(diff >timeOut){
 			return false;
 		}

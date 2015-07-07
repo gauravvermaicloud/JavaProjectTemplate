@@ -8,10 +8,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
+			"file": "src/main/databases/BoilerplateMySQLDatabase/tables/Users.table",
 			"settings":
 			{
-				"buffer_size": 5612,
+				"buffer_size": 841,
 				"line_ending": "Unix"
 			}
 		}
@@ -51,7 +51,9 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects",
@@ -59,6 +61,7 @@
 	],
 	"file_history":
 	[
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/ParseLogs.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/IConfiguratonManager.java",
@@ -85,7 +88,6 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate/pom.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/jenkins.sh",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/www/index.html",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring/root-context.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/resources/test-context.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestConfiguration.java",
@@ -175,11 +177,11 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
-					"semi_transient": false,
+					"file": "src/main/databases/BoilerplateMySQLDatabase/tables/Users.table",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 5612,
+						"buffer_size": 841,
 						"regions":
 						{
 						},
@@ -192,7 +194,7 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Java/Java.tmLanguage",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,

@@ -1,7 +1,5 @@
 package com.boilerplate.java.controllers;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.boilerplate.configurations.ConfigurationManager;
-import com.boilerplate.configurations.IConfiguratonManager;
 import com.boilerplate.exceptions.rest.ConflictException;
 import com.boilerplate.exceptions.rest.UnauthorizedException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
@@ -71,6 +67,14 @@ public class UserController extends BaseController{
 			throws ValidationFailedException,ConflictException{
 		//call the business layer
 		return userService.create(externalFacingUser);
+		
+		//TODO - departmernt, session to have ACL and roles
+		//CRUD roles, add user to roles aop to map these to api's /methods
+		//Give permission to user on object
+		//Session to get roles and permissions for user
+		//Update user
+		//Get user
+		//Delete User
 	}
 	
 	/**
