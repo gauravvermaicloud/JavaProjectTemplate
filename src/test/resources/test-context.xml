@@ -129,5 +129,9 @@
 				</bean>
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="cleanupSessionJob" class="com.boilerplate.jobs.CleanupSessionJob">
+		<property name="sessionManager" ref="sessionManager"></property>
 	</bean>						
 </beans>

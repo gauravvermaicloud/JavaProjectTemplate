@@ -86,9 +86,9 @@ public class Session extends BaseEntity implements Serializable{
 		//session is valid if it is not expired
 		long nowTime = new Date().getTime();
 		long lastUpdateTime = this.getUpdationDate().getTime();
-		long diff = (nowTime-lastUpdateTime)/1000;
-		long timeOut = (long) SessionManager.getSessionTimeout();
-		if(diff >timeOut){
+		long diff =(nowTime-lastUpdateTime)/1000l;
+		int timeOut = SessionManager.getSessionTimeout();
+		if(diff>timeOut){
 			return false;
 		}
 		else{

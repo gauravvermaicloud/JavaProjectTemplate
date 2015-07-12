@@ -281,10 +281,6 @@ public class TestUserController {
 	}
 	
 	
-	//Test calling an api after login with stuff in cookie
-	//header
-	//QS
-	//clear cache and then fall back on DB to retreve the session
 	
 	//SessionId doesnt exist
 	
@@ -294,18 +290,7 @@ public class TestUserController {
 	
 	//test session is picked and user details are correct after login
 	
-	//test session is updated in cache and DB after a request
 	
 	//test custom attributes on session
 	
-	//test with url being authenticate in auth a new session must be created
-	
-	// test with url not being authenticate the existing session must be retured
-	
-	//session ater clearing from cache picks it from DB
-	
-	//session with session reput job
-	
-	//after multiple requests the session time out on cookie is changed and last update is changed on the session object
-	//Test custom attributes on session
 }
