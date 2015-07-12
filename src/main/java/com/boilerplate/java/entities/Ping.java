@@ -26,7 +26,7 @@ public class Ping implements Serializable{
 	 * This is the overall status of the response
 	 */
 	@ApiModelProperty(value="This is the oerall response of status")
-	private String overallStatus = "OK";
+	private boolean overallStatus = true;
 	
 	/**
 	 * This method returns the machine name
@@ -40,7 +40,7 @@ public class Ping implements Serializable{
 	 * This method returns the overall status
 	 * @return The overall status
 	 */
-	public String getOverallStatus(){
+	public boolean getOverallStatus(){
 		return this.overallStatus;
 	}
 	
@@ -71,12 +71,10 @@ public class Ping implements Serializable{
 	 * This method adds a status of a given service
 	 * @param service The name of the service
 	 * @param status The status of the servcice
-	 * @param failOverAllstatus If this is true overall ping request will be marked failed
+	 * @param dontFailOverAllstatus If this is false overall ping request will be marked failed
 	 */
-	public void addStatus(String service, String status,boolean failOverAllstatus){
+	public void addStatus(String service, String status,boolean dontFailOverAllstatus){
 		statusMap.put(service, status);
-		if(failOverAllstatus){
-			this.overallStatus = "FAILED";
-		}
+		this.overallStatus =dontFailOverAllstatus;
 	}
 }

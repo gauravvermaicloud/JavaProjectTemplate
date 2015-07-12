@@ -133,5 +133,10 @@
 	
 	<bean id="cleanupSessionJob" class="com.boilerplate.jobs.CleanupSessionJob">
 		<property name="sessionManager" ref="sessionManager"></property>
-	</bean>						
+	</bean>		
+	
+	<bean id="iPingService" class="com.boilerplate.service.implemetations.PingService">
+	    <property name="queueReaderJob" ref="queueReaderJob"></property>
+	    <property name="sesionManager" ref="sessionManager"></property>
+	</bean>					
 </beans>

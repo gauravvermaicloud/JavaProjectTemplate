@@ -85,6 +85,12 @@ public class QueueReaderJob {
 	private boolean isBackgroundJobEnabled = true;
 	
 	/**
+	 * Returns the status of background jobs 
+	 */
+	public boolean getBackgroundJobStatus(){
+		return this.isBackgroundJobEnabled;
+	}
+	/**
 	 * This tells if this is the first run of the queue, this is used to set the
 	 * isBackgroundJobEnabled
 	 */

@@ -2,6 +2,7 @@ package com.boilerplate.java.controllers;
 
 import java.net.UnknownHostException;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +23,17 @@ import com.wordnik.swagger.annotations.ApiResponses;
 @Controller
 public class HealthController extends BaseController{
 
+	/**
+	 * This is the instance of configuration manager
+	 */
 	@Autowired
 	com.boilerplate.configurations.ConfigurationManager configurationManager;
+	
+	/**
+	 * This is the instance of ping service
+	 */
+	@Autowired
+	com.boilerplate.service.interfaces.IPingService iPingService;
 	
 	/**
 	 * This method is used to ping a server. This method checks all the major components
@@ -42,8 +52,13 @@ public class HealthController extends BaseController{
 						"If one of the ciritical servers is not rechable")
 					})
 	@RequestMapping(value = "/health/ping", method = RequestMethod.GET)
-	public @ResponseBody Ping ping() throws UnknownHostException{
-		return new Ping();
+		public @ResponseBody Ping ping() throws UnknownHostException{
+		Ping ping =  new Ping();
+		iPingService.setPingStatus(ping);
+		if(ping.getOverallStatus() == false){
+			super.getHttpServletResponse().setStatus(HttpStatus.SC_NOT_FOUND);
+		}
+		return ping;
 	}
 	
 	//Method for diagnosing all systems
