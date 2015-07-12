@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,13 +21,16 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import com.boilerplate.cache.CacheFactory;
 import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.framework.web.HttpRequestIdInterceptor;
 import com.boilerplate.java.Constants;
+import com.boilerplate.java.controllers.HealthController;
 import com.boilerplate.java.controllers.UserController;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.sessions.Session;
+import com.boilerplate.sessions.SessionManager;
 
 @TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,6 +39,13 @@ public class TestHttpRequestInterceptor {
 
 	@Autowired
 	UserController userController;
+	
+	@Autowired
+	HealthController healthController;
+	
+	@Autowired SessionManager sessionManager;
+	
+	@Autowired HttpRequestIdInterceptor httpRequestInterseptor;
 	
 	/**
 	 * This method tests Http interseptor to create a per request id
@@ -110,29 +121,457 @@ public class TestHttpRequestInterceptor {
       Assert.assertFalse(sessionId.equals(newSessionId));
 	}
 	
-	//auth part of sting
-	public void testSessionIsPickedUpIfItIsUsedForNonAuthenticateMethods(){
+	@Test
+	public void testSessionIsPickedUpIfItIsUsedForNonAuthenticateMethodsInHeader() throws Exception{
 		//first create a user
 		//then authenticate
 		
-		//Next make a call to ping
-		//check in ping response session id is the same as that used during auth
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
 		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest();
+		response = new MockHttpServletResponse();
+		request.addHeader(Constants.AuthTokenHeaderKey, session.getSessionId());
+
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		//check in ping response session id is the same as that used during auth
+		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
+		Assert.assertEquals(session.getSessionId(), returnedSessionId);
+		String sessionIdInCookie = null;
+		for(Cookie cookie:response.getCookies()){
+			if(cookie.getName().equals(Constants.AuthTokenCookieKey)){
+				sessionIdInCookie = cookie.getValue();
+			}
+		}
+		Assert.assertEquals(session.getSessionId(), sessionIdInCookie);
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
 	}
 	
-	//check that session token is present in header and cookie
 	
-	//test session picked up from header
 	
 	//test session is picked from QS
-	
+	@Test
+	public void testSessionIsPickedUpIfItIsUsedForNonAuthenticateMethodsInQueryString() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest("GET","/ping");
+		response = new MockHttpServletResponse();
+		request.setQueryString(Constants.AuthTokenQueryStringKey+"="+session.getSessionId());
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		//check in ping response session id is the same as that used during auth
+		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
+		Assert.assertEquals(session.getSessionId(), returnedSessionId);
+		String sessionIdInCookie = null;
+		for(Cookie cookie:response.getCookies()){
+			if(cookie.getName().equals(Constants.AuthTokenCookieKey)){
+				sessionIdInCookie = cookie.getValue();
+			}
+		}
+		Assert.assertEquals(session.getSessionId(), sessionIdInCookie);
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+	}
 	//test session is picked from cookie
+	@Test
+	public void testSessionIsPickedUpIfItIsUsedForNonAuthenticateMethodsInCookie() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest("GET","/ping");
+		response = new MockHttpServletResponse();
+		Cookie cookieInRequest = new Cookie(Constants.AuthTokenCookieKey, session.getSessionId());
+		request.setCookies(cookieInRequest);
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		//check in ping response session id is the same as that used during auth
+		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
+		Assert.assertEquals(session.getSessionId(), returnedSessionId);
+		String sessionIdInCookie = null;
+		for(Cookie cookie:response.getCookies()){
+			if(cookie.getName().equals(Constants.AuthTokenCookieKey)){
+				sessionIdInCookie = cookie.getValue();
+			}
+		}
+		Assert.assertEquals(session.getSessionId(), sessionIdInCookie);
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+	}
 	
 	//test session is picked after cleaning cache
+	@Test
+	public void testSessionIsPickedUpIfItIsUsedForNonAuthenticateMethodsInHeaderAfterRemovingFromCache() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest();
+		response = new MockHttpServletResponse();
+		request.addHeader(Constants.AuthTokenHeaderKey, session.getSessionId());
+		CacheFactory.getInstance().remove(Constants.SESSION+session.getSessionId().toUpperCase());
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		//check in ping response session id is the same as that used during auth
+		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
+		Assert.assertEquals(session.getSessionId(), returnedSessionId);
+		String sessionIdInCookie = null;
+		for(Cookie cookie:response.getCookies()){
+			if(cookie.getName().equals(Constants.AuthTokenCookieKey)){
+				sessionIdInCookie = cookie.getValue();
+			}
+		}
+		Assert.assertEquals(session.getSessionId(), sessionIdInCookie);
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+	}
+	
+	
+	
+	//test session is picked from QS
+	@Test
+	public void testSessionIsPickedUpIfItIsUsedForNonAuthenticateMethodsInQueryStringAfterRemovingFromCache() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest("GET","/ping");
+		response = new MockHttpServletResponse();
+		request.setQueryString(Constants.AuthTokenQueryStringKey+"="+session.getSessionId());
+		CacheFactory.getInstance().remove(Constants.SESSION+session.getSessionId().toUpperCase());
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		//check in ping response session id is the same as that used during auth
+		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
+		Assert.assertEquals(session.getSessionId(), returnedSessionId);
+		String sessionIdInCookie = null;
+		for(Cookie cookie:response.getCookies()){
+			if(cookie.getName().equals(Constants.AuthTokenCookieKey)){
+				sessionIdInCookie = cookie.getValue();
+			}
+		}
+		Assert.assertEquals(session.getSessionId(), sessionIdInCookie);
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+	}
+	//test session is picked from cookie
+	@Test
+	public void testSessionIsPickedUpIfItIsUsedForNonAuthenticateMethodsInCookieAfterCleaningCache() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest("GET","/ping");
+		response = new MockHttpServletResponse();
+		Cookie cookieInRequest = new Cookie(Constants.AuthTokenCookieKey, session.getSessionId());
+		request.setCookies(cookieInRequest);
+		CacheFactory.getInstance().remove(Constants.SESSION+session.getSessionId().toUpperCase());
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		//check in ping response session id is the same as that used during auth
+		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
+		Assert.assertEquals(session.getSessionId(), returnedSessionId);
+		String sessionIdInCookie = null;
+		for(Cookie cookie:response.getCookies()){
+			if(cookie.getName().equals(Constants.AuthTokenCookieKey)){
+				sessionIdInCookie = cookie.getValue();
+			}
+		}
+		Assert.assertEquals(session.getSessionId(), sessionIdInCookie);
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+	}
+
+	@Autowired
+	com.boilerplate.jobs.QueueReaderJob queueReaderJob;
 	
 	//test session is put back on the database from the queue
-	
-	//test session is put back on cache
-	
+	@Test
+	public void testSessionIsPutBackOnDatabaseUsingQueue() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
 
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest("GET","/ping");
+		response = new MockHttpServletResponse();
+		Cookie cookieInRequest = new Cookie(Constants.AuthTokenCookieKey, session.getSessionId());
+		request.setCookies(cookieInRequest);
+		CacheFactory.getInstance().remove(Constants.SESSION+session.getSessionId().toUpperCase());
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+		
+		//Make a call to the queue job
+		queueReaderJob.readQueueAndDispatch();
+		//make a call to th DB and find the session for given session id
+		Session sessionFromDatabase = sessionManager.getSession(session.getSessionId());
+		//check date in db is greater than creation time
+		Assert.assertTrue((sessionFromDatabase.getUpdationDate().getTime() 
+				- sessionFromDatabase.getCreationDate().getTime())>0);
+	}
+
+	//test session is put back on cache
+	@Test
+	public void testSessionIsPutBackOnCacheUsingQueue() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest("GET","/ping");
+		response = new MockHttpServletResponse();
+		Cookie cookieInRequest = new Cookie(Constants.AuthTokenCookieKey, session.getSessionId());
+		request.setCookies(cookieInRequest);
+		CacheFactory.getInstance().remove(Constants.SESSION+session.getSessionId().toUpperCase());
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+		
+		//Make a call to the queue job
+		queueReaderJob.readQueueAndDispatch();
+		//make a call to th DB and find the session for given session id
+		Session sessionFromCache = 
+				CacheFactory.getInstance().get(Constants.SESSION+session.getSessionId().toUpperCase(),Session.class);
+		//check date in db is greater than creation time
+		Assert.assertTrue((sessionFromCache.getUpdationDate().getTime() 
+				- sessionFromCache.getCreationDate().getTime())>0);
+	}
+	
+	//test expired session is not picked up if in cache
+	
+	
+	//test expired session is not picked up if in DB
+	
+	//test expired session is cleaned
+	
+	//test unexpired session is not cleaned
 }

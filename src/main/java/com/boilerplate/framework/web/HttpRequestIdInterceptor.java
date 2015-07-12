@@ -34,10 +34,26 @@ public class HttpRequestIdInterceptor extends HandlerInterceptorAdapter{
 	com.boilerplate.configurations.ConfigurationManager configurationManager;
 
 	/**
+	 * sets the instance of configuration manager
+	 * @param configurationManager
+	 */
+	public void setConfigurationManager(com.boilerplate.configurations.ConfigurationManager configurationManager){
+		this.configurationManager = configurationManager;
+	}
+	
+	/**
 	 * The autowired instance of session manager
 	 */
 	@Autowired
 	com.boilerplate.sessions.SessionManager sessionManager;
+	
+	/**
+	 * Sets the instance of session managaer
+	 * @param sessionManager
+	 */
+	public void setSessionManager(com.boilerplate.sessions.SessionManager sessionManager){
+		this.sessionManager = sessionManager;
+	}
 	
 	/**
 	 * This method sets a http request id for the request.

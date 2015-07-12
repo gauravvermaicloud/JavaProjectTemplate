@@ -20,8 +20,7 @@
   <property name="hibernate.hbm2ddl.auto">create-drop</property>
   <property name="hibernate.show_sql">true</property>
   <property name="hibernate.format_sql">true</property>
- <!--  <property name="hibernate.hbm2ddl.import_files">import.sql</property>
-	 -->
+ <property name="hibernate.hbm2ddl.import_files">/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/PostScript/PostScript.sql</property>
   <property name="hibernate.c3p0.min_size">5</property>
   <property name="hibernate.c3p0.max_size">20</property>
   <property name="hibernate.c3p0.timeout">300</property>

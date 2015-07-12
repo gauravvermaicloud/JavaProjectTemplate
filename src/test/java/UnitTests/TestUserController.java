@@ -307,4 +307,5 @@ public class TestUserController {
 	//session with session reput job
 	
 	//after multiple requests the session time out on cookie is changed and last update is changed on the session object
+	//Test custom attributes on session
 }

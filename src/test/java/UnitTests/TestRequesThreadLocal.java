@@ -23,5 +23,16 @@ public class TestRequesThreadLocal {
 		RequestThreadLocal.remove();
 		Assert.assertNull(RequestThreadLocal.getRequestId());
 	}
-//test the custom attributes on thread local
+//TODO test the custom attributes on thread local
+	@Test
+	public void testCustomAttributesOnThread(){
+		String randomId = UUID.randomUUID().toString();
+		RequestThreadLocal.setRequest(randomId,null,null,null);
+		Assert.assertEquals(randomId, RequestThreadLocal.getRequestId());
+		RequestThreadLocal.setAttribute(randomId, randomId);
+		String id =(String) RequestThreadLocal.getAttribute(randomId);
+		Assert.assertEquals(id, randomId);
+		RequestThreadLocal.remove();
+		Assert.assertNull(RequestThreadLocal.getRequestId());
+	}
 }

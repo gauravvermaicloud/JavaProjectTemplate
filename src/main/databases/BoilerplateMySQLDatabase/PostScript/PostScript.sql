@@ -6,5 +6,5 @@ INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('5', 'V
 INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('6', 'V_2_Dev', 'V_2_Dev', '2','QA');
 INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('7', 'V_2_QA', 'V_2_QA', '2','QA');
 INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('8', 'DefaultAuthenticationProvider', 'DEFAULT', 'ALL','ALL');
-
 INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('9', 'V1_All_B', 'V1_All_B', '1','ALL');
+INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('10', 'SessionTimeOutInMinutes', '20', 'ALL','ALL');

@@ -14,6 +14,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
  * @author gaurav
  */
 public  abstract class BaseEntity extends Base implements Serializable{
+	
 	@ApiModelProperty(value="This is the id of the entity"
 			,required=true,notes="The id is a String")
 	/**
