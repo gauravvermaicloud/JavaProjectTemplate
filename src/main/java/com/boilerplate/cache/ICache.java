@@ -38,7 +38,7 @@ public interface ICache {
 	
 	/**
 	 * This method tells if the cache is enabled.
-	 * @return
+	 * @return True if the cache is enabled and false if it is not.
 	 */
 	public boolean isCacheEnabled();
 

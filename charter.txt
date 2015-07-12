@@ -79,7 +79,7 @@ and Claims based authentication
 79. Jenkins Perf
 80. Jenkins Prod
 81. UI testing automation and mobile testing UI automation
-82. Make the DB connection string configurable and picked from properties file
+							82. Make the DB connection string configurable and picked from properties file
 83. Add support for http://fbinfer.com/
 84. Add support for reporting framework, make reports for production monitoring using it
 85. Prod monitoring reports
@@ -93,4 +93,4 @@ and Claims based authentication
 88. How can we get performance and instrumentation in this along with reports?
 89. Design perofrmance tuning strateies into the testing and modelling
 90. Document settings for tomcat to log the header for sessionid, request id and user id
-91. Add a workflow framework
+91. Add a workflow framework jBPM or something else

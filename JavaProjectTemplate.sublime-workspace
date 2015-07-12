@@ -8,10 +8,10 @@
 	"buffers":
 	[
 		{
-			"file": "src/main/databases/BoilerplateMySQLDatabase/tables/Users.table",
+			"file": "charter.txt",
 			"settings":
 			{
-				"buffer_size": 841,
+				"buffer_size": 5478,
 				"line_ending": "Unix"
 			}
 		}
@@ -50,17 +50,14 @@
 	[
 		"/Volumes/Extended/Git/JavaProjectTemplate",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs"
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main"
 	],
 	"file_history":
 	[
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/Database.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Users.table",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/UserMetaDatum.table",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Departments.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/ParseLogs.java",
@@ -92,7 +89,6 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/resources/test-context.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestConfiguration.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Configurations.table",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Departments.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/DepartmentController.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/IQueue.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/BoilerplateNonProductionInMemoryQueue.java",
@@ -100,7 +96,6 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/ApacheMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BoilerplateNonProductionInMemoryCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BaseCache.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/UserMetaDatum.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/config.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestInRabbitMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestDeployedQueue.java",
@@ -177,19 +172,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/main/databases/BoilerplateMySQLDatabase/tables/Users.table",
-					"semi_transient": true,
+					"file": "charter.txt",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 841,
+						"buffer_size": 5478,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								4308,
+								4314
 							]
 						],
 						"settings":
@@ -198,7 +193,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 811.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

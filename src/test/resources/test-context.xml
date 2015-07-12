@@ -116,15 +116,15 @@
 
 		
 	<bean id="saveSessionToDatabaseObservers" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
-	<property name="asyncJobList">
-		<list>
-			<!-- This is the class that will save sessions to the database
-				Also the data we put in will get logged as the log observer is enabled for everything
-			 -->
-			<bean class="com.boilerplate.asyncWork.SaveSessionToDatabaseObserver">
-				<property name="sessionManager" ref="sessionManager"></property>
-			</bean>
-		</list>
-	</property>
-</bean>						
+		<property name="asyncJobList">
+			<list>
+				<!-- This is the class that will save sessions to the database
+					Also the data we put in will get logged as the log observer is enabled for everything
+				 -->
+				<bean class="com.boilerplate.asyncWork.SaveSessionToDatabaseObserver">
+					<property name="sessionManager" ref="sessionManager"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>						
 </beans>

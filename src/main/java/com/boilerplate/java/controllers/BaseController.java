@@ -168,9 +168,6 @@ public abstract class BaseController extends Base {
 	 */
 	public void addCookie(String key, String value,int maxAge){	
 		Cookie cookie=new Cookie (key, value);
-		//as a best practice cookies should be secure
-		cookie.setSecure(true);
-		//TODO - pick timeout from config
 		cookie.setMaxAge(maxAge);
 		RequestThreadLocal.threadLocal.get().getHttpServletResponse().addCookie(cookie);
 	}

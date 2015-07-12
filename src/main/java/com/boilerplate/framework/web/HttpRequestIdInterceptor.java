@@ -42,7 +42,7 @@ public class HttpRequestIdInterceptor extends HandlerInterceptorAdapter{
 	/**
 	 * This method sets a http request id for the request.
 	 */
-	//TODO - test this method
+
 	@Override
 	 public boolean preHandle(HttpServletRequest request,
 		      HttpServletResponse response, Object handler) throws Exception {
@@ -80,9 +80,7 @@ public class HttpRequestIdInterceptor extends HandlerInterceptorAdapter{
 		reponse.addHeader(Constants.X_User_Id,session.getExternalFacingUser().getUserId());
 	 	//reset cookie so that it can live for additional time
 	 	Cookie cookie = new Cookie(Constants.AuthTokenCookieKey,session.getSessionId());
-	 	//TODO get this from config
 	 	cookie.setMaxAge(sessionManager.getSessionTimeout());
-	 	cookie.setSecure(true);
 	 	reponse.addCookie(cookie);
 	}
 	
@@ -93,7 +91,6 @@ public class HttpRequestIdInterceptor extends HandlerInterceptorAdapter{
 	 * @return true for an authentication request and false for none
 	 */
 	private boolean isAuthenticationURL(HttpServletRequest request){
-		//TODO -later on we will come up with a better way to do this
 		return request.getRequestURI().contains("/authenticate");
 	}
 	
@@ -105,6 +102,13 @@ public class HttpRequestIdInterceptor extends HandlerInterceptorAdapter{
 			HttpServletRequest request, HttpServletResponse response
 			, Object handler, Exception ex)
 			throws Exception {
+		//during the execution of thread
+		//the session was on the thread so we know
+		//it did not get lost however it may have been evicted from cache
+		//so we need to put it back on cache and DB
+		if(RequestThreadLocal.getSession()!=null){
+			sessionManager.saveSessionOnExit(RequestThreadLocal.getSession());
+		}
 		RequestThreadLocal.remove();
 	}
 	

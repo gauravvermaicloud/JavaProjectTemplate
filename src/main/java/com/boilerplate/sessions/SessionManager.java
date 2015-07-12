@@ -99,31 +99,35 @@ public class SessionManager {
  			if(!session.validate()){
  				session = null;
  			}
- 			else{
- 				//if the session has not expired update the last update date 
- 				//to increase the life of session
- 				session.setUpdationDate(new Date());
- 				//put the session back on cache with new expiry
- 				putSessionOnCache(session);
- 				
- 				//the queue job will put it back  in database we dont write back to DB
- 				//from here itself because it will cause performance issue
- 				//and we cant just rely upon cache because during a memeory preassure 
- 				//the cache may be evicted
- 				
- 				try {
- 					queueReaderJob.requestBackroundWorkItem(
- 							session, subjects, "SessionManager", "getSession");
- 				} catch (Exception ex) {
- 					//if there is an issue during accessing queue we should save the
- 					//session to the database
- 					this.saveSession(session);
- 				}
- 			}
+ 			
  		}
 		
 		//return the session or return null
 		return session;
+	}
+
+	/**
+	 * THis method saves the sesion before exiting the thread
+	 * @param session The session to be saved
+	 */
+	public void saveSessionOnExit(Session session){
+		session.setUpdationDate(new Date());
+		//put the session back on cache with new expiry
+		putSessionOnCache(session);
+		
+		//the queue job will put it back  in database we dont write back to DB
+		//from here itself because it will cause performance issue
+		//and we cant just rely upon cache because during a memeory preassure 
+		//the cache may be evicted
+		
+		try {
+			queueReaderJob.requestBackroundWorkItem(
+					session, subjects, "SessionManager", "getSession");
+		} catch (Exception ex) {
+			//if there is an issue during accessing queue we should save the
+			//session to the database
+			this.saveSession(session);
+		}
 	}
 	
 	

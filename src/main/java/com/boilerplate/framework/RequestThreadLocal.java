@@ -48,6 +48,19 @@ public class RequestThreadLocal {
 	}
 	
 	/**
+	 * This gets the Session from thread
+	 * @return The session
+	 */
+	public static com.boilerplate.sessions.Session getSession(){
+		if(RequestThreadLocal.threadLocal.get() != null){ 
+			return RequestThreadLocal.threadLocal.get().getSession();
+		}
+		else{
+			return null;
+		}
+	}
+	
+	/**
 	 * This method returns the Http request 
 	 * @return The Http request
 	 */

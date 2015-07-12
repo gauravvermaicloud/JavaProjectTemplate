@@ -103,6 +103,8 @@ public class UserController extends BaseController{
 		//now put sessionId in a cookie, header and also as response back
 		super.addHeader(Constants.AuthTokenHeaderKey, session.getSessionId());
 		
+		//TODO - not sure why cookie is not being sent back from browser
+		
 		super.addCookie(Constants.AuthTokenCookieKey, session.getSessionId()
 				,sessionManager.getSessionTimeout());
 		
