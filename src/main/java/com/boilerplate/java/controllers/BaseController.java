@@ -181,7 +181,10 @@ public abstract class BaseController extends Base {
 		RequestThreadLocal.threadLocal.get().getHttpServletResponse().setHeader(key, value);
 	}
 
-	
+	/**
+	 * This method returns the Http Servlet response
+	 * @return The http servlet response
+	 */
 	public HttpServletResponse getHttpServletResponse(){
 		return RequestThreadLocal.threadLocal.get().getHttpServletResponse();
 	}

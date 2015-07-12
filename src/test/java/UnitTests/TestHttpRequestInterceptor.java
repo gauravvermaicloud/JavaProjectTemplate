@@ -76,9 +76,7 @@ public class TestHttpRequestInterceptor {
 		MockHttpServletRequest request = new MockHttpServletRequest("POST","/authenticate");
 		MockHttpServletResponse response = new MockHttpServletResponse();
        
-        HttpRequestIdInterceptor httpRequestIdInterceptor = new
-        		HttpRequestIdInterceptor();
-        httpRequestIdInterceptor.preHandle(request, response, new Object());
+		httpRequestInterseptor.preHandle(request, response, new Object());
         
         
 		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
@@ -92,9 +90,8 @@ public class TestHttpRequestInterceptor {
 		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
 		
 		//need to write code for get / auth to check the user creation worked
-		httpRequestIdInterceptor = new
-        		HttpRequestIdInterceptor();
-		httpRequestIdInterceptor.preHandle(request, response, new Object());
+		
+		httpRequestInterseptor.preHandle(request, response, new Object());
         
 		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
 		authenticationRequest.setPassword(userId);
@@ -102,13 +99,13 @@ public class TestHttpRequestInterceptor {
 		Session session = userController.authenticate(authenticationRequest);
         
         
-       httpRequestIdInterceptor.afterCompletion(request, response, new Object(), new Exception());
+		httpRequestInterseptor.afterCompletion(request, response, new Object(), new Exception());
        String sessionId = (String) response.getHeaderValue(Constants.AuthTokenHeaderKey);
               
        request.addHeader(Constants.AuthTokenHeaderKey, sessionId);
        
-       httpRequestIdInterceptor = new HttpRequestIdInterceptor();
-       httpRequestIdInterceptor.preHandle(request, response, new Object()); 
+       httpRequestInterseptor = new HttpRequestIdInterceptor();
+       httpRequestInterseptor.preHandle(request, response, new Object()); 
        //because it is an auth request session should be null
        session = RequestThreadLocal.getSession();
        Assert.assertNull(session);
@@ -118,7 +115,8 @@ public class TestHttpRequestInterceptor {
 		authenticationRequest.setUserId(userId);
 		session = userController.authenticate(authenticationRequest);
        String newSessionId = session.getSessionId();
-      httpRequestIdInterceptor.afterCompletion(request, response, new Object(), new Exception());
+
+       
       //the old and new seession ids should not match
       Assert.assertFalse(sessionId.equals(newSessionId));
 	}
@@ -997,4 +995,54 @@ public class TestHttpRequestInterceptor {
 		Assert.assertEquals(session.getSessionId(), sessionFromDB.getSessionId());
 	}
 
+	
+	@Test
+	public void testInvalidSessionId() throws Exception{
+		//first create a user
+		//then authenticate
+		
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+       
+        
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+        
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//need to write code for get / auth to check the user creation worked
+		
+		request = new MockHttpServletRequest("POST","/authenticate");
+		response = new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request, response, new Object());
+        
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+
+		
+		//Next make a call to ping by sending session it in header
+		request = new MockHttpServletRequest();
+		response = new MockHttpServletResponse();
+		request.addHeader(Constants.AuthTokenHeaderKey, UUID.randomUUID().toString());
+				
+		httpRequestInterseptor.preHandle(request, response, new Object());
+		healthController.ping();
+		//check in ping response session id is the same as that used during auth
+		//this should be expired and hence not picked up
+		
+		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
+		Assert.assertNull(returnedSessionId);
+		httpRequestInterseptor.afterCompletion(request, response, null, null);
+	}
+	
 }

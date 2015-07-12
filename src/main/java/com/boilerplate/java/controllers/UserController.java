@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.boilerplate.exceptions.rest.ConflictException;
 import com.boilerplate.exceptions.rest.UnauthorizedException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
+import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.Constants;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.ExternalFacingUser;
@@ -111,7 +112,11 @@ public class UserController extends BaseController{
 		//add the user id for logging, we have to explictly do it here only in this case all other cases
 		//are handeled by HttpRequestInterseptor
 		super.addHeader(Constants.X_User_Id, session.getExternalFacingUser().getUserId());
-		 
+		RequestThreadLocal.setRequest(
+				RequestThreadLocal.getRequestId(),
+				RequestThreadLocal.getHttpRequest(), 
+				RequestThreadLocal.getHttpResponse(),
+				session); 
 		return session;
 	}
 }
