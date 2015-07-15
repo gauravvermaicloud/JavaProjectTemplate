@@ -2,12 +2,14 @@ package com.boilerplate.java.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.boilerplate.exceptions.rest.ConflictException;
+import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.exceptions.rest.UnauthorizedException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.RequestThreadLocal;
@@ -19,6 +21,7 @@ import com.boilerplate.sessions.Session;
 import com.boilerplate.sessions.SessionManager;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
@@ -76,6 +79,7 @@ public class UserController extends BaseController{
 		//Update user
 		//Get user
 		//Delete User
+		//Metadata for user
 	}
 	
 	/**
@@ -118,5 +122,27 @@ public class UserController extends BaseController{
 				RequestThreadLocal.getHttpResponse(),
 				session); 
 		return session;
+	}
+	
+	/**
+	 * This method returns a user with given id. The id is expected to be in form
+	 * Provider:userId. If no provider is specified then it is defaulted to DEFAULT
+	 * @param userId This is the id of the user in the format Provider:user id
+	 * @return The user
+	 * @throws NotFoundException If user is not found
+	 */
+	@ApiOperation(	value="This api retruns a user with given id. The id is expected to be"
+			+ "in form Provider:userId, if no provider is specified then provider is "
+			+ "defaulted to DEFAULT"
+		 )
+	@ApiResponses(value={
+						@ApiResponse(code=200, message="Ok")
+					,	@ApiResponse(code=404, message="Not Found")
+					})
+	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
+	public @ResponseBody ExternalFacingUser getById(
+			@ApiParam(value="This is the id of the user to be fetched",required=true
+			,name="userId",allowMultiple=false)@PathVariable String userId) throws NotFoundException{
+		return this.userService.get(userId);
 	}
 }

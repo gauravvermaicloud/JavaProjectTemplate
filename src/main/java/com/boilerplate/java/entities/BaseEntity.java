@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.java.Base;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
@@ -54,18 +55,17 @@ public  abstract class BaseEntity extends Base implements Serializable{
 		this.updationDate = updationDate;
 	}
 
-	@ApiModelProperty(value="This is the creation date of the entity"
-			,required=true)
 	/**
 	 * The creation date of the entity.
 	 */
+	@JsonIgnore
 	private Date creationDate;
 	
-	@ApiModelProperty(value="This is the last update date of the entity"
-			,required=true,notes="This is always greater than or equal to the creation date")
+
 	/**
 	 * The updation date of the entity.
 	 */
+	@JsonIgnore
 	private Date updationDate;
 	
 	/**

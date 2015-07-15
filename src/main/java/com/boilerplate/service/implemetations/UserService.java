@@ -146,4 +146,30 @@ public class UserService implements IUserService {
 					"User name or password incorrect", null);
 		}
 	}
+
+	/**
+	 * @see IUserService.get
+	 */
+	@Override
+	public ExternalFacingUser get(String userId) throws NotFoundException {
+		//convert user names to upper
+		userId = userId.toUpperCase();
+		
+		//if no provider is given then add provider DEFAULT:
+		if(!userId.startsWith(this.configurationManager.get(
+				"DefaultAuthenticationProvider").toUpperCase()+":")){
+			userId = this.configurationManager.get(
+					"DefaultAuthenticationProvider").toUpperCase()+":"+userId;
+		}
+		//get the user from database
+		ExternalFacingUser externalFacingUser = this.userDataAccess.getUser(userId);
+		//if no user with given id was found then throw exception
+		if(externalFacingUser == null) throw new NotFoundException("ExternalFacingUser"
+				, "User with id "+userId+" doesnt exist", null);
+		//set the password as encrypted
+		externalFacingUser.setPassword("Password Encrypted");
+		//return the user
+		return externalFacingUser;
+		
+	}
 }

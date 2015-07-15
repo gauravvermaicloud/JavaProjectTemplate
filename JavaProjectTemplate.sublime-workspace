@@ -8,10 +8,10 @@
 	"buffers":
 	[
 		{
-			"file": "charter.txt",
+			"file": "src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
 			"settings":
 			{
-				"buffer_size": 5478,
+				"buffer_size": 4630,
 				"line_ending": "Unix"
 			}
 		}
@@ -50,16 +50,27 @@
 	[
 		"/Volumes/Extended/Git/JavaProjectTemplate",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main"
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities"
 	],
 	"file_history":
 	[
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/ICache.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BaseCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/Database.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Users.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/UserMetaDatum.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Departments.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/ParseLogs.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/IConfiguratonManager.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/ConfigurationManager.java",
@@ -95,7 +106,6 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/RabbitMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/ApacheMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BoilerplateNonProductionInMemoryCache.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BaseCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/config.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestInRabbitMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestDeployedQueue.java",
@@ -172,28 +182,28 @@
 			[
 				{
 					"buffer": 0,
-					"file": "charter.txt",
+					"file": "src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5478,
+						"buffer_size": 4630,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4308,
-								4314
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"syntax": "Packages/Java/Java.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 811.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

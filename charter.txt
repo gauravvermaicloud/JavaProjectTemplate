@@ -94,3 +94,6 @@ and Claims based authentication
 89. Design perofrmance tuning strateies into the testing and modelling
 90. Document settings for tomcat to log the header for sessionid, request id and user id
 91. Add a workflow framework jBPM or something else
+92. add comments
+93. add xdoclet comments
+94. Birt support + prod mon rpts using birt

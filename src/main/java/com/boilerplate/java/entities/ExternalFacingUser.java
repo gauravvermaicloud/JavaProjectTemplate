@@ -21,7 +21,7 @@ public class ExternalFacingUser extends BaseEntity implements Serializable{
 	 */
 	private String userId;
 
-	@ApiModelProperty(value="This is the authenication provider of the user."
+	@ApiModelProperty(value="This is the authenication provider of the user. This value is set to Default if not specified"
 			,required=true,notes="The legal values include Default")
 	/**
 	 * This is the authentication provider. Default means that the user is authenticated by the 

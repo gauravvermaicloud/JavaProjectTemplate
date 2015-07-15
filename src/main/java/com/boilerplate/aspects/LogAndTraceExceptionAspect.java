@@ -49,18 +49,17 @@ public class LogAndTraceExceptionAspect {
     		) throws Throwable {
     		
     	try{
-    		//TODO - Add  code for putting session in this - get session from cache and put it in
-   		
-       		if(RequestThreadLocal.getHttpRequest() != null){
-	       		String authToken = RequestThreadLocal.getHttpRequest().getHeader(
-	       				"X-Http-Auth-Token");
-       		}
-       		
-       		//TODO - Add code to check method and its permissions to execute
-       		
+   			
+       		//TODO -find the session
+    		
+    		//Check if the user can execute the method from configuration from a map of method and role needed to execute
+    		
+    		//if the user is in the role or the role required is * then continue else throw an unautjorized exception
+    		
     		//Get the return value
     		Object returnValue  = proceedingJoinPoint.proceed();
-    		//TODO - Put if enabled
+    		//TODO - Put if enabled,config manager should have a set of properties for common and 
+    		//system defined values
     		//log the details including class, method, input arguments and return
             if(Boolean.parseBoolean(configurationManager.get(Constants.IsDebugEnabled))){
 	    		logger.logTraceExit(

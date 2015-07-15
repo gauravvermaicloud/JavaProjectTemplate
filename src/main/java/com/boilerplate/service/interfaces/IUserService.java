@@ -1,6 +1,7 @@
 package com.boilerplate.service.interfaces;
 
 import com.boilerplate.exceptions.rest.ConflictException;
+import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.exceptions.rest.UnauthorizedException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.java.entities.AuthenticationRequest;
@@ -27,4 +28,13 @@ public interface IUserService {
 	 * @throws UnauthorizedException if the user name password combination is incorrect
 	 */
 	public Session authenticate(AuthenticationRequest authenitcationRequest) throws UnauthorizedException;
+
+	/**
+	 * This method returns the user with given user id.
+	 * @param userId The id of the user in format provider:userid, if no provider is
+	 * specified it is defaulted to default
+	 * @return A user entity
+	 * @throws NotFoundException If no user is found with given details
+	 */
+	public ExternalFacingUser get(String userId) throws NotFoundException;
 }
