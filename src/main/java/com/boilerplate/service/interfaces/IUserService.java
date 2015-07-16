@@ -6,6 +6,7 @@ import com.boilerplate.exceptions.rest.UnauthorizedException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.ExternalFacingUser;
+import com.boilerplate.java.entities.UpdateUserEntity;
 import com.boilerplate.sessions.Session;
 
 public interface IUserService {
@@ -46,4 +47,16 @@ public interface IUserService {
 	 * @throws NotFoundException If no user is found with given details
 	 */
 	public void delete(String userId)throws NotFoundException;
+
+	/**
+	 * This method is used to update a user.
+	 * @param userId The id of the user to be updated
+	 * @param updateUserEntity The entity of the user.
+	 * @return The updated user entity
+	 * @throws ValidationFailedException If any validation fails
+	 * @throws ConflictException If there is a conflict in updating entity due to a DB constraint
+	 * @throws NotFoundException If the user is not found.
+	 */
+	public ExternalFacingUser update(String userId,UpdateUserEntity updateUserEntity)throws 
+		ValidationFailedException, ConflictException,NotFoundException;
 }

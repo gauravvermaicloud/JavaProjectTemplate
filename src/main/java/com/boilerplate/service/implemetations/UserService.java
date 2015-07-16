@@ -17,6 +17,7 @@ import com.boilerplate.framework.Logger;
 import com.boilerplate.java.Constants;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.ExternalFacingUser;
+import com.boilerplate.java.entities.UpdateUserEntity;
 import com.boilerplate.service.interfaces.IUserService;
 import com.boilerplate.sessions.Session;
 import com.boilerplate.sessions.SessionManager;
@@ -152,6 +153,22 @@ public class UserService implements IUserService {
 	 */
 	@Override
 	public ExternalFacingUser get(String userId) throws NotFoundException {
+		//retrun the user with password as a string
+		return get(userId,true);
+		
+	}
+
+	/**
+	 * This method returns a user with given id
+	 * @param userId The id of the user
+	 * @param encryptPasswordString True if the user password to be 
+	 * encryptied into a message string
+	 * false if the password is to be sent as is
+	 * @return The user entity
+	 * @throws NotFoundException If the user is not found
+	 */
+	public ExternalFacingUser get(String userId
+			, boolean encryptPasswordString) throws NotFoundException {
 		//convert user names to upper
 		userId = userId.toUpperCase();
 		
@@ -167,12 +184,13 @@ public class UserService implements IUserService {
 		if(externalFacingUser == null) throw new NotFoundException("ExternalFacingUser"
 				, "User with id "+userId+" doesnt exist", null);
 		//set the password as encrypted
-		externalFacingUser.setPassword("Password Encrypted");
+		if(encryptPasswordString){
+			externalFacingUser.setPassword("Password Encrypted");
+		}
 		//return the user
 		return externalFacingUser;
 		
-	}
-
+	} 
 	/**
 	 * @see IUserService.delete
 	 */
@@ -180,5 +198,34 @@ public class UserService implements IUserService {
 	public void delete(String userId) throws NotFoundException {
 		ExternalFacingUser user = this.get(userId);
 		this.userDataAccess.deleteUser(user);
+	}
+
+	/**
+	 * @see IUserService.update
+	 */
+	@Override
+	public ExternalFacingUser update(String userId, UpdateUserEntity updateUserEntity)
+			throws ValidationFailedException, ConflictException,
+			NotFoundException {
+		//check if the user exists, if so get it
+		ExternalFacingUser user = this.get(userId,false);
+		//Update the user items from the incomming entity
+		if(updateUserEntity.getPassword() !=null){
+			if(updateUserEntity.getPassword().equals("") == false)
+			{
+				user.setPassword(updateUserEntity.getPassword());
+				//and hash the password
+				user.hashPassword();
+			}
+		}
+		
+		user.setUpdationDate(new Date());
+		user.setUserMetaData(updateUserEntity.getUserMetaData());
+		//validate the entity
+		user.validate();
+		//update the user in the database
+		this.userDataAccess.update(user);
+		user.setPassword("Password Encrypted");
+		return user;
 	}
 }

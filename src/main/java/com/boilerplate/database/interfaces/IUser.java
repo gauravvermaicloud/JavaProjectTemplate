@@ -19,7 +19,15 @@ public interface IUser {
 	 * @return The created user.
 	 */
 	public ExternalFacingUser create(ExternalFacingUser user) throws ConflictException;
-	
+
+	/**
+	 * This method updates a user in the database.
+	 * @param user This is the user to be created.
+	 * @throws ConflictException This is thrown if there is a DB constraint violation
+	 * @return The updated user.
+	 */
+	public ExternalFacingUser update(ExternalFacingUser user) throws ConflictException;
+
 	/**
 	 * This method is used to get a user from database given the userId
 	 * @param userId
@@ -33,4 +41,5 @@ public interface IUser {
 	 * @param user The user to be deleted
 	 */
 	public void deleteUser(ExternalFacingUser user); 
+	
 }

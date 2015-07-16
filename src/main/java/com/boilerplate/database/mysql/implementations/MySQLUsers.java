@@ -14,6 +14,7 @@ import com.boilerplate.exceptions.rest.ConflictException;
 import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.framework.HibernateUtility;
 import com.boilerplate.framework.Logger;
+import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.Configuration;
 import com.boilerplate.java.entities.ExternalFacingUser;
 
@@ -22,7 +23,7 @@ import com.boilerplate.java.entities.ExternalFacingUser;
  * @author gaurav
  *
  */
-public class MySQLUsers implements IUser{
+public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 
 	
 	/**
@@ -35,15 +36,8 @@ public class MySQLUsers implements IUser{
 	 */
 	@Override
 	public ExternalFacingUser create(ExternalFacingUser user) throws ConflictException {
-		Session session =null;	
 		try{
-			//open a session
-			session = HibernateUtility.getSessionFactory().openSession();
-			//get all the configurations from the DB as a list
-			Transaction transaction = session.beginTransaction();
-			session.save(user);
-			//commit the transaction
-			transaction.commit();
+			super.create(user);
 		}
 		catch(ConstraintViolationException cve){
 			logger.logException("MySQLUsers", "create", "ConstraintViolationException"
@@ -54,11 +48,6 @@ public class MySQLUsers implements IUser{
 				+ "displayed for security reason, but are logged"
 				,null);
 		}
-		finally{
-			if(session !=null && session.isOpen()){
-				session.close();
-			}
-		}
 		return user;
 
 	}
@@ -68,31 +57,15 @@ public class MySQLUsers implements IUser{
 	 */
 	@Override
 	public ExternalFacingUser getUser(String userId) throws NotFoundException{
-		Session session =null;
-		try{
-
-			//open a session
-			session = HibernateUtility.getSessionFactory().openSession();
-			//begin a transaction
-			Transaction transaction = session.beginTransaction();
 			//get the user using a hsql query
 			String hsql = "From ExternalFacingUser U Where U.userId = :UserId";
-			Query query = session.createQuery(hsql);
-			query.setParameter("UserId", userId);
-			@SuppressWarnings("unchecked")
-			List<ExternalFacingUser> users = query.list();			
+			BoilerplateMap<String, Object> queryParameterMap = new BoilerplateMap<String, Object>();
+			queryParameterMap.put("UserId", userId);
+			List<ExternalFacingUser> users = super.executeSelect(hsql, queryParameterMap);			
 			if(users.isEmpty()){
 				throw new NotFoundException("User","User Not found", null);
 			}
-			transaction.commit();
 			return users.get(0);
-		}
-		finally
-		{
-			if(session !=null && session.isOpen()){
-				session.close();
-			}
-		}//end finally
 	}//end method
 
 	/**
@@ -100,22 +73,29 @@ public class MySQLUsers implements IUser{
 	 */
 	@Override
 	public void deleteUser(ExternalFacingUser user) {
-		Session session =null;
+		super.delete(user);
+	}
+
+	/**
+	 * @see IUser.update
+	 */
+	@Override
+	public ExternalFacingUser update(ExternalFacingUser user)
+			throws ConflictException {
 		try{
-			//open a session
-			session = HibernateUtility.getSessionFactory().openSession();
-			Transaction transaction = session.beginTransaction();
-			//delete the user
-			session.delete(user);
-			//commit
-			transaction.commit();
+			super.update(user);
 		}
-		finally
-		{
-			if(session !=null && session.isOpen()){
-				session.close();
-			}
-		}//end finally
+		catch(ConstraintViolationException cve){
+			logger.logException("MySQLUsers", "create", "ConstraintViolationException"
+					, cve.toString(), cve);
+			throw new ConflictException("User"
+				,"The user name "+user.getUserId()
+				+" already exists for the provider, details of inner exception not "
+				+ "displayed for security reason, but are logged"
+				,null);
+		}
+		return user;
+
 	}
 
 	

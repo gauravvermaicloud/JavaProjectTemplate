@@ -21,6 +21,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import com.boilerplate.cache.CacheFactory;
 import com.boilerplate.exceptions.BaseBoilerplateException;
 import com.boilerplate.exceptions.rest.ConflictException;
+import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.framework.web.HttpRequestIdInterceptor;
@@ -31,6 +32,7 @@ import com.boilerplate.java.controllers.WidgetController;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.BaseEntity;
 import com.boilerplate.java.entities.ExternalFacingUser;
+import com.boilerplate.java.entities.UpdateUserEntity;
 import com.boilerplate.java.entities.Widget;
 import com.boilerplate.service.interfaces.IWidgetService;
 import com.boilerplate.sessions.Session;
@@ -594,8 +596,345 @@ public class TestUserController {
 		Session session1 = RequestThreadLocal.getSession();
 	      Assert.assertEquals(session, userController.getSession());
 	}
-	//test exceptions from base controller
 	
+	//test CRUD cycle only id
+	@Test
+	public void testUserCRUDIdOnly() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//get
+		ExternalFacingUser externalFacingUserGet = userController.getById(userId);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserGet.getUserId());
+		Assert.assertEquals(externalFacingUserGet.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUserGet.getPassword(), "Password Encrypted");
+		
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+		Assert.assertNotNull(session.getId());
+		Assert.assertNotNull(session.getSessionId());
+		Assert.assertNotNull(session.getId());
+		Assert.assertEquals(session.getExternalFacingUser().getUserId(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(session.getExternalFacingUser().getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(session.getExternalFacingUser().getPassword(), "Password Encrypted");
+		Assert.assertEquals(externalFacingUser.getId(), session.getExternalFacingUser().getId());
+		
+		//update
+		UpdateUserEntity updateUserEntity = new UpdateUserEntity();
+		String newPassword = UUID.randomUUID().toString();
+		updateUserEntity.setPassword(newPassword);
+		ExternalFacingUser updatedEntity = userController.update(userId,updateUserEntity);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), updatedEntity.getUserId());
+		Assert.assertEquals(updatedEntity.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(updatedEntity.getPassword(), "Password Encrypted");
+		//get
+		externalFacingUserGet = userController.getById(userId);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserGet.getUserId());
+		Assert.assertEquals(externalFacingUserGet.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUserGet.getPassword(), "Password Encrypted");
+		
+		authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(newPassword);
+		authenticationRequest.setUserId(userId);
+		session = userController.authenticate(authenticationRequest);
+		Assert.assertNotNull(session.getId());
+		Assert.assertNotNull(session.getSessionId());
+		Assert.assertNotNull(session.getId());
+		Assert.assertEquals(session.getExternalFacingUser().getUserId(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(session.getExternalFacingUser().getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(session.getExternalFacingUser().getPassword(), "Password Encrypted");
+		Assert.assertEquals(externalFacingUser.getId(), session.getExternalFacingUser().getId());
+		
+		//delete
+		userController.delete(userId);
+	}
 	
+	@Test
+	public void testUserCRUDIdAndProvider() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+		Assert.assertNotNull(session.getId());
+		Assert.assertNotNull(session.getSessionId());
+		Assert.assertNotNull(session.getId());
+		Assert.assertEquals(session.getExternalFacingUser().getUserId(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(session.getExternalFacingUser().getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(session.getExternalFacingUser().getPassword(), "Password Encrypted");
+		Assert.assertEquals(externalFacingUser.getId(), session.getExternalFacingUser().getId());
+		//get
+		ExternalFacingUser externalFacingUserGet = userController.getById("DEFAULT:"+userId);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserGet.getUserId());
+		Assert.assertEquals(externalFacingUserGet.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUserGet.getPassword(), "Password Encrypted");
+		
+		//update
+		UpdateUserEntity updateUserEntity = new UpdateUserEntity();
+		String newPassword = UUID.randomUUID().toString();
+		updateUserEntity.setPassword(newPassword);
+		ExternalFacingUser updatedEntity = userController.update("DEFAULT:"+userId,updateUserEntity);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), updatedEntity.getUserId());
+		Assert.assertEquals(updatedEntity.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(updatedEntity.getPassword(), "Password Encrypted");
+		//get
+		externalFacingUserGet = userController.getById("DEFAULT:"+userId);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserGet.getUserId());
+		Assert.assertEquals(externalFacingUserGet.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUserGet.getPassword(), "Password Encrypted");
+		
+		authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(newPassword);
+		authenticationRequest.setUserId(userId);
+		session = userController.authenticate(authenticationRequest);
+		Assert.assertNotNull(session.getId());
+		Assert.assertNotNull(session.getSessionId());
+		Assert.assertNotNull(session.getId());
+		Assert.assertEquals(session.getExternalFacingUser().getUserId(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(session.getExternalFacingUser().getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(session.getExternalFacingUser().getPassword(), "Password Encrypted");
+		Assert.assertEquals(externalFacingUser.getId(), session.getExternalFacingUser().getId());
+		//delete
+		userController.delete("DEFAULT:"+userId);
+	}
 	
+
+	
+	//test delete of deleted user only id
+	@Test(expected=NotFoundException.class)
+	public void testDeleteOfDeletedUser() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+
+		//delete
+		userController.delete(userId);
+		userController.delete(userId);
+	}
+
+	//test delete of deleted user only Default:id
+	@Test(expected=NotFoundException.class)
+	public void testDeleteOfDeletedUserWithProvider() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+
+		//delete
+		userController.delete("DEFAULT:"+userId);
+		UpdateUserEntity updateUserEntity = new UpdateUserEntity();
+		String newPassword = UUID.randomUUID().toString();
+		updateUserEntity.setPassword(newPassword);
+		ExternalFacingUser updatedEntity = userController.update("DEFAULT:"+userId,updateUserEntity);
+	}
+	
+	@Test(expected=NotFoundException.class)
+	public void testGetOfDeletedUser() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+
+		//delete
+		userController.delete(userId);
+		userController.getById(userId);
+	}
+
+	//test get of deleted user only Default:id
+	@Test(expected=NotFoundException.class)
+	public void testGetOfDeletedUserWithProvider() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+
+		//delete
+		userController.delete("DEFAULT:"+userId);
+		userController.getById("DEFAULT:"+userId);
+	}
+	
+	//test update of deleted user only id
+	@Test(expected=NotFoundException.class)
+	public void testUpdateOfDeletedUser() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+
+		//delete
+		userController.delete(userId);
+		UpdateUserEntity updateUserEntity = new UpdateUserEntity();
+		String newPassword = UUID.randomUUID().toString();
+		updateUserEntity.setPassword(newPassword);
+		ExternalFacingUser updatedEntity = userController.update(userId,updateUserEntity);	
+	}
+
+	//test get of deleted user only Default:id
+	@Test(expected=NotFoundException.class)
+	public void testUpdateOfDeletedUserWithProvider() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		externalFacingUser.setAuthenticationProvider("Default");
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+
+		//delete
+		userController.delete("DEFAULT:"+userId);
+		UpdateUserEntity updateUserEntity = new UpdateUserEntity();
+		String newPassword = UUID.randomUUID().toString();
+		updateUserEntity.setPassword(newPassword);
+		ExternalFacingUser updatedEntity = userController.update("DEFAULT:"+userId,updateUserEntity);	
+	}
+	
+	//if password is not sent then it is not updated
+	@Test
+	public void testBlankPasswordIsNotUpdated() throws Exception{
+		//create
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response=new MockHttpServletResponse();
+		httpRequestInterseptor.preHandle(request,response, null);
+		
+		ExternalFacingUser externalFacingUser = new ExternalFacingUser();
+		String userId = UUID.randomUUID().toString();
+		externalFacingUser.setUserId(userId);
+		externalFacingUser.setPassword(userId);
+		ExternalFacingUser externalFacingUserReturned = userController.createUser(externalFacingUser);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(externalFacingUser.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUser.getPassword(), "Password Encrypted");
+		
+		//get
+		ExternalFacingUser externalFacingUserGet = userController.getById(userId);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserGet.getUserId());
+		Assert.assertEquals(externalFacingUserGet.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUserGet.getPassword(), "Password Encrypted");
+		
+		AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		Session session = userController.authenticate(authenticationRequest);
+		Assert.assertNotNull(session.getId());
+		Assert.assertNotNull(session.getSessionId());
+		Assert.assertNotNull(session.getId());
+		Assert.assertEquals(session.getExternalFacingUser().getUserId(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(session.getExternalFacingUser().getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(session.getExternalFacingUser().getPassword(), "Password Encrypted");
+		Assert.assertEquals(externalFacingUser.getId(), session.getExternalFacingUser().getId());
+		
+		//update
+		UpdateUserEntity updateUserEntity = new UpdateUserEntity();
+		String newPassword = "";
+		updateUserEntity.setPassword(newPassword);
+		ExternalFacingUser updatedEntity = userController.update(userId,updateUserEntity);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), updatedEntity.getUserId());
+		Assert.assertEquals(updatedEntity.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(updatedEntity.getPassword(), "Password Encrypted");
+		//get
+		externalFacingUserGet = userController.getById(userId);
+		Assert.assertEquals(("DEFAULT:"+userId).toUpperCase(), externalFacingUserGet.getUserId());
+		Assert.assertEquals(externalFacingUserGet.getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(externalFacingUserGet.getPassword(), "Password Encrypted");
+		
+		authenticationRequest = new AuthenticationRequest();
+		authenticationRequest.setPassword(userId);
+		authenticationRequest.setUserId(userId);
+		session = userController.authenticate(authenticationRequest);
+		Assert.assertNotNull(session.getId());
+		Assert.assertNotNull(session.getSessionId());
+		Assert.assertNotNull(session.getId());
+		Assert.assertEquals(session.getExternalFacingUser().getUserId(), externalFacingUserReturned.getUserId());
+		Assert.assertEquals(session.getExternalFacingUser().getAuthenticationProvider(), "DEFAULT");
+		Assert.assertEquals(session.getExternalFacingUser().getPassword(), "Password Encrypted");
+		Assert.assertEquals(externalFacingUser.getId(), session.getExternalFacingUser().getId());
+		
+		//delete
+		userController.delete(userId);
+	}
 }

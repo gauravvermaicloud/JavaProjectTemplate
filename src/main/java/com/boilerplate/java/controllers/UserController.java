@@ -16,6 +16,7 @@ import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.Constants;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.ExternalFacingUser;
+import com.boilerplate.java.entities.UpdateUserEntity;
 import com.boilerplate.service.interfaces.IUserService;
 import com.boilerplate.sessions.Session;
 import com.boilerplate.sessions.SessionManager;
@@ -147,24 +148,51 @@ public class UserController extends BaseController{
 	}
 	
 	/**
-	 * This method deletes a user given id. The id is expected to be in form
-	 * Provider:userId. If no provider is specified then it is defaulted to DEFAULT
+	 * This method updates a user with given id. The id is expected to be in form
+	 * Provider:userId. If no provider is specified then it is defaulted to DEFAULT.
+	 * If the password is set to blank then it is not updated.
 	 * @param userId This is the id of the user in the format Provider:user id
+	 * @param updateUserEntity The user entity to be updated. 
 	 * @return The user
+	 * @throws NotFoundException If user is not found
+	 */
+	@ApiOperation(	value="This api updates a user with given id. The id is expected to be"
+			+ "in form Provider:userId, if no provider is specified then provider is "
+			+ "defaulted to DEFAULT. The metadata is replaced as is. If the password is set to blank"
+			+ "then it is not updated"
+		 )
+	@ApiResponses(value={
+						@ApiResponse(code=200, message="Ok")
+					,	@ApiResponse(code=404, message="Not Found")
+					})
+	@RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT)
+	public @ResponseBody ExternalFacingUser update(
+			@ApiParam(value="This is the id of the user to be updated",required=true
+			,name="userId",allowMultiple=false)@PathVariable String userId,
+			@RequestBody UpdateUserEntity updateUserEntity)
+					throws ValidationFailedException,ConflictException,NotFoundException{
+		return this.userService.update(userId,updateUserEntity);
+	}
+	
+	/**
+	 * This method deletes a user with given id. The id is expected to be in form
+	 * Provider:userId. If no provider is specified then it is defaulted to DEFAULT.
+	 * @param userId This is the id of the user in the format Provider:user id
 	 * @throws NotFoundException If user is not found
 	 */
 	@ApiOperation(	value="This api deletes a user with given id. The id is expected to be"
 			+ "in form Provider:userId, if no provider is specified then provider is "
-			+ "defaulted to DEFAULT"
+			+ "defaulted to DEFAULT."
 		 )
 	@ApiResponses(value={
 						@ApiResponse(code=200, message="Ok")
 					,	@ApiResponse(code=404, message="Not Found")
 					})
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
-	public @ResponseBody void deleteById(
-			@ApiParam(value="This is the id of the user to be deleted",required=true
-			,name="userId",allowMultiple=false)@PathVariable String userId) throws NotFoundException{
+	public @ResponseBody void delete(
+			@ApiParam(value="This is the id of the user to be updated",required=true
+			,name="userId",allowMultiple=false)@PathVariable String userId)
+					throws NotFoundException{
 		this.userService.delete(userId);
 	}
 	
