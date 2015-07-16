@@ -26,5 +26,11 @@ public interface IUser {
 	 * @return an instance of the user.
 	 * @throws NotFoundException if the user doesnt exist
 	 */
-	public ExternalFacingUser getUser(String userId) throws NotFoundException ; 
+	public ExternalFacingUser getUser(String userId) throws NotFoundException ;
+
+	/**
+	 * This method deletes the given user
+	 * @param user The user to be deleted
+	 */
+	public void deleteUser(ExternalFacingUser user); 
 }

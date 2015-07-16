@@ -73,8 +73,9 @@ public class MySQLUsers implements IUser{
 
 			//open a session
 			session = HibernateUtility.getSessionFactory().openSession();
-			//get all the configurations from the DB as a list
+			//begin a transaction
 			Transaction transaction = session.beginTransaction();
+			//get the user using a hsql query
 			String hsql = "From ExternalFacingUser U Where U.userId = :UserId";
 			Query query = session.createQuery(hsql);
 			query.setParameter("UserId", userId);
@@ -93,6 +94,29 @@ public class MySQLUsers implements IUser{
 			}
 		}//end finally
 	}//end method
+
+	/**
+	 * @see IUser.deleteUser
+	 */
+	@Override
+	public void deleteUser(ExternalFacingUser user) {
+		Session session =null;
+		try{
+			//open a session
+			session = HibernateUtility.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			//delete the user
+			session.delete(user);
+			//commit
+			transaction.commit();
+		}
+		finally
+		{
+			if(session !=null && session.isOpen()){
+				session.close();
+			}
+		}//end finally
+	}
 
 	
 }

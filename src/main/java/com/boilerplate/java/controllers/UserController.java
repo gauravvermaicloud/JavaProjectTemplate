@@ -145,4 +145,28 @@ public class UserController extends BaseController{
 			,name="userId",allowMultiple=false)@PathVariable String userId) throws NotFoundException{
 		return this.userService.get(userId);
 	}
+	
+	/**
+	 * This method deletes a user given id. The id is expected to be in form
+	 * Provider:userId. If no provider is specified then it is defaulted to DEFAULT
+	 * @param userId This is the id of the user in the format Provider:user id
+	 * @return The user
+	 * @throws NotFoundException If user is not found
+	 */
+	@ApiOperation(	value="This api deletes a user with given id. The id is expected to be"
+			+ "in form Provider:userId, if no provider is specified then provider is "
+			+ "defaulted to DEFAULT"
+		 )
+	@ApiResponses(value={
+						@ApiResponse(code=200, message="Ok")
+					,	@ApiResponse(code=404, message="Not Found")
+					})
+	@RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
+	public @ResponseBody void deleteById(
+			@ApiParam(value="This is the id of the user to be deleted",required=true
+			,name="userId",allowMultiple=false)@PathVariable String userId) throws NotFoundException{
+		this.userService.delete(userId);
+	}
+	
+	
 }

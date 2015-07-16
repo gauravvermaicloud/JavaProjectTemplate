@@ -33,8 +33,17 @@ public interface IUserService {
 	 * This method returns the user with given user id.
 	 * @param userId The id of the user in format provider:userid, if no provider is
 	 * specified it is defaulted to default
-	 * @return A user entity
+	 * @return A user id
 	 * @throws NotFoundException If no user is found with given details
 	 */
 	public ExternalFacingUser get(String userId) throws NotFoundException;
+	
+	/**
+	 * This method deletes the user with given user id.
+	 * @param userId The id of the user in format provider:userid, if no provider is
+	 * specified it is defaulted to default
+	 * @return A user id
+	 * @throws NotFoundException If no user is found with given details
+	 */
+	public void delete(String userId)throws NotFoundException;
 }

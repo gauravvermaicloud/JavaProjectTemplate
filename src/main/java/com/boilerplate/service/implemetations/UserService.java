@@ -172,4 +172,13 @@ public class UserService implements IUserService {
 		return externalFacingUser;
 		
 	}
+
+	/**
+	 * @see IUserService.delete
+	 */
+	@Override
+	public void delete(String userId) throws NotFoundException {
+		ExternalFacingUser user = this.get(userId);
+		this.userDataAccess.deleteUser(user);
+	}
 }
