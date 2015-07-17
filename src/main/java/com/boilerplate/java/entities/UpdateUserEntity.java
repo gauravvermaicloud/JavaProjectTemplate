@@ -56,7 +56,8 @@ public class UpdateUserEntity extends BaseEntity{
 	}
 
 	/**
-	 * @see BaseEntity.validate
+	 * This method checks if the password is null or empty. Null or empty
+	 * passwords are not allowed in the system.
 	 */
 	@Override
 	public boolean validate() throws ValidationFailedException {
