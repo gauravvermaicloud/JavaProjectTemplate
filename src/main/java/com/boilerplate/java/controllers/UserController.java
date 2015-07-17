@@ -72,15 +72,6 @@ public class UserController extends BaseController{
 			throws ValidationFailedException,ConflictException{
 		//call the business layer
 		return userService.create(externalFacingUser);
-		
-		//TODO - departmernt, session to have ACL and roles
-		//CRUD roles, add user to roles aop to map these to api's /methods
-		//Give permission to user on object
-		//Session to get roles and permissions for user
-		//Update user
-		//Get user
-		//Delete User
-		//Metadata for user
 	}
 	
 	/**
@@ -108,9 +99,7 @@ public class UserController extends BaseController{
 		
 		//now put sessionId in a cookie, header and also as response back
 		super.addHeader(Constants.AuthTokenHeaderKey, session.getSessionId());
-		
-		//TODO - not sure why cookie is not being sent back from browser
-		
+				
 		super.addCookie(Constants.AuthTokenCookieKey, session.getSessionId()
 				,sessionManager.getSessionTimeout());
 		
@@ -177,12 +166,17 @@ public class UserController extends BaseController{
 	/**
 	 * This method deletes a user with given id. The id is expected to be in form
 	 * Provider:userId. If no provider is specified then it is defaulted to DEFAULT.
+	 * This API doesnt delete user, it marks user for deletion as deletion is an 
+	 * expensive operation.
 	 * @param userId This is the id of the user in the format Provider:user id
 	 * @throws NotFoundException If user is not found
+	 * @throws ConflictException If there is a conflict in marking user for deletion
+	 * @throws ValidationFailedException If any validation falis
 	 */
 	@ApiOperation(	value="This api deletes a user with given id. The id is expected to be"
 			+ "in form Provider:userId, if no provider is specified then provider is "
-			+ "defaulted to DEFAULT."
+			+ "defaulted to DEFAULT." 
+			,notes="The deletion happens async"
 		 )
 	@ApiResponses(value={
 						@ApiResponse(code=200, message="Ok")
@@ -192,8 +186,8 @@ public class UserController extends BaseController{
 	public @ResponseBody void delete(
 			@ApiParam(value="This is the id of the user to be updated",required=true
 			,name="userId",allowMultiple=false)@PathVariable String userId)
-					throws NotFoundException{
-		this.userService.delete(userId);
+					throws NotFoundException, ValidationFailedException, ConflictException{
+		this.userService.markUserForDeletion(userId);
 	}
 	
 	

@@ -49,6 +49,19 @@ public interface IUserService {
 	public void delete(String userId)throws NotFoundException;
 
 	/**
+	 * This method marks a user for deletion. As user deltion
+	 * can be a lenthy process this uses queue to do the same in back ground
+	 * @param userId The id of the user in format provider:userid, if no provider is
+	 * specified it is defaulted to default
+	 * @return A user id
+	 * @throws ValidationFailedException If any validation fails
+	 * @throws ConflictException If there is a conflict in updating entity due to a DB constraint
+	 * @throws NotFoundException If no user is found with given details
+	 */
+	public void markUserForDeletion(String userId) throws NotFoundException,
+	ValidationFailedException, ConflictException;
+	
+	/**
 	 * This method is used to update a user.
 	 * @param userId The id of the user to be updated
 	 * @param updateUserEntity The entity of the user.

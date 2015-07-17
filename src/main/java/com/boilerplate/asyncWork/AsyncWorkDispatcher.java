@@ -63,7 +63,11 @@ public class AsyncWorkDispatcher {
 						, "Subject : ALL"
 						, "Dispatching "+workItem ==null?"Null":workItem.toJSON()+"to observer "+observer.getClass());
 			}
-			((IAsyncWorkObserver)observer).observe(workItem);
+			try{
+				((IAsyncWorkObserver)observer).observe(workItem);
+			}catch(Exception ex){
+				logger.logException("AsyncWorkDispatcher", "dispatch", "Catch for All", ex.toString(), ex);
+			}
 		}
 		
 		for(Object subject:workItem.getSubjects()){
@@ -75,7 +79,11 @@ public class AsyncWorkDispatcher {
 							, "Subject : ALL"
 							, "Dispatching "+workItem ==null?"Null":workItem.toJSON()+"to observer "+observer.getClass());
 				}
+				try{
 				((IAsyncWorkObserver)observer).observe(workItem);
+			}catch(Exception ex){
+				logger.logException("AsyncWorkDispatcher", "dispatch", "Catch for Subject", ex.toString(), ex);
+			}
 			}
 		}
 	}

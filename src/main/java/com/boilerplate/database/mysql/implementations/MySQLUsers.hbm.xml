@@ -14,4 +14,15 @@
 			<property name="creationDate" column="CreatedDateTime" type="timestamp" />
 			<property name="updationDate" column="UpdateDateTime" type="timestamp" />
 	</class>
+	
+	<!-- This class is in the same file as users as both are expected to
+		 be used in same context -->
+	<class name="com.boilerplate.database.mysql.implementations.entities.UserMetaData" table="UserMetaData">
+    		<id name="id" column="Id">
+				<generator class="identity"/>		
+			</id>
+			<property name="userId" column="UserId"/>
+	    	<property name="metaDataKey" column="MetaDataKey"/>
+    		<property name="metaDataValue" column="MetaDataValue"/>
+    </class>
 </hibernate-mapping>

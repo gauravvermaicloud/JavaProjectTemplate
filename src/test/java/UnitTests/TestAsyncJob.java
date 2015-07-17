@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import com.boilerplate.asyncWork.AsyncWorkItem;
+import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.queue.QueueFactory;
 
@@ -52,12 +53,13 @@ public class TestAsyncJob {
 		queueReaderJob.requestBackroundWorkItem(dispatchObject, emptySubject, "TestAsyncJob", "testAsyncJobPositive");
 		//Note this method is not actually called by any code as this will be called by BG services
 		queueReaderJob.readQueueAndDispatch();
+		//check that user is Background
 		Assert.assertEquals(5, dispatchObject.getAddResult());
 		Assert.assertEquals(0, dispatchObject.getDevideResult());
 		Assert.assertEquals(0, dispatchObject.getMultiplyResult());
 		Assert.assertEquals(0, dispatchObject.getPowerResult());
 		Assert.assertEquals(0, dispatchObject.getSubtractResult());
-		
+		Assert.assertEquals("DEFAULT:BACKGROUND", dispatchObject.getUserName());
 		dispatchObject = new DispatchObject();
 		dispatchObject.setNumberOne(2);
 		dispatchObject.setNumberTwo(3);

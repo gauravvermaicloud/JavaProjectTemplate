@@ -8,3 +8,7 @@ INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('7', 'V
 INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('8', 'DefaultAuthenticationProvider', 'DEFAULT', 'ALL','ALL');
 INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('9', 'V1_All_B', 'V1_All_B', '1','ALL');
 INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('10', 'SessionTimeOutInMinutes', '20', 'ALL','ALL');
+
+INSERT INTO Users(UserId,PasswordHash,AuthenticationProvider,ExternalSystemId)VALUES ('DEFAULT:ANNONYMOUS',0,'DEFAULT','ANNONYMOUS');
+INSERT INTO Users(UserId,PasswordHash,AuthenticationProvider,ExternalSystemId)VALUES ('DEFAULT:ADMIN',0,'DEFAULT','ADMIN');
+INSERT INTO Users(UserId,PasswordHash,AuthenticationProvider,ExternalSystemId)VALUES ('DEFAULT:BACKGROUND',0,'DEFAULT','BACKGROUND');

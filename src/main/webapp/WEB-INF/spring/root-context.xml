@@ -12,12 +12,13 @@
 			<property name="configurationManager" ref="configurationManager" ></property>
 			<property name="session" ref="session" />
 			<property name="queueReaderJob" ref="queueReaderJob"></property>
+			<property name="userService" ref="userService"></property>
 		</bean>
 		<!-- This is one of the possible implementations for session -->
 		<bean id="session" class="com.boilerplate.database.mysql.implementations.MySQLSession"/>
 		
 		<!-- Beans for Users, use either MySQLUsers or one of the other implementations of users -->
-		<bean id="userService" class="com.boilerplate.service.implemetations.UserService">
+		<bean id="userService" class="com.boilerplate.service.implemetations.UserService"  init-method="initilize">
 		    <property name="userDataAccess" ref="userDataAccess"></property>
 		    <property name="configurationManager" ref="configurationManager" ></property>
 		     <property name="sessionManager" ref="sessionManager" ></property>
@@ -29,6 +30,7 @@
 	 <bean id="queueReaderJob" class="com.boilerplate.jobs.QueueReaderJob">
 	 	<property name="configurationManager" ref="configurationManager"></property>
 	 	<property name="asyncWorkDispatcher" ref="asyncWorkDispatcher"></property>
+		<property name="sessionManager" ref="sessionManager" />
 	 </bean> 
 		
 	<!-- Bean for configuration from database, select between 
@@ -65,6 +67,11 @@
 				    key="SaveSessionToDatabase"
 				    value-ref="saveSessionToDatabaseObservers"
 				/>    
+				
+				<entry
+				    key="DeleteUser"
+				    value-ref="deleteUserObserver"
+				/> 
 			</map>
 		</property>
 	</bean>
@@ -92,6 +99,18 @@
 	</property>
 </bean>
 
+	<bean id="deleteUserObserver" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
+		<property name="asyncJobList">
+			<list>
+				<!-- This is the class that will save sessions to the database
+					Also the data we put in will get logged as the log observer is enabled for everything
+				 -->
+				<bean class="com.boilerplate.asyncWork.DeleteUserObserver">
+					<property name="userService" ref="userService"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 	<bean id="iPingService" class="com.boilerplate.service.implemetations.PingService">
 	    <property name="queueReaderJob" ref="queueReaderJob"></property>
 	    <property name="sesionManager" ref="sessionManager"></property>

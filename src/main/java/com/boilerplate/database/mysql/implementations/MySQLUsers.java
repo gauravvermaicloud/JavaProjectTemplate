@@ -10,13 +10,18 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.boilerplate.aspects.LogAndTraceExceptionAspect;
 import com.boilerplate.database.interfaces.IUser;
+import com.boilerplate.database.mysql.implementations.entities.UserMetaData;
 import com.boilerplate.exceptions.rest.ConflictException;
 import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.framework.HibernateUtility;
 import com.boilerplate.framework.Logger;
+import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.Configuration;
 import com.boilerplate.java.entities.ExternalFacingUser;
+
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * This class is used to create a user in a MySQL database
@@ -36,9 +41,25 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 	 */
 	@Override
 	public ExternalFacingUser create(ExternalFacingUser user) throws ConflictException {
+		Session session =null;	
 		try{
-			super.create(user);
-		}
+				//open a session
+				session = HibernateUtility.getSessionFactory().openSession();
+				//get all the configurations from the DB as a list
+				Transaction transaction = session.beginTransaction();
+				session.save(user);
+				//create metadata
+				UserMetaData userMetaData = null;
+				for(String key: user.getUserMetaData().keySet()){
+					userMetaData = new UserMetaData();
+					userMetaData.setUserId(Long.parseLong(user.getId()));
+					userMetaData.setMetaDataKey(key);
+					userMetaData.setMetaDataValue(user.getUserMetaData().get(key));
+					session.save(userMetaData);
+				}
+				//commit the transaction
+				transaction.commit();
+			}
 		catch(ConstraintViolationException cve){
 			logger.logException("MySQLUsers", "create", "ConstraintViolationException"
 					, cve.toString(), cve);
@@ -47,6 +68,11 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 				+" already exists for the provider, details of inner exception not "
 				+ "displayed for security reason, but are logged"
 				,null);
+		}
+		finally{
+			if(session !=null && session.isOpen()){
+				session.close();
+			}
 		}
 		return user;
 
@@ -65,15 +91,35 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 			if(users.isEmpty()){
 				throw new NotFoundException("User","User Not found", null);
 			}
-			return users.get(0);
+			ExternalFacingUser user =  users.get(0);
+			
+			hsql = "From UserMetaData U Where U.userId = :UserId";
+			queryParameterMap = new BoilerplateMap<String, Object>();
+			queryParameterMap.put("UserId",Long.parseLong(user.getId()));
+			List<UserMetaData> userMetaDatum = super.executeSelect(hsql, queryParameterMap);
+			if(!userMetaDatum.isEmpty()){
+				for(UserMetaData userMetaData : userMetaDatum){
+					user.getUserMetaData().put(userMetaData.getMetaDataKey()
+							, userMetaData.getMetaDataValue());
+				}
+			}
+			return user;
 	}//end method
-
+	
 	/**
 	 * @see IUser.deleteUser
 	 */
 	@Override
 	public void deleteUser(ExternalFacingUser user) {
-		super.delete(user);
+		//get the metadata of user and delete it
+		String hsql = "From UserMetaData U Where U.userId = :UserId";
+		BoilerplateMap<String, Object> queryParameterMap = new BoilerplateMap<String, Object>();
+		queryParameterMap.put("UserId",Long.parseLong(user.getId()));
+		List<UserMetaData> userMetaDatum = super.executeSelect(hsql, queryParameterMap);
+		BoilerplateList<Object> objects = new BoilerplateList<Object>();
+		objects.addAll(userMetaDatum);
+		objects.add(user);
+		super.delete(objects);
 	}
 
 	/**
@@ -82,9 +128,25 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 	@Override
 	public ExternalFacingUser update(ExternalFacingUser user)
 			throws ConflictException {
+		Session session =null;	
 		try{
-			super.update(user);
-		}
+				//open a session
+				session = HibernateUtility.getSessionFactory().openSession();
+				//get all the configurations from the DB as a list
+				Transaction transaction = session.beginTransaction();
+				session.saveOrUpdate(user);
+				//create metadata
+				UserMetaData userMetaData = null;
+				for(String key: user.getUserMetaData().keySet()){
+					userMetaData = new UserMetaData();
+					userMetaData.setUserId(Long.parseLong(user.getId()));
+					userMetaData.setMetaDataKey(key);
+					userMetaData.setMetaDataValue(user.getUserMetaData().get(key));
+					session.saveOrUpdate(userMetaData);
+				}
+				//commit the transaction
+				transaction.commit();
+			}
 		catch(ConstraintViolationException cve){
 			logger.logException("MySQLUsers", "create", "ConstraintViolationException"
 					, cve.toString(), cve);
@@ -94,9 +156,11 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 				+ "displayed for security reason, but are logged"
 				,null);
 		}
+		finally{
+			if(session !=null && session.isOpen()){
+				session.close();
+			}
+		}
 		return user;
-
 	}
-
-	
 }

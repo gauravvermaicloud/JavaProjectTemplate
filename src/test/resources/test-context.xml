@@ -31,7 +31,9 @@
    -->
 
 
-<bean id="queueReaderJob" class="com.boilerplate.jobs.QueueReaderJob" /> 
+<bean id="queueReaderJob" class="com.boilerplate.jobs.QueueReaderJob">
+	<property name="sessionManager" ref="sessionManager" />
+</bean> 
 
  <!-- Add or remover observers for the jobs here -->
 	<bean id="asyncWorkDispatcher" class="com.boilerplate.asyncWork.AsyncWorkDispatcher">
@@ -56,6 +58,11 @@
 				    key="SaveSessionToDatabase"
 				    value-ref="saveSessionToDatabaseObservers"
 				/> 
+				<entry
+				    key="DeleteUser"
+				    value-ref="deleteUserObserver"
+				/> 
+				
 			</map>
 		</property>
 	</bean>
@@ -84,6 +91,7 @@
 			<list>
 				<!-- Add observers for the subject. -->
 				<bean class="asyncWorkObservers.AddNumberAsyncWorkObserver"/>
+				<bean class="asyncWorkObservers.ObserveUserOfThreadObserver"/>
 			</list>
 		</property>
 	</bean>
@@ -95,7 +103,7 @@
 	</bean>		
 	
 			<!-- Beans for Users, use either MySQLUsers or one of the other implementations of users -->
-	<bean id="userService" class="com.boilerplate.service.implemetations.UserService">
+	<bean id="userService" class="com.boilerplate.service.implemetations.UserService" init-method="initilize">
 		   <!-- <property name="configurationManager" ref="configurationManager"></property> -->
 		    <property name="userDataAccess" ref="userDataAccess"></property>
 		    <property name="configurationManager" ref="configurationManager" ></property>
@@ -113,6 +121,7 @@
 		<bean id="sessionManager" class="com.boilerplate.sessions.SessionManager" init-method="initialize">
 			<property name="configurationManager" ref="configurationManager" ></property>
 			<property name="session" ref="session" />
+			<property name="userService" ref="userService" />
 		</bean>
 		<!-- This is one of the possible implementations for session -->
 		<bean id="session" class="com.boilerplate.database.mysql.implementations.MySQLSession"/>
@@ -126,6 +135,19 @@
 				 -->
 				<bean class="com.boilerplate.asyncWork.SaveSessionToDatabaseObserver">
 					<property name="sessionManager" ref="sessionManager"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="deleteUserObserver" class="com.boilerplate.asyncWork.AsyncWorkDispatcherObserverList">
+		<property name="asyncJobList">
+			<list>
+				<!-- This is the class that will save sessions to the database
+					Also the data we put in will get logged as the log observer is enabled for everything
+				 -->
+				<bean class="com.boilerplate.asyncWork.DeleteUserObserver">
+					<property name="userService" ref="userService"></property>
 				</bean>
 			</list>
 		</property>

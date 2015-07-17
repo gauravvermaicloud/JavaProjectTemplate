@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 
 import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.framework.HibernateUtility;
+import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.ExternalFacingUser;
 
@@ -19,6 +20,7 @@ import com.boilerplate.java.entities.ExternalFacingUser;
  *
  */
 public class MySQLBaseDataAccessLayer {
+	
 	
 	/**
 	 * This method creates an object in the database
@@ -75,13 +77,25 @@ public class MySQLBaseDataAccessLayer {
 	 * @param t The item to be deleted
 	 */
 	public <T> void delete(T t) {
+		BoilerplateList<Object> objects = new BoilerplateList<Object> ();
+		objects.add(t);
+		this.delete(objects);
+	}
+	
+	/**
+	 * This method deletes a list of objects
+	 * @param objects The objects to be deleted.
+	 */
+	public void delete(List<Object> objects){
 		Session session =null;
 		try{
 			//open a session
 			session = HibernateUtility.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
 			//delete the object
-			session.delete(t);
+			for(Object object :objects){
+				session.delete(object);
+			}
 			//commit
 			transaction.commit();
 		}

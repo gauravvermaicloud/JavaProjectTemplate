@@ -15,6 +15,7 @@ import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.Encryption;
 import com.boilerplate.framework.Logger;
 import com.boilerplate.java.Constants;
+import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.entities.AuthenticationRequest;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.java.entities.UpdateUserEntity;
@@ -24,7 +25,7 @@ import com.boilerplate.sessions.SessionManager;
 
 public class UserService implements IUserService {
 
-
+	
 	/**
 	 * This is an instance of the logger
 	 */
@@ -73,6 +74,29 @@ public class UserService implements IUserService {
 		this.userDataAccess = iUser;
 	}
 	
+	/**
+	 * This is an instance of the queue job, to save the session
+	 * back on to the database async
+	 */
+	@Autowired
+	com.boilerplate.jobs.QueueReaderJob queueReaderJob;
+	
+	/**
+	 * This sets the queue reader jon
+	 * @param queueReaderJob The queue reader jon
+	 */
+	public void setQueueReaderJob(com.boilerplate.jobs.QueueReaderJob queueReaderJob){
+		this.queueReaderJob = queueReaderJob;
+	}
+	
+	BoilerplateList<String> subjects = new BoilerplateList();
+	
+	/**
+	 * Initializes the bean
+	 */
+	public void initilize(){
+		subjects.add("DeleteUser");
+	}
 	/**
 	 * @see IUserService.create
 	 */
@@ -199,7 +223,8 @@ public class UserService implements IUserService {
 		ExternalFacingUser user = this.get(userId);
 		this.userDataAccess.deleteUser(user);
 	}
-
+	
+	
 	/**
 	 * @see IUserService.update
 	 */
@@ -218,6 +243,10 @@ public class UserService implements IUserService {
 				user.hashPassword();
 			}
 		}
+		//for each key updte the metadata
+		for(String key : updateUserEntity.getUserMetaData().keySet()){
+			user.getUserMetaData().put(key, updateUserEntity.getUserMetaData().get(key));
+		}
 		
 		user.setUpdationDate(new Date());
 		user.setUserMetaData(updateUserEntity.getUserMetaData());
@@ -225,7 +254,25 @@ public class UserService implements IUserService {
 		user.validate();
 		//update the user in the database
 		this.userDataAccess.update(user);
-		user.setPassword("Password Encrypted");
-		return user;
+		return this.get(user.getUserId());
+	}
+
+	/**
+	 * @see IUserService.markUserForDeletion
+	 */
+	@Override
+	public void markUserForDeletion(String userId) throws NotFoundException
+		, ValidationFailedException, ConflictException {
+		ExternalFacingUser user = this.get(userId);
+		user.setPassword("0");//set password to 0 as it cant be hash of anything
+		this.update(userId, user);
+		try{
+			queueReaderJob.requestBackroundWorkItem(userId, subjects
+					, "UserService", "markUserForDeletion");
+		}
+		catch(Exception ex){
+			//incase we cant put this on queue delete it now
+			this.delete(userId);
+		}
 	}
 }

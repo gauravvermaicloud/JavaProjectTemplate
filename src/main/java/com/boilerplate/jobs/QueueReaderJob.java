@@ -42,6 +42,20 @@ public class QueueReaderJob {
 	}
 	
 	/**
+	 * This is the session manager
+	 */
+	@Autowired
+	com.boilerplate.sessions.SessionManager sessionManager;
+	
+	/**
+	 * This sets the session manager
+	 * @param sessionManager The session manager
+	 */
+	public void setSessionManager(com.boilerplate.sessions.SessionManager sessionManager){
+		this.sessionManager = sessionManager;
+	}
+	
+	/**
 	 * This is the logger
 	 */
 	private Logger logger = Logger.getInstance(QueueReaderJob.class);
@@ -111,7 +125,8 @@ public class QueueReaderJob {
 		//if the queue is enabled then work
 		if(isBackgroundJobEnabled){
 			//Create a unique request id for the job and set it on thread
-			RequestThreadLocal.setRequest(UUID.randomUUID().toString(), null,null,null);
+			RequestThreadLocal.setRequest(UUID.randomUUID().toString(), null
+					,null,this.sessionManager.getBackgroundJobSession());
 			AsyncWorkItem asyncWorkItem =null;
 			try{
 				if(QueueFactory.getInstance().isQueueEnabled()){

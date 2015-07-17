@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 
 import com.boilerplate.cache.CacheFactory;
+import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.Logger;
 import com.boilerplate.framework.RequestThreadLocal;
@@ -53,6 +54,19 @@ public class SessionManager {
 	}
 	
 	/**
+	 * This is the user service
+	 */
+	@Autowired
+	com.boilerplate.service.interfaces.IUserService userService;
+	
+	/**
+	 * This sets the user service
+	 * @param userService An instance of user service
+	 */
+	public void setUserService(com.boilerplate.service.interfaces.IUserService userService){
+		this.userService = userService;
+	}
+	/**
 	 * This is an instance of the queue job, to save the session
 	 * back on to the database async
 	 */
@@ -66,6 +80,11 @@ public class SessionManager {
 	public void setQueueReaderJob(com.boilerplate.jobs.QueueReaderJob queueReaderJob){
 		this.queueReaderJob = queueReaderJob;
 	}
+	
+	/**
+	 * This is an annonympus session which never expires and is not stored on cache or DB
+	 */
+	private Session annonymousSession;
 	
 	/**
 	 * The time out of session	
@@ -102,6 +121,9 @@ public class SessionManager {
  			
  		}
 		
+		if(session == null){
+			session = this.getAnnonymousSession();
+		}
 		//return the session or return null
 		return session;
 	}
@@ -111,6 +133,14 @@ public class SessionManager {
 	 * @param session The session to be saved
 	 */
 	public void saveSessionOnExit(Session session){
+		if(session == null){
+			return;
+		}
+		if(this.annonymousSession  != null){
+			if(session.equals(this.annonymousSession)){
+				return;
+			}
+		}
 		session.setUpdationDate(new Date());
 		//put the session back on cache with new expiry
 		putSessionOnCache(session);
@@ -245,5 +275,49 @@ public class SessionManager {
 		time = time - this.getSessionTimeout()*1000;
 		Date date = new Date(time);
 		this.session.deleteSessionOlderThan(date);
+	}
+	
+	/**
+	 * This gets a session for annonymous user
+	 * @return The annonympus user session
+	 * @throws NotFoundException If the user is not found
+	 */
+	private Session getAnnonymousSession(){
+		if(this.annonymousSession == null){
+			try{
+				ExternalFacingUser annonymousUser =userService.get("DEFAULT:ANNONYMOUS");
+				this.annonymousSession = new Session(annonymousUser);
+			}
+			catch(Exception ex){
+				//this exception is not expected as the said user is always found
+			}
+			
+		}
+		return this.annonymousSession;
+	}
+	
+	/**
+	 * This is a session associated with a background job
+	 */
+	private Session backroundJobSession = null;
+	
+	/**
+	 * Gets a session for background job
+	 * @return The session for background job
+	 */
+	public Session getBackgroundJobSession(){
+		
+		if(this.backroundJobSession == null){
+			try{
+				ExternalFacingUser backGroundJObUser =userService.get("DEFAULT:BACKGROUND");
+				this.backroundJobSession = new Session(backGroundJObUser);
+			}
+			catch(Exception ex){
+				//this exception is not expected as the said user is always found
+				System.out.print(ex.toString());
+			}
+			
+		}
+		return this.backroundJobSession;
 	}
 }

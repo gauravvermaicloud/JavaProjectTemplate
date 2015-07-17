@@ -57,6 +57,14 @@ public class DispatchObject {
 		this.powerResult = powerResult;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	private int numberOne = 0;
 	private int numberTwo = 0;
 	
@@ -69,4 +77,7 @@ public class DispatchObject {
 	private int devideResult = 0;
 	
 	private int powerResult = 0;
+	
+	private String userName;
+	
 }

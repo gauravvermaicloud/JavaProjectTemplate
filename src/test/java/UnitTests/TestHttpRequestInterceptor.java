@@ -619,7 +619,7 @@ public class TestHttpRequestInterceptor {
 		//this should be expired and hence not picked up
 		
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 		httpRequestInterseptor.afterCompletion(request, response, null, null);
 	}
 	
@@ -674,7 +674,7 @@ public class TestHttpRequestInterceptor {
 		healthController.ping();
 		//check in ping response session id is the same as that used during auth
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 	}
 	//test session is picked from cookie
 	@Test
@@ -727,7 +727,7 @@ public class TestHttpRequestInterceptor {
 		healthController.ping();
 		//check in ping response session id is the same as that used during auth
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 	}
 	
 	
@@ -783,7 +783,7 @@ public class TestHttpRequestInterceptor {
 		//this should be expired and hence not picked up
 		
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 		httpRequestInterseptor.afterCompletion(request, response, null, null);
 	}
 	
@@ -838,7 +838,7 @@ public class TestHttpRequestInterceptor {
 		healthController.ping();
 		//check in ping response session id is the same as that used during auth
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 	}
 	//test session is picked from cookie
 	@Test
@@ -891,7 +891,7 @@ public class TestHttpRequestInterceptor {
 		healthController.ping();
 		//check in ping response session id is the same as that used during auth
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 	}
 
 	@Autowired
@@ -947,12 +947,12 @@ public class TestHttpRequestInterceptor {
 		healthController.ping();
 		//check in ping response session id is the same as that used during auth
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 		
 		//callthe job to clean session from the DB
 		cleanupSessionJob.cleanup();
 		Session sessionFromDB = sessionManager.getSession(session.getSessionId());
-		Assert.assertNull(sessionFromDB);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 	}
 
 	@Test
@@ -1039,9 +1039,9 @@ public class TestHttpRequestInterceptor {
 		healthController.ping();
 		//check in ping response session id is the same as that used during auth
 		//this should be expired and hence not picked up
-		
+		//but instead the session should be annonymous
 		String returnedSessionId =(String)response.getHeaderValue(Constants.AuthTokenHeaderKey);
-		Assert.assertNull(returnedSessionId);
+		Assert.assertEquals("DEFAULT:ANNONYMOUS", RequestThreadLocal.getSession().getExternalFacingUser().getUserId());
 		httpRequestInterseptor.afterCompletion(request, response, null, null);
 	}
 	
