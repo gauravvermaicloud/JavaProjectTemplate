@@ -33,16 +33,12 @@ public class DeleteUserObserver implements IAsyncWorkObserver{
 	}
 	
 	/**
-	 * This method deletes a user asynchronously
+	 * This method deletes a user asynchronously. No exception handling is done because
+	 * it is done by aspect
 	 */
 	@Override
-	public void observe(AsyncWorkItem asyncWorkItem) {
-		try {
-			userService.delete((String)asyncWorkItem.getPayload());
-		} catch (Exception ex) {
-			logger.logException("DeleteUserObserver", "observe", "catchBlock", ex.toString(),ex);
-		}
-		
+	public void observe(AsyncWorkItem asyncWorkItem) throws Exception {
+			userService.delete((String)asyncWorkItem.getPayload());		
 	}
 
 }

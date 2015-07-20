@@ -19,7 +19,7 @@ public class LogObserver implements IAsyncWorkObserver{
 	 * @see IAsyncWorkObserver.observe
 	 */
 	@Override
-	public void observe(AsyncWorkItem asyncWorkItem) {
+	public void observe(AsyncWorkItem asyncWorkItem){
 		if(logger.isDebugEnabled()){
 			logger.logDebug("LogObserver", "observe", ""
 					,asyncWorkItem ==null ?"Null": asyncWorkItem.toJSON());

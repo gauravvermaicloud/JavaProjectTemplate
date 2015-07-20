@@ -72,6 +72,7 @@ public class AsyncWorkDispatcher {
 		
 		for(Object subject:workItem.getSubjects()){
 			AsyncWorkDispatcherObserverList observerListForSubject = dispatchMap.get((String)subject);
+			if(observerListForSubject == null) continue;
 			BoilerplateList<IAsyncWorkObserver> observerList = observerListForSubject.getAsyncJobList();
 			for(Object observer:observerList){
 				if(logger.isDebugEnabled()){

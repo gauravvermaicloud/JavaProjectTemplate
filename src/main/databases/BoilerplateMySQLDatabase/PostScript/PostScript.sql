@@ -12,3 +12,6 @@ INSERT INTO configurations (Id, Key, Value, Version,Enviornment) VALUES ('10', '
 INSERT INTO Users(UserId,PasswordHash,AuthenticationProvider,ExternalSystemId)VALUES ('DEFAULT:ANNONYMOUS',0,'DEFAULT','ANNONYMOUS');
 INSERT INTO Users(UserId,PasswordHash,AuthenticationProvider,ExternalSystemId)VALUES ('DEFAULT:ADMIN',0,'DEFAULT','ADMIN');
 INSERT INTO Users(UserId,PasswordHash,AuthenticationProvider,ExternalSystemId)VALUES ('DEFAULT:BACKGROUND',0,'DEFAULT','BACKGROUND');
+
+INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (1,'Admin','Admin of the system',true,false);
+INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (2,'RoleAssigner','This role can assign roles to other users',true,false);

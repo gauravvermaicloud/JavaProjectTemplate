@@ -19,7 +19,8 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 @Api(value="Diagnostic API's"
-	,basePath="/health",description="This has api's to check and diagnose the health of the system")
+	,basePath="/health",description="This has api's to check and diagnose"
+			+ " the health of the system")
 @Controller
 public class HealthController extends BaseController{
 
@@ -76,6 +77,9 @@ public class HealthController extends BaseController{
 	//Method to disable background jobs
 	
 	//Method to enable background jobs
+	
+	
+	// if we do user defined roles then a mechanism to refresh the server
 	
 	/**
 	 * This method lists entire configuration for the current system

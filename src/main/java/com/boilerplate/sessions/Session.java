@@ -94,7 +94,6 @@ public class Session extends BaseEntity implements Serializable{
 		else{
 			return true;
 		}
-		//return ((new Date()).getTime() - this.getUpdationDate().getTime())>sessionManager.getSessionTimeout()*1000;
 	}
 	
 	/**
@@ -140,7 +139,6 @@ public class Session extends BaseEntity implements Serializable{
 	 * This methods returns the session id
 	 * @return Returns a session id
 	 */
-	@JsonIgnore
 	public String getSessionId() {
 		return sessionId;
 	}
@@ -149,7 +147,6 @@ public class Session extends BaseEntity implements Serializable{
 	 * This method sets a session id
 	 * @param sessionId The session id 
 	 */
-	@JsonIgnore
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}

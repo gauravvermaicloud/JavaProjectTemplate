@@ -26,3 +26,4 @@
     		<property name="metaDataValue" column="MetaDataValue"/>
     </class>
 </hibernate-mapping>
+

@@ -18,9 +18,13 @@
 		<bean id="healthController" class="com.boilerplate.java.controllers.HealthController">
 		</bean>
 		
+		<bean id="roleController" class="com.boilerplate.java.controllers.RoleController">
+		</bean>
+		
 <!-- Enable AOP -->
   <aop:aspectj-autoproxy/>
   <bean id="logAndTraceExceptionAspect" class="com.boilerplate.aspects.LogAndTraceExceptionAspect" />
+  <bean id="logAndTraceObserversAspect" class="com.boilerplate.aspects.LogAndTraceObserversAspect" />
   
   <!--This is the instance of cache. This may be changed by end programmers
   	  Enable one of the 3 caches-->
@@ -160,5 +164,10 @@
 	<bean id="iPingService" class="com.boilerplate.service.implemetations.PingService">
 	    <property name="queueReaderJob" ref="queueReaderJob"></property>
 	    <property name="sesionManager" ref="sessionManager"></property>
-	</bean>					
+	</bean>
+	
+	<bean id="roleService" class="com.boilerplate.service.implemetations.RoleService" init-method="initialize">
+		<property name="role" ref="role" />
+	</bean>	
+	<bean id="role" class="com.boilerplate.database.mysql.implementations.MySQLRole" />					
 </beans>

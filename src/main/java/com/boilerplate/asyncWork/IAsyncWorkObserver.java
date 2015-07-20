@@ -14,5 +14,5 @@ public interface IAsyncWorkObserver {
 	 * This method observe's and takes action for the work item.
 	 * @param asyncWorkItem The work item
 	 */
-	void observe(AsyncWorkItem asyncWorkItem);
+	void observe(AsyncWorkItem asyncWorkItem) throws Exception;
 }

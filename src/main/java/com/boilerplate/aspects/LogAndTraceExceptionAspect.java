@@ -44,7 +44,7 @@ public class LogAndTraceExceptionAspect {
 	 * @param proceedingJoinPoint The join point of the method
 	 * @throws Throwable A Http error for the business case.
 	 */
-    @Around("execution(public* com.boilerplate.java.controllers.*.*(..))")
+    @Around("execution(public* com.boilerplate.java.controllers.*.*(..))") 
     public Object logTraceAndHandleException(ProceedingJoinPoint proceedingJoinPoint
     		) throws Throwable {
     		
