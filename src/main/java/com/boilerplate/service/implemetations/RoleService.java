@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.boilerplate.database.interfaces.IRole;
 import com.boilerplate.java.collections.BoilerplateList;
+import com.boilerplate.java.entities.GenericListEncapsulationEntity;
 import com.boilerplate.java.entities.Role;
 import com.boilerplate.service.interfaces.IRoleService;
 
@@ -14,7 +15,7 @@ public class RoleService implements IRoleService{
 	/**
 	 * The list of roles,they are initialized for performance
 	 */
-	static List<Role> roles = null;
+	static GenericListEncapsulationEntity<Role> roles = null;
 	
 	/**
 	 * The DAL layer for role
@@ -30,7 +31,7 @@ public class RoleService implements IRoleService{
 	 * This method gets all the roles
 	 */
 	@Override
-	public List<Role> getRoles() {
+	public GenericListEncapsulationEntity<Role> getRoles() {
 		if(roles == null){
 			roles = role.getRoles();
 		}

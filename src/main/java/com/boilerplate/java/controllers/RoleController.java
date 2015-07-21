@@ -19,6 +19,7 @@ import com.boilerplate.framework.Logger;
 import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.entities.BaseEntity;
 import com.boilerplate.java.entities.Configuration;
+import com.boilerplate.java.entities.GenericListEncapsulationEntity;
 import com.boilerplate.java.entities.IdEntity;
 import com.boilerplate.java.entities.Role;
 import com.boilerplate.java.entities.Widget;
@@ -43,6 +44,7 @@ public class RoleController extends BaseController{
 	com.boilerplate.service.interfaces.IRoleService roleService;
 	/**
 	 * This method gets all the roles
+	 * @return a list of roles
 	 */
 	@ApiOperation(	value="Gets all the roles in the system"
 				 )
@@ -51,7 +53,7 @@ public class RoleController extends BaseController{
 						,	@ApiResponse(code=404, message="Not Found")
 						})
 	@RequestMapping(value = "/role", method = RequestMethod.GET)
-	public @ResponseBody List<Role> get() throws BaseBoilerplateException{		
+	public @ResponseBody GenericListEncapsulationEntity<Role> get() throws BaseBoilerplateException{		
 		return roleService.getRoles();
 	}
 

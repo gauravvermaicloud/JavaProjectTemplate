@@ -27,7 +27,7 @@ public class TestRole {
 	
 	@Test
 	public void testGetRoles() throws BaseBoilerplateException{
-		List<Role> roles= roleController.get();
+		List<Role> roles= roleController.get().getEntityList();
 		//check has admin role
 		
 		boolean isAdminFound= false;

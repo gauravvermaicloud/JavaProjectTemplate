@@ -10,6 +10,7 @@ import com.boilerplate.database.interfaces.IRole;
 import com.boilerplate.framework.HibernateUtility;
 import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.collections.BoilerplateMap;
+import com.boilerplate.java.entities.GenericListEncapsulationEntity;
 import com.boilerplate.java.entities.Role;
 
 public class MySQLRole extends MySQLBaseDataAccessLayer implements IRole {
@@ -18,14 +19,16 @@ public class MySQLRole extends MySQLBaseDataAccessLayer implements IRole {
 	 * @see IRole.getRoles
 	 */
 	@Override
-	public List<Role> getRoles() {
+	public GenericListEncapsulationEntity<Role> getRoles() {
 		Session session =null;
 		try{
 			//open a session
 			session = HibernateUtility.getSessionFactory().openSession();
 			//begin a transaction
 			Transaction transaction = session.beginTransaction();
-			List<Role> roles = session.createCriteria(Role.class).list();					
+			List<Role> roleList = session.createCriteria(Role.class).list();
+			GenericListEncapsulationEntity<Role> roles =new GenericListEncapsulationEntity<Role>();
+			roles.setEntityList(roleList);
 			transaction.commit();
 			return roles;
 		}
