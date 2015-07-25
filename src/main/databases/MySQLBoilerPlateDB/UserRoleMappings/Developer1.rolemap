@@ -1,0 +1,7 @@
+<UserRoleMap> 
+	<UserName>Developer1</UserName>
+	<Roles>
+		<Role>Dev</Role>
+		<Role>Admin</Role>
+	</Roles>
+<UserRoleMap>

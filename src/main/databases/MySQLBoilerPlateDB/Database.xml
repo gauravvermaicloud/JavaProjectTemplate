@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Database type="MySQL" name="MySQLBoilerPlateLocalDevDB">
+
+	<!-- List of roles in the DB -->
+	<Roles>
+		<Role roleDefinition="Roles/Admin.role"/>
+		<Role roleDefinition="Roles/Dev.role"/>
+		<Role roleDefinition="Roles/PerfTest.role"/>
+		<Role roleDefinition="Roles/QA.role"/>
+	</Roles>
+
+	<!-- List of users in the DB -->
+	<Users>
+		<User userDefinition="Users/Developer1.user"/>
+		<User userDefinition="Users/Developer2.user"/>
+		<User userDefinition="Users/PerfTest1.user"/>
+		<User userDefinition="Users/QA1.user"/>
+		<User userDefinition="Users/QA2.user"/>
+	</Users>
+
+	<!-- List of userrolemappings in the DB -->
+	<UserRoleMappings>
+		<UserRoleMapping mappingDefintion="UserRoleMappings/Developer1.rolemap"/>
+		<UserRoleMapping mappingDefintion="UserRoleMappings/Developer2.rolemap"/>
+		<UserRoleMapping mappingDefintion="UserRoleMappings/PerfTest1.rolemap"/>
+		<UserRoleMapping mappingDefintion="UserRoleMappings/QA1.rolemap"/>
+		<UserRoleMapping mappingDefintion="UserRoleMappings/QA2.rolemap"/>
+	</UserRoleMappings>
+
+	<!-- List of tables in the DB -->
+	<Tables>		
+		<Table tableDefinition="Tables/Configurations.table"/>
+		<Table tableDefinition="Tables/MethodRoles.table"/>
+		<Table tableDefinition="Tables/Roles.table"/>
+		<Table tableDefinition="Tables/Sessions.table"/>		
+		<Table tableDefinition="Tables/UserEntityPermissions.table"/>
+		<Table tableDefinition="Tables/UserMetaData.table"/>
+		<Table tableDefinition="Tables/UserRoles.table"/>
+		<Table tableDefinition="Tables/Users.table"/>		
+	</Tables>
+
+	<!-- List of per dbobjectPrivileges in the DB -->
+	<ObjectPrivileges>
+		<ObjectPrivilege privilege="ObjectPrivileges/Configurations.privilege"/>
+		<ObjectPrivilege privilege="ObjectPrivileges/MethodRoles.privilege"/>
+		<ObjectPrivilege privilege="ObjectPrivileges/Roles.privilege"/>
+		<ObjectPrivilege privilege="ObjectPrivileges/Sessions.privilege"/>
+		<ObjectPrivilege privilege="ObjectPrivileges/UserEntityPermissions.privilege"/>
+		<ObjectPrivilege privilege="ObjectPrivileges/UserMetaData.privilege"/>
+		<ObjectPrivilege privilege="ObjectPrivileges/UserRoles.privilege"/>
+		<ObjectPrivilege privilege="ObjectPrivileges/Users.privilege"/>		
+	</ObjectPrivileges>
+</Database>

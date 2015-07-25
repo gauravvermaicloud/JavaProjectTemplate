@@ -1,0 +1,98 @@
+<!-- DROP TABLE IF EXISTS `Users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Users` (
+  `Id` bigint(10) NOT NULL AUTO_INCREMENT,
+  `UserId` varchar(64) NOT NULL,
+  `PasswordHash` varchar(64) NOT NULL,
+  `AuthenticationProvider` varchar(64) NOT NULL,
+  `ExternalSystemId` varchar(64) NOT NULL,
+  `CreatedDateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdateDateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `UserId_UNIQUE` (`UserId`)
+) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+-->
+
+<!-- <Constraints>
+	<ForeignKeys>
+		<ForeignKey name="$fKeyName" columnName="$columnName" foreignKeyTable="$fkTableName" foreignKeyColumnName="$fkColumnName" comment="$optionalVal"/>
+	</ForeignKeys>
+</Constraints> -->
+
+<!-- <Indexes>
+	<Index name="$idxName" indexType="$idxtype" sortOrder="ASC|DESC" length=$intVal>
+		<columns>
+			<column>$col1</column>
+			<column>$col1</column>
+			<column>$col1</column>
+		</columns>
+	</Index>  			
+</Indexes> -->
+
+<!-- code to flag invalid keys and invalid values -->
+<Table>
+	<Name>Users</Name>
+	<columns>
+		<!-- column schema mostly based on attrbutes being applied to xml element than a node within a node -->
+		<column Name="Id" Datatype="bigint(10)" Nullable="F" IsPrimaryKey="T" IsIdentity="T" IdentitySeed=1 AutoIncrementValue=1 >						
+		</column>
+
+		<column Name="UserId" Datatype="varchar(64)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">	
+		</column>
+
+		<column Name="PasswordHash" Datatype="varchar(64)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">			
+		</column>
+
+		<column Name="AuthenticationProvider" Datatype="varchar(64)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">				
+		</column>
+
+		<column Name="ExternalSystemId" Datatype="varchar(64)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">				
+		</column>
+
+		<column Name="CreatedDateTime" Datatype="datetime" Nullable="F" IsPrimaryKey="F" IsIdentity="F" DefaultValue="CURRENT_TIMESTAMP">				
+		</column>
+
+		<column Name="UpdateDateTime" Datatype="datetime" Nullable="F" IsPrimaryKey="F" IsIdentity="F" DefaultValue="CURRENT_TIMESTAMP">				
+		</column>	
+	</columns>
+
+	<Indexes>
+		<Index name="UserId" indexType="UNIQUE" sortOrder="ASC">
+			<columns>
+				<column>UserId</column>						
+			</columns>
+		</Index>  			
+	</Indexes>
+	<Constraints>
+		<ForeignKeys>			
+		</ForeignKeys>
+	</Constraints>  
+
+	<!--PostScript related -- Data seeding -->
+	<Data order=$intVal> <!--To tell the order this data should be included in the postscript-->
+		<!--Assume the FK table data is already populated by dint of order -->
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+	</Data>
+
+</Table>

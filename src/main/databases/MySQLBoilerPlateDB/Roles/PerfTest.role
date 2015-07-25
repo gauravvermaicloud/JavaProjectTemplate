@@ -1,0 +1,4 @@
+<Role> 
+	<name>PerfTest</name>
+	<description>Role for Performance testers</description>
+</Role>

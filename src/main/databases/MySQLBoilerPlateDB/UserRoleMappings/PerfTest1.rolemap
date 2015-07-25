@@ -1,0 +1,6 @@
+<UserRoleMap> 
+	<UserName>PerfTest1</UserName>
+	<Roles>
+		<Role>PerfTest</Role>		
+	</Roles>
+<UserRoleMap>

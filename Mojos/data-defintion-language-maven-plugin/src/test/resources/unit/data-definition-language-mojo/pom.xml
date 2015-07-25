@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.b</groupId>
+  <artifactId>data-definition-language-maven-plugin-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Test DDLMojo</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.b</groupId>
+        <artifactId>data-definition-language-maven-plugin</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <configuration></configuration>
+       <!--  <configuration>
+        <DBType>MYSQL</DBType>       
+        <DBBinDirectoryPath>C:\Program Files (x86)\MySQL\MySQL Server 5.6\bin</DBBinDirectoryPath>                
+        <DBHost>localhost</DBHost>  
+        <adminUserName>root</adminUserName> 
+        <adminUserPassword>admin@123</adminUserPassword>       
+        <scriptsFolder>C:\Users\Admin\Desktop\</scriptsFolder>
+        <connectionFile>C:\Users\Admin\Desktop\connection.xml</connectionFile>
+        </configuration> -->
+      </plugin>
+    </plugins>
+  </build>
+</project>

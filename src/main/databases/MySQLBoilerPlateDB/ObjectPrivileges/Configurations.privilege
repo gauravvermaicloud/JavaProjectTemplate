@@ -1,0 +1,28 @@
+<ObjectPrivileges>
+	<Object> 
+		<Name>Configurations</Name>
+		<Type>Table</Type>	
+	</Object>	
+	<RolePrivileges>
+		<RolePrivilege>
+			<Role>Dev</Role>
+			<Privileges>
+				<Select>True</Select>
+				<Insert>False</Insert>
+				<Update>False</Update>
+				<Delete>False</Delete>						
+			</Privileges>
+		</RolePrivilege>
+
+		<RolePrivilege>
+			<Role>Admin</Role>
+			<Privileges>
+				<Select>True</Select>
+				<Insert>True</Insert>
+				<Update>True</Update>
+				<Delete>True</Delete>						
+			</Privileges>
+		</RolePrivilege>
+		
+	</RolePrivileges>
+</ObjectPrivileges>

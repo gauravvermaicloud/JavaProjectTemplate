@@ -1,0 +1,90 @@
+<!-- DROP TABLE IF EXISTS `UserRoles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserRoles` (
+  `Id` bigint(10) NOT NULL,
+  `RoleId` bigint(10) DEFAULT NULL,
+  `UserId` bigint(10) DEFAULT NULL,
+  KEY `UserRoles_Idx_RoleId` (`RoleId`),
+  KEY `UserRoles_Idx_UserId` (`UserId`),
+  CONSTRAINT `Role_RoleId_To_UserRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `Roles` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `User_UserId_To_UserRoles_UserId` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET -->
+
+<!-- <Constraints>
+	<ForeignKeys>
+		<ForeignKey name="$fKeyName" columnName="$columnName" foreignKeyTable="$fkTableName" foreignKeyColumnName="$fkColumnName" comment="$optionalVal"/>
+	</ForeignKeys>
+</Constraints> -->
+
+<!-- <Indexes>
+	<Index name="$idxName" indexType="$idxtype" sortOrder="ASC|DESC" length=$intVal>
+		<columns>
+			<column>$col1</column>
+			<column>$col1</column>
+			<column>$col1</column>
+		</columns>
+	</Index>  			
+</Indexes> -->
+
+<!-- code to flag invalid keys and invalid values -->
+<Table>
+	<Name>UserRoles</Name>
+	<columns>
+		<!-- column schema mostly based on attrbutes being applied to xml element than a node within a node -->
+		<column Name="Id" Datatype="bigint(10)" Nullable="F" IsPrimaryKey="T" IsIdentity="T" IdentitySeed=1 AutoIncrementValue=1 >						
+		</column>
+
+		<column Name="RoleId" Datatype="bigint(10)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">	
+		</column>
+
+		<column Name="UserId" Datatype="bigint(10)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">	
+		</column>		
+	</columns>
+
+	<Indexes>
+		<Index name="UserRoles_Idx_UserId" indexType="INDEX" sortOrder="ASC">
+			<columns>
+				<column>UserId</column>						
+			</columns>
+		</Index>  
+		<Index name="UserRoles_Idx_RoleId" indexType="INDEX" sortOrder="ASC">
+			<columns>
+				<column>RoleId</column>						
+			</columns>
+		</Index> 			
+	</Indexes>
+	<Constraints>
+		<ForeignKeys>
+			<ForeignKey name="Role_RoleId_To_UserRoles_RoleId" columnName="RoleId" foreignKeyTable="roles" foreignKeyColumnName="Id" comment=""/>
+			<ForeignKey name="User_UserId_To_UserRoles_UserId" columnName="UserId" foreignKeyTable="users" foreignKeyColumnName="Id" comment=""/>			
+		</ForeignKeys>
+	</Constraints>  
+
+	<!--PostScript related -- Data seeding -->
+	<Data order=$intVal> <!--To tell the order this data should be included in the postscript-->
+		<!--Assume the FK table data is already populated by dint of order -->
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+	</Data>
+
+</Table>

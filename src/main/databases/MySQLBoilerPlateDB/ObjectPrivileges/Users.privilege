@@ -1,0 +1,50 @@
+<!-- code to flag if user is being used instead of role -->
+<ObjectPrivileges>
+	<Object> 
+		<Name>Users</Name>
+		<Type>Table</Type>	
+	</Object>	
+	<RolePrivileges>
+		<RolePrivilege>
+			<Role>Dev</Role>
+			<Privileges>
+				<Select>True</Select>
+				<Insert>True</Insert>
+				<Update>True</Update>
+				<Delete>True</Delete>						
+			</Privileges>
+		</RolePrivilege>
+
+		<RolePrivilege>
+			<Role>Admin</Role>
+			<Privileges>
+				<Select>True</Select>
+				<Insert>True</Insert>
+				<Update>True</Update>
+				<Delete>True</Delete>						
+			</Privileges>
+		</RolePrivilege>
+
+		<RolePrivilege>
+			<Role>QA</Role>
+			<Privileges>
+				<Select>True</Select>
+				<Insert>False</Insert>
+				<Update>False</Update>
+				<Delete>False</Delete>						
+			</Privileges>
+		</RolePrivilege>
+		
+		<RolePrivilege>
+			<Role>PerfTest</Role>
+			<Privileges>
+				<Select>True</Select>
+				<Insert>True</Insert>
+				<Update>True</Update>
+				<Delete>True</Delete>						
+			</Privileges>
+		</RolePrivilege>
+		
+
+	</RolePrivileges>
+</ObjectPrivileges>

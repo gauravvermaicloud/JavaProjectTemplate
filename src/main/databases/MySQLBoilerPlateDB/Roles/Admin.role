@@ -1,0 +1,4 @@
+<Role> 
+	<name>Admin</name>
+	<description>Role for Admin for DB objects created</description>
+</Role>

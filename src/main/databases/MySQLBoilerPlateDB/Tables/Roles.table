@@ -1,0 +1,59 @@
+<!-- DROP TABLE IF EXISTS `Roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Roles` (
+  `Id` bigint(10) NOT NULL,
+  `RoleName` varchar(128) NOT NULL,
+  `RoleDescription` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ -->
+
+ <Table>
+	<Name>Roles</Name>
+	<columns>
+		<!-- column schema mostly based on attrbutes being applied to xml element than a node within a node -->
+		<column Name="Id" Datatype="bigint(10)" Nullable="F" IsPrimaryKey="T" IsIdentity="T" IdentitySeed=1 AutoIncrementValue=1 >						
+		</column>
+
+		<column Name="RoleName" Datatype="varchar(128)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">	
+		</column>
+
+		<column Name="RoleDescription" Datatype="varchar(1024)" Nullable="F" IsPrimaryKey="F" IsIdentity="F">
+		</column>		
+	</columns>
+
+	<Indexes>		 			
+	</Indexes>
+	<Constraints>
+		<ForeignKeys>			
+		</ForeignKeys>
+	</Constraints>  
+
+	<!--PostScript related -- Data seeding -->
+	<Data order=$intVal> <!--To tell the order this data should be included in the postscript-->
+		<!--Assume the FK table data is already populated by dint of order -->
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+
+		<Row> 
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+			<Column="$colName">$value</Column>
+		</Row>
+	</Data>
+
+</Table>
