@@ -41,7 +41,7 @@ public class UserRoleController extends BaseController{
 	 * @param roles The list of roles to be granted
 	 * @throws NotFoundException This is thrown if the user or the role is not found
 	 */
-	@RequestMapping(value = "/user/{userId}/role", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{userId}/role", method = RequestMethod.POST)
 	public  @ResponseBody void addUserToRole(
 			@ApiParam(value="This is the id of the user to which roles are to be added"
 			,required=true,name="userId",allowMultiple=false)@PathVariable String userId
@@ -60,7 +60,7 @@ public class UserRoleController extends BaseController{
 		
 		//In this code we request the role to be granted
 		this.userRoleService.grantUserRoles(userId, roles.getEntityList()
-				, super.getSession().getExternalFacingUser().getUserId());
+				, super.getSession().getExternalFacingUser());
 	}
 	
 	/**

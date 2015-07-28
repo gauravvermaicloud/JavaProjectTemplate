@@ -15,6 +15,7 @@ import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.Constants;
 import com.boilerplate.java.entities.AuthenticationRequest;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.java.entities.UpdateUserEntity;
 import com.boilerplate.service.interfaces.IUserService;
@@ -130,7 +131,7 @@ public class UserController extends BaseController{
 					,	@ApiResponse(code=404, message="Not Found")
 					})
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
-	public @ResponseBody ExternalFacingUser getById(
+	public @ResponseBody ExternalFacingReturnedUser getById(
 			@ApiParam(value="This is the id of the user to be fetched",required=true
 			,name="userId",allowMultiple=false)@PathVariable String userId) throws NotFoundException{
 		return this.userService.get(userId);
@@ -155,7 +156,7 @@ public class UserController extends BaseController{
 					,	@ApiResponse(code=404, message="Not Found")
 					})
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT)
-	public @ResponseBody ExternalFacingUser update(
+	public @ResponseBody ExternalFacingReturnedUser update(
 			@ApiParam(value="This is the id of the user to be updated",required=true
 			,name="userId",allowMultiple=false)@PathVariable String userId,
 			@RequestBody UpdateUserEntity updateUserEntity)

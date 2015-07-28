@@ -20,7 +20,11 @@
 		
 		<bean id="roleController" class="com.boilerplate.java.controllers.RoleController">
 		</bean>
+
+		<bean id="userRoleController" class="com.boilerplate.java.controllers.UserRoleController">
+		</bean>
 		
+				
 <!-- Enable AOP -->
   <aop:aspectj-autoproxy/>
   <bean id="logAndTraceExceptionAspect" class="com.boilerplate.aspects.LogAndTraceExceptionAspect" />
@@ -112,6 +116,7 @@
 		    <property name="userDataAccess" ref="userDataAccess"></property>
 		    <property name="configurationManager" ref="configurationManager" ></property>
 			<property name="sessionManager" ref="sessionManager" ></property>
+			<property name="roleService" ref="roleService"></property>
 		    
 	</bean>
 		<!-- Use one of the possible implementations of the User -->
@@ -170,4 +175,13 @@
 		<property name="role" ref="role" />
 	</bean>	
 	<bean id="role" class="com.boilerplate.database.mysql.implementations.MySQLRole" />					
+
+	<bean id="userRoleService" class="com.boilerplate.service.implemetations.UserRoleService">
+		<property name="roleService" ref="roleService" />
+		<property name="userService" ref="userService" />
+		<property name="userRole" ref="userRole" />
+	</bean>	
+
+	<bean id="userRole" class="com.boilerplate.database.mysql.implementations.MySQLUserRole" />					
+	
 </beans>

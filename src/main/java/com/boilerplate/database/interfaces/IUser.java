@@ -2,7 +2,10 @@ package com.boilerplate.database.interfaces;
 
 import com.boilerplate.exceptions.rest.ConflictException;
 import com.boilerplate.exceptions.rest.NotFoundException;
+import com.boilerplate.java.collections.BoilerplateMap;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
+import com.boilerplate.java.entities.Role;
 
 /**
  * This has interfaces for user management
@@ -26,15 +29,17 @@ public interface IUser {
 	 * @throws ConflictException This is thrown if there is a DB constraint violation
 	 * @return The updated user.
 	 */
-	public ExternalFacingUser update(ExternalFacingUser user) throws ConflictException;
+	public ExternalFacingReturnedUser update(ExternalFacingReturnedUser user) throws ConflictException;
 
 	/**
 	 * This method is used to get a user from database given the userId
-	 * @param userId
+	 * @param userId The id of the user
+	 * @param roleIdMap The map of user roles with there id's
 	 * @return an instance of the user.
 	 * @throws NotFoundException if the user doesnt exist
 	 */
-	public ExternalFacingUser getUser(String userId) throws NotFoundException ;
+	public ExternalFacingReturnedUser getUser(String userId
+			, BoilerplateMap<String, Role> roleIdMap) throws NotFoundException ;
 
 	/**
 	 * This method deletes the given user

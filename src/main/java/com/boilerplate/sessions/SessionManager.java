@@ -13,6 +13,7 @@ import com.boilerplate.framework.Logger;
 import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.Constants;
 import com.boilerplate.java.collections.BoilerplateList;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.service.implemetations.UserService;
 
@@ -209,7 +210,7 @@ public class SessionManager {
 	 * created
 	 * @return The session created
 	 */
-	public Session createNewSession(ExternalFacingUser externalFacingUser){
+	public Session createNewSession(ExternalFacingReturnedUser externalFacingUser){
 		Session session = new Session(externalFacingUser);
 		
 		//Save session on DB
@@ -285,7 +286,7 @@ public class SessionManager {
 	private Session getAnnonymousSession(){
 		if(this.annonymousSession == null){
 			try{
-				ExternalFacingUser annonymousUser =userService.get("DEFAULT:ANNONYMOUS");
+				ExternalFacingReturnedUser annonymousUser =userService.get("DEFAULT:ANNONYMOUS");
 				this.annonymousSession = new Session(annonymousUser);
 			}
 			catch(Exception ex){
@@ -309,7 +310,7 @@ public class SessionManager {
 		
 		if(this.backroundJobSession == null){
 			try{
-				ExternalFacingUser backGroundJObUser =userService.get("DEFAULT:BACKGROUND");
+				ExternalFacingReturnedUser backGroundJObUser =userService.get("DEFAULT:BACKGROUND");
 				this.backroundJobSession = new Session(backGroundJObUser);
 			}
 			catch(Exception ex){

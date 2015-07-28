@@ -11,6 +11,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import com.boilerplate.aspects.LogAndTraceExceptionAspect;
 import com.boilerplate.database.interfaces.IUser;
 import com.boilerplate.database.mysql.implementations.entities.UserMetaData;
+import com.boilerplate.database.mysql.implementations.entities.UserRoleMapping;
 import com.boilerplate.exceptions.rest.ConflictException;
 import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.framework.HibernateUtility;
@@ -18,7 +19,9 @@ import com.boilerplate.framework.Logger;
 import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.Configuration;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
+import com.boilerplate.java.entities.Role;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,16 +85,17 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 	 * @see IUser.getUser
 	 */
 	@Override
-	public ExternalFacingUser getUser(String userId) throws NotFoundException{
+	public ExternalFacingReturnedUser getUser(String userId
+			, BoilerplateMap<String, Role> roleIdMap) throws NotFoundException{
 			//get the user using a hsql query
-			String hsql = "From ExternalFacingUser U Where U.userId = :UserId";
+			String hsql = "From ExternalFacingReturnedUser U Where U.userId = :UserId";
 			BoilerplateMap<String, Object> queryParameterMap = new BoilerplateMap<String, Object>();
 			queryParameterMap.put("UserId", userId);
-			List<ExternalFacingUser> users = super.executeSelect(hsql, queryParameterMap);			
+			List<ExternalFacingReturnedUser> users = super.executeSelect(hsql, queryParameterMap);			
 			if(users.isEmpty()){
 				throw new NotFoundException("User","User Not found", null);
 			}
-			ExternalFacingUser user =  users.get(0);
+			ExternalFacingReturnedUser user =  users.get(0);
 			
 			hsql = "From UserMetaData U Where U.userId = :UserId";
 			queryParameterMap = new BoilerplateMap<String, Object>();
@@ -103,6 +107,22 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 							, userMetaData.getMetaDataValue());
 				}
 			}
+			//now populate roles
+			hsql = "From UserRoleMapping U Where U.userId = :UserId";
+			List<UserRoleMapping> userRoles = super.executeSelect(hsql, queryParameterMap);
+			BoilerplateList<Role> roles = new BoilerplateList<Role>();
+			if(!userRoles.isEmpty()){
+				for(UserRoleMapping userRole : userRoles){
+					//The reason we have converted the long role id into a string
+					//is because the map expects a string
+					//The map expects a string and for id and not a long 
+					//because the role primary key id is long for mysql
+					//but in other databases it can be something else
+					//hence we are doing this, We should look at a better way of doing this
+					roles.add(roleIdMap.get(Long.toString(userRole.getRoleId())));
+				}
+			}
+			user.setRoles(roles);
 			return user;
 	}//end method
 	
@@ -126,7 +146,7 @@ public class MySQLUsers extends MySQLBaseDataAccessLayer implements IUser{
 	 * @see IUser.update
 	 */
 	@Override
-	public ExternalFacingUser update(ExternalFacingUser user)
+	public ExternalFacingReturnedUser update(ExternalFacingReturnedUser user)
 			throws ConflictException {
 		Session session =null;	
 		try{

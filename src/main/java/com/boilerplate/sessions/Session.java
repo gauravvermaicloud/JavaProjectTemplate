@@ -10,6 +10,7 @@ import com.boilerplate.exceptions.rest.ValidationFailedException;
 import com.boilerplate.java.Base;
 import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.entities.BaseEntity;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mangofactory.swagger.annotations.ApiIgnore;
@@ -36,14 +37,14 @@ public class Session extends BaseEntity implements Serializable{
 	 * This is the user associated with the session.
 	 */
 	@ApiModelProperty(value="This is the user associated with the session")
-	private ExternalFacingUser externalFacingUser;
+	private ExternalFacingReturnedUser user;
 	
 	/**
 	 * This method returns the external facing user
 	 * @return The user for the session.
 	 */
-	public ExternalFacingUser getExternalFacingUser(){
-		return this.externalFacingUser;
+	public ExternalFacingReturnedUser getExternalFacingUser(){
+		return this.user;
 	}
 	
 	/**
@@ -53,12 +54,12 @@ public class Session extends BaseEntity implements Serializable{
 	
 	/**
 	 * This returns a session object
-	 * @param externalFacingUser The user whose session is being created
+	 * @param user The user whose session is being created
 	 */
-	public Session(ExternalFacingUser externalFacingUser){
+	public Session(ExternalFacingReturnedUser user){
 		this.setSessionId(UUID.randomUUID().toString().toUpperCase());
-		this.setUserId(externalFacingUser.getId());
-		this.externalFacingUser = externalFacingUser;
+		this.setUserId(user.getId());
+		this.user = user;
 		super.setCreationDate(new Date());
 		super.setUpdationDate(new Date());
 	}
@@ -72,10 +73,10 @@ public class Session extends BaseEntity implements Serializable{
 	
 	/**
 	 * This method sets the user for the session
-	 * @param externalFacingUser The user for the session
+	 * @param user The user for the session
 	 */
-	public void setExternalFacingUser(ExternalFacingUser externalFacingUser){
-		this.externalFacingUser = externalFacingUser;
+	public void setExternalFacingUser(ExternalFacingReturnedUser user){
+		this.user = user;
 	}
 	
 	/**

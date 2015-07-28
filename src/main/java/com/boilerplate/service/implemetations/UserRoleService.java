@@ -10,6 +10,7 @@ import com.boilerplate.java.entities.Role;
 import com.boilerplate.service.interfaces.IRoleService;
 import com.boilerplate.service.interfaces.IUserRoleService;
 import com.boilerplate.service.interfaces.IUserService;
+import com.boilerplate.database.interfaces.IUserRole;
 import com.boilerplate.exceptions.rest.NotFoundException;
 /**
  * This class perfomrs user role related function
@@ -47,43 +48,68 @@ public class UserRoleService implements IUserRoleService {
 	}
 	
 	/**
+	 * This is the user role database access layer
+	 */
+	@Autowired
+	private IUserRole userRole;
+	
+	/**
+	 * This sets the user role
+	 * @param userRole This is user role
+	 */
+	public void setUserRole(IUserRole userRole){
+		this.userRole = userRole;
+	}
+	
+	/**
 	 * @throws NotFoundException If the user or role is not found
 	 * @see IUserRoleService.grantUserRoles
 	 */
 	@Override
 	public void grantUserRoles(String userId, List<String> roles,
-			String granterId) throws NotFoundException {
+			ExternalFacingUser granter) throws NotFoundException {
 		
 		//check if the granterId is a person who is admin or role granter
 		
 		//if so then grant all the roles
-		
-		//if this is a case of annonymous we need to ensure announymous user 
-		//can do the required things
-		
+				
 		//check if the granterId is same as userId
 		//check if all roles are self service roles
-		//grant the roles
-		
-		
-		//throw unauthorized exception
 		BoilerplateList<Role> rolesToBeGranted = new BoilerplateList<Role>();
-		boolean isRoleFound = false;
+		Role role;
 		for(String roleName : roles){
-			for(Role role : roleService.getRoles().getEntityList()){
-				if(roleName.toUpperCase().equals(role.getRoleName())){
-					rolesToBeGranted.add(role);
-					isRoleFound = true;
-					break;
-				}//end if
-			}//end inner for
-			if(!isRoleFound) throw new NotFoundException("Role"
+			role = roleService.getRoleNameMap().get(roleName.toUpperCase());
+			if(role == null) throw new NotFoundException("Role"
 					, "Role "+roleName+" not found",null);
+			//check if the user can grant the role
 		}//end for
 		
+		//call the database and grant the said user given roles
+		userId = userService.normalizeUserId(userId);
+		ExternalFacingUser userToBeGrantedRoles = this.getUser(userId, granter);
+		//finally write to the database
+		userRole.grantUserRole(userToBeGrantedRoles, rolesToBeGranted);
 	}
 	
-	private boolean isUserAdminOrRoleGranter(String granterId){
+	/**
+	 * 
+	 * @param userId
+	 * @param user
+	 * @return
+	 * @throws NotFoundException
+	 */
+	private ExternalFacingUser getUser(String userId, ExternalFacingUser user) 
+			throws NotFoundException{
+		if(user.getUserId().equals(userId)){
+			return user;
+		}
+		else{
+			return userService.get(userId);
+		}
+	}
+	
+	private boolean isGrantingUserAdminOrRoleGranter(String granterId){
 		return true;
 	}
+	
 }

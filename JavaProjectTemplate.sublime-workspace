@@ -11,7 +11,23 @@
 			"file": "src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
 			"settings":
 			{
-				"buffer_size": 4630,
+				"buffer_size": 3428,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/test/java/UnitTests/TestUserRole.java",
+			"settings":
+			{
+				"buffer_size": 512,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "charter.txt",
+			"settings":
+			{
+				"buffer_size": 5823,
 				"line_ending": "Unix"
 			}
 		}
@@ -54,12 +70,9 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities"
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests"
 	],
 	"file_history":
 	[
@@ -177,7 +190,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -186,7 +199,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4630,
+						"buffer_size": 3428,
 						"regions":
 						{
 						},
@@ -204,6 +217,64 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/test/java/UnitTests/TestUserRole.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 512,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								231,
+								231
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "charter.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5823,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5194,
+								5273
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 900.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

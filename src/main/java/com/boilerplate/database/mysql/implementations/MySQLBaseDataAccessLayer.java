@@ -48,6 +48,33 @@ public class MySQLBaseDataAccessLayer {
 	}
 	
 	/**
+	 * This method creates a list of objects in the database
+	 * @param ts The list of object's to be created
+	 * @return The object as it stands after creation
+	 */
+	public <T> List<T> create (List<T> ts){
+		Session session =null;	
+		try{
+			//open a session
+			session = HibernateUtility.getSessionFactory().openSession();
+			//get all the configurations from the DB as a list
+			Transaction transaction = session.beginTransaction();
+			for(T t :ts){
+				session.save(t);
+			}
+			//commit the transaction
+			transaction.commit();
+			return ts;
+		}
+		finally{
+			if(session !=null && session.isOpen()){
+				session.close();
+			}
+		}
+		
+	}	
+	
+	/**
 	 * This method is used to update an item in the database
 	 * @param t The item to be updated
 	 * @return The item after update

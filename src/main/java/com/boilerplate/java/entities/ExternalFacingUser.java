@@ -9,6 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+/**
+ * This is the user entity expcted as an input.
+ * @author gaurav.verma.icloud
+ *
+ */
 @ApiModel(value="A User", description="This is a user", parent=UpdateUserEntity.class)
 public class ExternalFacingUser extends UpdateUserEntity implements Serializable{
 	

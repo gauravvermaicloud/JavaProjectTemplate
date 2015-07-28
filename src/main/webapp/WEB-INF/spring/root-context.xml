@@ -23,6 +23,7 @@
 		    <property name="configurationManager" ref="configurationManager" ></property>
 		     <property name="sessionManager" ref="sessionManager" ></property>
 		     <property name="queueReaderJob" ref="queueReaderJob"></property>
+		     <property name="roleService" ref="roleService"></property>
 		</bean>
 		<!-- Use one of the possible implementations of the User -->
 		<bean id="userDataAccess" class="com.boilerplate.database.mysql.implementations.MySQLUsers">
@@ -121,4 +122,14 @@
 		<property name="role" ref="role" />
 	</bean>	
 	<bean id="role" class="com.boilerplate.database.mysql.implementations.MySQLRole" />			
+
+		<bean id="userRoleService" class="com.boilerplate.service.implemetations.UserRoleService">
+		<property name="roleService" ref="roleService" />
+		<property name="userService" ref="userService" />
+		<property name="userRole" ref="userRole" />
+	</bean>	
+
+	<bean id="userRole" class="com.boilerplate.database.mysql.implementations.MySQLUserRole" />					
+	
+
 </beans>

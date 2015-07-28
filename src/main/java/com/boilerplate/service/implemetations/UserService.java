@@ -17,8 +17,10 @@ import com.boilerplate.framework.Logger;
 import com.boilerplate.java.Constants;
 import com.boilerplate.java.collections.BoilerplateList;
 import com.boilerplate.java.entities.AuthenticationRequest;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.java.entities.UpdateUserEntity;
+import com.boilerplate.service.interfaces.IRoleService;
 import com.boilerplate.service.interfaces.IUserService;
 import com.boilerplate.sessions.Session;
 import com.boilerplate.sessions.SessionManager;
@@ -64,7 +66,21 @@ public class UserService implements IUserService {
 	 * The autowired instance of user data access
 	 */
 	@Autowired
-	IUser userDataAccess;
+	private IUser userDataAccess;
+	
+	/**
+	 * This is the instance of the role service
+	 */
+	@Autowired
+	private IRoleService roleService;
+	
+	/**
+	 * Sets the role service
+	 * @param roleService The role service
+	 */
+	public void setRoleService(IRoleService roleService){
+		this.roleService = roleService;
+	}
 	
 	/**
 	 * This is the setter for user data acess
@@ -130,26 +146,40 @@ public class UserService implements IUserService {
 		return externalFacingUser;
 	}
 
+	/**
+	 * @see IUserService.normalizeUserId
+	 */
+	@Override
+	public  String normalizeUserId(String userId){
+		
+		userId = userId.toUpperCase();
+		//check if user id contains :
+		if(userId.contains(":") ==false){
+			//check if the user starts with DEFAULT:, if not then put in Default: before it
+			if(!userId.startsWith(
+						this.configurationManager.get("DefaultAuthenticationProvider").toUpperCase()+":")){
+				
+				userId = this.configurationManager.get("DefaultAuthenticationProvider")+":"+
+								userId;
+			}
+		}
+		return userId;
+	}
 	/** 
 	 * @see IUserService.authenticate
 	 */
 	@Override
 	public Session authenticate(AuthenticationRequest authenitcationRequest) throws UnauthorizedException{
 		
-		//check if the user starts with DEFAULT:, if not then put in Default: before it
-		if(!authenitcationRequest.getUserId().startsWith(
-					this.configurationManager.get("DefaultAuthenticationProvider").toUpperCase()+":")){
-			authenitcationRequest.setUserId(
-					this.configurationManager.get("DefaultAuthenticationProvider")+":"+
-							authenitcationRequest.getUserId().toUpperCase()
-					);
-		}
-		ExternalFacingUser user =null;
+		authenitcationRequest.setUserId(
+				this.normalizeUserId(authenitcationRequest.getUserId()));
+		ExternalFacingReturnedUser user =null;
 		//Call the database and check if the user is
 		//we store everything in upper case hence chanhing it to upper
 		try{
 			user = userDataAccess.getUser(
-					authenitcationRequest.getUserId().toUpperCase());
+					authenitcationRequest.getUserId().toUpperCase()
+					,roleService.getRoleIdMap());
 		String hashedPassword = String.valueOf(Encryption.getHashCode(authenitcationRequest.getPassword()));
 		if(!user.getPassword().equals(hashedPassword)){
 			throw new UnauthorizedException("USER",
@@ -176,7 +206,7 @@ public class UserService implements IUserService {
 	 * @see IUserService.get
 	 */
 	@Override
-	public ExternalFacingUser get(String userId) throws NotFoundException {
+	public ExternalFacingReturnedUser get(String userId) throws NotFoundException {
 		//retrun the user with password as a string
 		return get(userId,true);
 		
@@ -191,19 +221,13 @@ public class UserService implements IUserService {
 	 * @return The user entity
 	 * @throws NotFoundException If the user is not found
 	 */
-	public ExternalFacingUser get(String userId
+	public ExternalFacingReturnedUser get(String userId
 			, boolean encryptPasswordString) throws NotFoundException {
 		//convert user names to upper
-		userId = userId.toUpperCase();
-		
-		//if no provider is given then add provider DEFAULT:
-		if(!userId.startsWith(this.configurationManager.get(
-				"DefaultAuthenticationProvider").toUpperCase()+":")){
-			userId = this.configurationManager.get(
-					"DefaultAuthenticationProvider").toUpperCase()+":"+userId;
-		}
+		userId = this.normalizeUserId(userId);
 		//get the user from database
-		ExternalFacingUser externalFacingUser = this.userDataAccess.getUser(userId);
+		ExternalFacingReturnedUser externalFacingUser = this.userDataAccess.getUser(
+				userId,roleService.getRoleIdMap());
 		//if no user with given id was found then throw exception
 		if(externalFacingUser == null) throw new NotFoundException("ExternalFacingUser"
 				, "User with id "+userId+" doesnt exist", null);
@@ -229,7 +253,7 @@ public class UserService implements IUserService {
 	 * @see IUserService.update
 	 */
 	@Override
-	public ExternalFacingUser update(String userId, UpdateUserEntity updateUserEntity)
+	public ExternalFacingReturnedUser update(String userId, UpdateUserEntity updateUserEntity)
 			throws ValidationFailedException, ConflictException,
 			NotFoundException {
 		//check if the user exists, if so get it
@@ -252,8 +276,9 @@ public class UserService implements IUserService {
 		user.setUserMetaData(updateUserEntity.getUserMetaData());
 		//validate the entity
 		user.validate();
+		ExternalFacingReturnedUser returnedUser = new ExternalFacingReturnedUser(user);
 		//update the user in the database
-		this.userDataAccess.update(user);
+		this.userDataAccess.update(returnedUser);
 		return this.get(user.getUserId());
 	}
 
@@ -263,7 +288,7 @@ public class UserService implements IUserService {
 	@Override
 	public void markUserForDeletion(String userId) throws NotFoundException
 		, ValidationFailedException, ConflictException {
-		ExternalFacingUser user = this.get(userId);
+		ExternalFacingReturnedUser user = this.get(userId);
 		user.setPassword("0");//set password to 0 as it cant be hash of anything
 		this.update(userId, user);
 		try{
