@@ -43,7 +43,7 @@ public class DBDeployMojo extends AbstractMojo {
 			Log log = getLog();
 
 			log.info("Java Boiler Plate - DB Deploy Plugin");
-			log.info("Mojo params");
+			
 
 			log.info("Base directory is:" + projectDir);
 
@@ -63,7 +63,7 @@ public class DBDeployMojo extends AbstractMojo {
 					.listFiles();
 			for (File dir : directories) {
 				if (dir.isDirectory()) {
-					log.info("sub directory is:" + dir);
+					log.info("Sub directory is:" + dir);
 					File[] connectionFiles = dir.listFiles(new FileFilter() {
 						@Override
 						public boolean accept(File file) {
@@ -92,6 +92,7 @@ public class DBDeployMojo extends AbstractMojo {
 			}
 
 			for (DBInstanceInfo _dbInfo : dbinstances) {
+				log.info("Mojo params");
 				log.info("DBBinDirectoryPath:" + _dbInfo.getBinDirectoryPath());
 				log.info("DBHost:" + _dbInfo.getDatabaseHost());
 				log.info("DBType:" + _dbInfo.getDBType());

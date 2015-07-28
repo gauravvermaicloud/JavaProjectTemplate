@@ -27,6 +27,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 /**
  * @author Vignesh
  *
@@ -38,27 +41,21 @@ public class MySQLDBDeployTest {
 	DBDeployer mySQLDBCreator;
 	DBInstanceInfo dbInfo;
 
-	private String dbBinFolderPath = "C:\\Program Files (x86)\\MySQL\\MySQL Server 5.6\\bin";
-	private String scriptFilePath ="";
+	
+	private String scriptFilePath = "";
 	private String scriptFileGuid = "";
-	private String adminUserName = "root";
-	private String adminUserPassword = "admin@123";
-	private String dbName = "TestingDB";
-	private String dbServerName = "localhost";
+	private String dbName = "TestingDB";	
 	private int dbServerPort = 3306;
 	private String MySQLServerUrl = "jdbc:mysql://%s:%s";
-	private String sqlStmts = "DROP Database If exists `%s`;" +
-"CREATE DATABASE  IF NOT EXISTS %s ;" +
-"USE %s;" +
-"DROP TABLE IF EXISTS `Configurations`;" +
-"CREATE TABLE `Configurations` ( " +
- " `Id` bigint(10) NOT NULL," +
-  "`ConfigurationKey` varchar(64) NOT NULL," +
-  "`ConfigurationValue` varchar(512) DEFAULT NULL," +
-  "`Version` varchar(64) NOT NULL," +
-  "`Enviornment` varchar(64) NOT NULL,  " +
-  " PRIMARY KEY (`Id`)" +
-") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+	private String sqlStmts = "DROP Database If exists `%s`;"
+			+ "CREATE DATABASE  IF NOT EXISTS %s ;" + "USE %s;"
+			+ "DROP TABLE IF EXISTS `Configurations`;"
+			+ "CREATE TABLE `Configurations` ( " + " `Id` bigint(10) NOT NULL,"
+			+ "`ConfigurationKey` varchar(64) NOT NULL,"
+			+ "`ConfigurationValue` varchar(512) DEFAULT NULL,"
+			+ "`Version` varchar(64) NOT NULL,"
+			+ "`Enviornment` varchar(64) NOT NULL,  " + " PRIMARY KEY (`Id`)"
+			+ ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
 	/**
 	 * @throws java.lang.Exception
@@ -67,22 +64,30 @@ public class MySQLDBDeployTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		if(mySQLFactory == null)
+		if (mySQLFactory == null)
 			mySQLFactory = new MySQLScriptServiceFactory();
-		if(mySQLScriptService == null)
+		if (mySQLScriptService == null)
 			mySQLScriptService = mySQLFactory.createDBScriptService();
-		if(mySQLDBCreator == null)
+		if (mySQLDBCreator == null)
 			mySQLDBCreator = mySQLFactory.createDBDeployer();
 		scriptFileGuid = UUID.randomUUID().toString();
-		dbName = UUID.randomUUID().toString().replace("-", "_");		
-		//credits:http://stackoverflow.com/questions/3153337/how-do-i-get-my-current-working-directory-in-java
-		File scriptFile = new File(new File("").getCanonicalPath() + "\\" + scriptFileGuid +".sql");
+		dbName = UUID.randomUUID().toString().replace("-", "_");
+
+		JAXBContext jaxbContext = JAXBContext.newInstance(DBInstanceInfo.class);
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+		dbInfo = (DBInstanceInfo) unmarshaller
+				.unmarshal(new File(
+						"src/test/resources/unit/data-definition-language-mojo/local.connection"));
+
+		// credits:http://stackoverflow.com/questions/3153337/how-do-i-get-my-current-working-directory-in-java
+		File scriptFile = new File(new File("").getCanonicalPath() + "\\"
+				+ scriptFileGuid + ".sql");
 		if (!scriptFile.exists())
 			scriptFile.createNewFile();
 		FileWriter scriptFileWriter = new FileWriter(scriptFile);
-		scriptFileWriter.write(String.format(sqlStmts,dbName,dbName,dbName));
-		scriptFileWriter.close();		
-		scriptFilePath = scriptFile.getAbsolutePath();		
+		scriptFileWriter.write(String.format(sqlStmts, dbName, dbName, dbName));
+		scriptFileWriter.close();
+		scriptFilePath = scriptFile.getAbsolutePath();
 	}
 
 	/**
@@ -90,22 +95,20 @@ public class MySQLDBDeployTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-//		mySQLFactory = null;
-//		mySQLScriptService = null;
-//		mySQLDBCreator = null;
-		Files.delete(Paths.get(scriptFilePath));	
-		
+		// mySQLFactory = null;
+		// mySQLScriptService = null;
+		// mySQLDBCreator = null;
+		Files.delete(Paths.get(scriptFilePath));
+
 	}
 
 	@Test
 	public void testDeployDBSuccess() {
 		Connection _connection = null;
 		Statement _stmt = null;
-		
-		dbInfo = new DBInstanceInfo(dbBinFolderPath, dbServerName, adminUserName,
-				adminUserPassword);
+
 		try {
-			assertTrue(mySQLDBCreator.deployDB(dbInfo,scriptFilePath));
+			assertTrue(mySQLDBCreator.deployDB(dbInfo, scriptFilePath));
 		} catch (Exception e) {
 			fail("testDeployDBSuccess failed");
 		}
@@ -114,7 +117,7 @@ public class MySQLDBDeployTest {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			_connection = DriverManager.getConnection(
-					String.format(MySQLServerUrl, dbServerName, dbServerPort),
+					String.format(MySQLServerUrl, dbInfo.getDatabaseHost(), dbServerPort),
 					dbInfo.getAdminUserName(), dbInfo.getAdminUserPassword());
 			ResultSet catalogs = _connection.getMetaData().getCatalogs();
 			boolean isDBCreated = false;
@@ -157,12 +160,12 @@ public class MySQLDBDeployTest {
 	}
 
 	@Test
-	public void testDeployDBFailureWithWrongAdminUserName() {	
-				
-		dbInfo = new DBInstanceInfo(dbBinFolderPath,dbServerName, UUID.randomUUID().toString(),
-				adminUserPassword);
+	public void testDeployDBFailureWithWrongAdminUserName() {
+
+		dbInfo.setAdminUserName(UUID.randomUUID().toString());
+
 		try {
-			assertFalse(mySQLDBCreator.deployDB(dbInfo,scriptFilePath));
+			assertFalse(mySQLDBCreator.deployDB(dbInfo, scriptFilePath));
 		} catch (Exception e) {
 			fail("testDeployDBFailureWithWrongAdminUserName failed");
 		}
@@ -170,56 +173,53 @@ public class MySQLDBDeployTest {
 	}
 
 	@Test
-	public void testDeployDBFailureWithWrongAdminPassword() {	
-				
-		dbInfo = new DBInstanceInfo(dbBinFolderPath, dbServerName, adminUserName,
-				UUID.randomUUID().toString());
+	public void testDeployDBFailureWithWrongAdminPassword() {
+
+		dbInfo.setAdminUserPassword(UUID.randomUUID().toString());
 		try {
-			assertFalse(mySQLDBCreator.deployDB(dbInfo,scriptFilePath));
+			assertFalse(mySQLDBCreator.deployDB(dbInfo, scriptFilePath));
 		} catch (Exception e) {
 			fail("testDeployDBFailureWithWrongAdminPassword failed");
 		}
-		
+
 	}
 
 	@Test
-	public void testDeployDBFailureWithWrongDBBinPath() {				
-		dbInfo = new DBInstanceInfo(dbBinFolderPath + "\\123\\", dbServerName, adminUserName,
-				adminUserPassword);
+	public void testDeployDBFailureWithWrongDBBinPath() {
+
+		dbInfo.setBinDirectoryPath(dbInfo.getBinDirectoryPath() + "\\123\\");
 		try {
-			assertFalse(mySQLDBCreator.deployDB(dbInfo,scriptFilePath));
+			assertFalse(mySQLDBCreator.deployDB(dbInfo, scriptFilePath));
 		} catch (Exception e) {
-			assertTrue("testDeployDBFailureWithWrongDBBinPath failed",true);
+			assertTrue("testDeployDBFailureWithWrongDBBinPath failed", true);
 		}
 	}
 
 	@Test
 	public void testDeployDBFailureWhenDBAlreadyExists() {
 		Connection _connection = null;
-		Statement _stmt = null;			
-		dbInfo = new DBInstanceInfo(dbBinFolderPath, dbServerName, adminUserName,
-				adminUserPassword);
-		
+		Statement _stmt = null;
+
 		try {
-//			assertTrue(mySQLDBCreator.deployDB(dbInfo,scriptFilePath));			
-			assertTrue(mySQLDBCreator.deployDB(dbInfo,scriptFilePath));
-			
+			// assertTrue(mySQLDBCreator.deployDB(dbInfo,scriptFilePath));
+			assertTrue(mySQLDBCreator.deployDB(dbInfo, scriptFilePath));
+
 			Class.forName("com.mysql.jdbc.Driver");
 			_connection = DriverManager.getConnection(
-					String.format(MySQLServerUrl, dbServerName, dbServerPort),
+					String.format(MySQLServerUrl, dbInfo.getDatabaseHost(), dbServerPort),
 					dbInfo.getAdminUserName(), dbInfo.getAdminUserPassword());
-			
+
 			_stmt = _connection.createStatement();
 			String deleteDBSQL = "DROP DATABASE " + dbName;
 			_stmt.executeUpdate(deleteDBSQL);
-			
+
 		} catch (Exception e) {
 			fail("testDeployDBFailureWhenDBAlreadyExists failed");
 		}
 
 	}
 
-	//TODO - need to stop instance and run this test case, and start again
+	// TODO - need to stop instance and run this test case, and start again
 	@Test
 	public void testDeployDBFailureWhenDBInstanceNotRunning() {
 		dbInfo = new DBInstanceInfo();
