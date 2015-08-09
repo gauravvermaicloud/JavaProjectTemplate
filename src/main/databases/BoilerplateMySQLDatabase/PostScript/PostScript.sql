@@ -17,6 +17,12 @@ INSERT INTO Users(Id,UserId,PasswordHash,AuthenticationProvider,ExternalSystemId
 INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (1,'Admin','Admin of the system',true,false);
 INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (2,'RoleAssigner','This role can assign roles to other users',true,false);
 
+INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (3,'SelfAssign1','UT role',false,true);
+INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (4,'SelfAssign2','UT role',false,true);
+INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (5,'NonSelfAssign1','UT role',false,false);
+INSERT INTO Roles (Id,RoleName,RoleDescription,IsSystemRole,IsSelfAssign) VALUES (6,'NonSelfAssign2','UT role',false,false);
+
+
 INSERT INTO UserRoles(Id,UserId,RoleId) VALUES(1,2,1); 
 INSERT INTO UserRoles(Id,UserId,RoleId) VALUES(2,3,1); 
 INSERT INTO UserRoles(Id,UserId,RoleId) VALUES(3,4,2); 

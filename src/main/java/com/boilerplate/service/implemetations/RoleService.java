@@ -41,7 +41,7 @@ public class RoleService implements IRoleService{
 	@Override
 	public GenericListEncapsulationEntity<Role> getRoles() {
 		if(roles == null){
-			roles = role.getRoles();
+			initialize();
 		}
 		return roles;
 	}
@@ -76,6 +76,15 @@ public class RoleService implements IRoleService{
 	@Override
 	public BoilerplateMap<String, Role> getRoleNameMap() {
 		return roleNameMap;
+	}
+
+	/**
+	 * @see IRoleService.reloadRoles
+	 */
+	@Override
+	public void reloadRoles() {
+		roles =null;
+		initialize();
 	}
 
 }

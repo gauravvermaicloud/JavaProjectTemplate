@@ -42,6 +42,7 @@ public class RoleController extends BaseController{
 
 	@Autowired
 	com.boilerplate.service.interfaces.IRoleService roleService;
+	
 	/**
 	 * This method gets all the roles
 	 * @return a list of roles
@@ -56,5 +57,21 @@ public class RoleController extends BaseController{
 	public @ResponseBody GenericListEncapsulationEntity<Role> get() throws BaseBoilerplateException{		
 		return roleService.getRoles();
 	}
+	
+	/**
+	 * This method reloads all the roles from the database
+	 * @return a list of roles
+	 */
+	@ApiOperation(	value="Reloads the roles from the database"
+				 )
+	@ApiResponses(value={
+							@ApiResponse(code=200, message="Ok")
+						})
+	@RequestMapping(value = "/role", method = RequestMethod.GET)
+	public @ResponseBody void reloadRoles() {		
+		roleService.reloadRoles();
+	}
+	
+	
 
 }

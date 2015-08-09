@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.boilerplate.exceptions.rest.NotFoundException;
+import com.boilerplate.exceptions.rest.UnauthorizedException;
 import com.boilerplate.java.entities.GenericListEncapsulationEntity;
 import com.boilerplate.service.interfaces.IUserRoleService;
 import com.wordnik.swagger.annotations.Api;
@@ -40,12 +41,15 @@ public class UserRoleController extends BaseController{
 	 * @param userId The user id to which roles are to be granted
 	 * @param roles The list of roles to be granted
 	 * @throws NotFoundException This is thrown if the user or the role is not found
+	 * @throws UnauthorizedException This is thrown if the user is not allows to grant the given
+	 * role
 	 */
 	@RequestMapping(value = "/user/{userId}/role", method = RequestMethod.POST)
 	public  @ResponseBody void addUserToRole(
 			@ApiParam(value="This is the id of the user to which roles are to be added"
 			,required=true,name="userId",allowMultiple=false)@PathVariable String userId
-			,@RequestBody(required=true) GenericListEncapsulationEntity<String> roles) throws NotFoundException{
+			,@RequestBody(required=true) GenericListEncapsulationEntity<String> roles) 
+					throws NotFoundException, UnauthorizedException{
 		
 		//this is a good example how service layer should be shielded from
 		//hidden inputs if possible

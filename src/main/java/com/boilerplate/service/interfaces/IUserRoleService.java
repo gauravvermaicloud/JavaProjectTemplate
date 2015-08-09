@@ -3,6 +3,8 @@ package com.boilerplate.service.interfaces;
 import java.util.List;
 
 import com.boilerplate.exceptions.rest.NotFoundException;
+import com.boilerplate.exceptions.rest.UnauthorizedException;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
 
 public interface IUserRoleService {
@@ -13,7 +15,8 @@ public interface IUserRoleService {
 	 * @param granter This is the user who is performing the operation.
 	 * Some roles can only be granted by priviglaed users
 	 * @throws NotFoundException This is thrown if the user or the role is not found
+	 * @throws UnauthorizedException This exception is thrown if the user cant grant a given role.
 	 */
-	public void grantUserRoles(String userId, List<String> roles, ExternalFacingUser granter) 
-			throws  NotFoundException;
+	public void grantUserRoles(String userId, List<String> roles, ExternalFacingReturnedUser granter) 
+			throws  NotFoundException,UnauthorizedException;
 }

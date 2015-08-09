@@ -30,4 +30,9 @@ public interface IRoleService {
 	 * @return A role map with key as name in upper case
 	 */
 	BoilerplateMap<String,Role> getRoleNameMap();
+	
+	/**
+	 * Reloads roles from database
+	 */
+	void reloadRoles();
 }

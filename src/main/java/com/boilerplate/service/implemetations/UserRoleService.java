@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.boilerplate.java.collections.BoilerplateList;
+import com.boilerplate.java.entities.ExternalFacingReturnedUser;
 import com.boilerplate.java.entities.ExternalFacingUser;
 import com.boilerplate.java.entities.Role;
 import com.boilerplate.service.interfaces.IRoleService;
@@ -12,6 +13,7 @@ import com.boilerplate.service.interfaces.IUserRoleService;
 import com.boilerplate.service.interfaces.IUserService;
 import com.boilerplate.database.interfaces.IUserRole;
 import com.boilerplate.exceptions.rest.NotFoundException;
+import com.boilerplate.exceptions.rest.UnauthorizedException;
 /**
  * This class perfomrs user role related function
  * @author gaurav.verma.icloud
@@ -67,13 +69,18 @@ public class UserRoleService implements IUserRoleService {
 	 */
 	@Override
 	public void grantUserRoles(String userId, List<String> roles,
-			ExternalFacingUser granter) throws NotFoundException {
+			ExternalFacingReturnedUser granter) throws NotFoundException,UnauthorizedException {
 		
 		//check if the granterId is a person who is admin or role granter
-		
-		//if so then grant all the roles
+		boolean canGrantRoles = isGrantingUserAdminOrRoleGranter(granter);
 				
 		//check if the granterId is same as userId
+		if(!canGrantRoles){
+			if(!granter.getUserId().equals(userId)){
+				throw new UnauthorizedException("User", "The user "+granter.getUserId()
+						+"cant grant roles to "+userId, null);
+			}
+		}
 		//check if all roles are self service roles
 		BoilerplateList<Role> rolesToBeGranted = new BoilerplateList<Role>();
 		Role role;
@@ -81,6 +88,16 @@ public class UserRoleService implements IUserRoleService {
 			role = roleService.getRoleNameMap().get(roleName.toUpperCase());
 			if(role == null) throw new NotFoundException("Role"
 					, "Role "+roleName+" not found",null);
+			if(!canGrantRoles){
+				//if this is the case of self granting and user is not a granter
+				if(!role.getIsSelfAssign()){
+					throw new UnauthorizedException("User", "The user "+granter.getUserId()
+							+"cant grant roles  "+roleName+
+							" because it is not a self assign role"
+							, null);
+				}
+			}
+			rolesToBeGranted.add(role);
 			//check if the user can grant the role
 		}//end for
 		
@@ -108,8 +125,20 @@ public class UserRoleService implements IUserRoleService {
 		}
 	}
 	
-	private boolean isGrantingUserAdminOrRoleGranter(String granterId){
-		return true;
+	private boolean isGrantingUserAdminOrRoleGranter(ExternalFacingReturnedUser granter){
+		boolean isAdminOrRoleGranter = false;
+		for(Role role:(List<Role>) granter.getRoles()){
+			String roleName = role.getRoleName();
+			if(roleName.toUpperCase().equals("ADMIN")){
+				isAdminOrRoleGranter = true;
+				break;
+			}
+			if(roleName.toUpperCase().equals("ROLEASSIGNER")){
+				isAdminOrRoleGranter = true;
+				break;
+			}
+		}
+		return isAdminOrRoleGranter;
 	}
 	
 }
