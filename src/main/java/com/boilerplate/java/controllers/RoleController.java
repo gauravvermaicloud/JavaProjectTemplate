@@ -67,7 +67,7 @@ public class RoleController extends BaseController{
 	@ApiResponses(value={
 							@ApiResponse(code=200, message="Ok")
 						})
-	@RequestMapping(value = "/role", method = RequestMethod.GET)
+	@RequestMapping(value = "/role/reload", method = RequestMethod.GET)
 	public @ResponseBody void reloadRoles() {		
 		roleService.reloadRoles();
 	}

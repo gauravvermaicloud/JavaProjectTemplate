@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.boilerplate.exceptions.rest.NotFoundException;
 import com.boilerplate.framework.Logger;
 import com.boilerplate.framework.RequestThreadLocal;
 import com.boilerplate.java.Constants;
@@ -61,7 +62,7 @@ public class LogAndTraceExceptionAspect {
     		//TODO - Put if enabled,config manager should have a set of properties for common and 
     		//system defined values
     		//log the details including class, method, input arguments and return
-            if(Boolean.parseBoolean(configurationManager.get(Constants.IsDebugEnabled))){
+            if(Boolean.parseBoolean(configurationManager.get(Constants.IsDebugEnabled))){ //TODO - This should not be parsed everytime
 	    		logger.logTraceExit(
 	    				proceedingJoinPoint.getSignature().getDeclaringTypeName(),
 	    				proceedingJoinPoint.getSignature().toLongString(),
@@ -89,5 +90,7 @@ public class LogAndTraceExceptionAspect {
     				);
     		throw th;
     	}
+    	
+    	
     }
 }
