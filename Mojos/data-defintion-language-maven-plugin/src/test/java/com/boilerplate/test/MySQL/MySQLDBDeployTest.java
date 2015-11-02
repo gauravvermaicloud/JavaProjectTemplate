@@ -110,7 +110,7 @@ public class MySQLDBDeployTest {
 		try {
 			assertTrue(mySQLDBCreator.deployDB(dbInfo, scriptFilePath));
 		} catch (Exception e) {
-			fail("testDeployDBSuccess failed");
+			fail("testDeployDBSuccess failed "+e.toString());
 		}
 
 		// check if the DB has actually been created

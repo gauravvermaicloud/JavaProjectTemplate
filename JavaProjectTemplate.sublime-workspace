@@ -7,30 +7,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
-			"settings":
-			{
-				"buffer_size": 3428,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/test/java/UnitTests/TestUserRole.java",
-			"settings":
-			{
-				"buffer_size": 512,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "charter.txt",
-			"settings":
-			{
-				"buffer_size": 5823,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -69,56 +45,89 @@
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/test",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/PostScript",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/exceptions/rest",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/web",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/collections",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/sessions",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring/appServlet",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests"
 	],
 	"file_history":
 	[
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/sessions/SessionManager.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/QueueFactory.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/IQueue.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/BoilerplateNonProductionInMemoryQueue.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BoilerplateNonProductionInMemoryCache.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/ApacheMQ.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/RabbitMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/ICache.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring/root-context.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/asyncWork/AsyncWorkDispatcher.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/asyncWork/LogObserver.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/asyncWork/SaveSessionToDatabaseObserver.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/web/HttpRequestIdInterceptor.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/asyncWork/AsyncWorkDispatcherObserverList.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/sessions/Session.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/PostScript/PostScript.sql",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/CleanupSessionJob.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/asyncWork/IAsyncWorkObserver.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/ConfigurationManager.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/resources/boilerplate.properties",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/collections/BoilerplateList.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/Base.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/BaseController.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/UserController.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects/LogAndTraceExceptionAspect.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/Logger.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/RequestThreadLocal.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/exceptions/rest/UnauthorizedException.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects/LogAndTraceObserversAspect.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/web/XHttpMethodOverrideFilter.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/RequestParameters.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/Encryption.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/framework/HibernateUtility.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
+		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestUserRole.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/charter.txt",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BaseCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/Database.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Users.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/UserMetaDatum.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Departments.table",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/QueueReaderJob.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/ParseLogs.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/IConfiguratonManager.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/configurations/ConfigurationManager.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/mysql.hibernate.cfg.xml",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/resources/boilerplate.properties",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/platforms/platforms.json",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/CleanupSessionJob.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/jobs/PreprocessMonitoringReports.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Configuration.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/MemCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/HealthController.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/Base.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/BaseEntity.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/IdEntity.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Department.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/AuthenticationRequest.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/sessions/Session.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Widget.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/entities/Ping.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/aspects/LogAndTraceExceptionAspect.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/WidgetController.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/pom.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/jenkins.sh",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/www/index.html",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/webapp/WEB-INF/spring/root-context.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/resources/test-context.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestConfiguration.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/databases/BoilerplateMySQLDatabase/tables/Configurations.table",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/java/controllers/DepartmentController.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/IQueue.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/BoilerplateNonProductionInMemoryQueue.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/RabbitMQ.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/queue/ApacheMQ.java",
-		"/Volumes/Extended/Git/JavaProjectTemplate/src/main/java/com/boilerplate/cache/BoilerplateNonProductionInMemoryCache.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/PhoneGapTemplate/config.xml",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestInRabbitMQ.java",
 		"/Volumes/Extended/Git/JavaProjectTemplate/src/test/java/UnitTests/TestDeployedQueue.java",
@@ -190,96 +199,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "src/main/java/com/boilerplate/java/entities/ExternalFacingUser.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3428,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/test/java/UnitTests/TestUserRole.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 512,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								231,
-								231
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "charter.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5823,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5194,
-								5273
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 900.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],

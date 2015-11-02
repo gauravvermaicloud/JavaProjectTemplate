@@ -1,9 +1,9 @@
 <connection>
 	    <DBType>MYSQL</DBType>       
-        <DBBinDirectoryPath>C:\Program Files (x86)\MySQL\MySQL Server 5.6\bin</DBBinDirectoryPath>                
+        <DBBinDirectoryPath>/usr/local/mysql/bin</DBBinDirectoryPath>                
         <DBHost>localhost</DBHost>  
         <adminUserName>root</adminUserName> 
-        <adminUserPassword>admin@123</adminUserPassword>       
+        <adminUserPassword>root</adminUserPassword>       
 <!--         <scriptsFolder>C:\Users\Admin\Desktop\</scriptsFolder>
         <connectionFile>C:\Users\Admin\Desktop\connection.xml</connectionFile> -->
 </connection>

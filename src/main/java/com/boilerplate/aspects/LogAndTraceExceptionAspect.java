@@ -33,7 +33,7 @@ public class LogAndTraceExceptionAspect {
     @Autowired
     com.boilerplate.configurations.ConfigurationManager configurationManager;
     
-
+    private boolean isDebugEnabled = false;
 	/**
 	 * This is the logger
 	 */
@@ -58,11 +58,10 @@ public class LogAndTraceExceptionAspect {
     		//if the user is in the role or the role required is * then continue else throw an unautjorized exception
     		
     		//Get the return value
+    		
     		Object returnValue  = proceedingJoinPoint.proceed();
-    		//TODO - Put if enabled,config manager should have a set of properties for common and 
-    		//system defined values
     		//log the details including class, method, input arguments and return
-            if(Boolean.parseBoolean(configurationManager.get(Constants.IsDebugEnabled))){ //TODO - This should not be parsed everytime
+            if(isDebugEnabled){ //TODO - This should not be parsed everytime
 	    		logger.logTraceExit(
 	    				proceedingJoinPoint.getSignature().getDeclaringTypeName(),
 	    				proceedingJoinPoint.getSignature().toLongString(),
@@ -82,7 +81,6 @@ public class LogAndTraceExceptionAspect {
     		return returnValue;
     	}
     	catch(Throwable th){
-    		//TODO - Put if enabled 
     		logger.logTraceExitException(proceedingJoinPoint.getSignature().getDeclaringTypeName(),
     				proceedingJoinPoint.getSignature().getName(),
     				proceedingJoinPoint.getArgs(),
@@ -92,5 +90,12 @@ public class LogAndTraceExceptionAspect {
     	}
     	
     	
+    }
+    
+    /**
+     * This methodis called when the bean is initialized
+     */
+    public void init(){
+    	isDebugEnabled = Boolean.parseBoolean(configurationManager.get(Constants.IsDebugEnabled));
     }
 }

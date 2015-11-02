@@ -43,7 +43,7 @@ public class LogAndTraceObserversAspect {
     	try{
     		returnValue  = proceedingJoinPoint.proceed();
             
-	    		logger.logTraceExit(
+	    	logger.logTraceExit(
 	    				proceedingJoinPoint.getSignature().getDeclaringTypeName(),
 	    				proceedingJoinPoint.getSignature().toLongString(),
 	    				proceedingJoinPoint.getArgs(),
@@ -62,4 +62,5 @@ public class LogAndTraceObserversAspect {
     	}
     	return returnValue;
     }
+
 }
