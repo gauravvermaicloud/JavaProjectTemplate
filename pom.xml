@@ -507,20 +507,6 @@
 	 </executions>
 	 </plugin>
 
- <plugin>
-        <groupId>com.b</groupId>
-        <artifactId>data-definition-language-maven-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-       <configuration></configuration>
-        <executions>
-        <execution>
-        <goals>
-        <goal>deployDB</goal>
-        </goals>
-        <phase>generate-test-resources</phase>        
-        </execution>
-        </executions>
-      </plugin>
 </plugins>
 
     
