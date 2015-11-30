@@ -32,8 +32,8 @@ public class TestMemCached {
 				String key = UUID.randomUUID().toString();
 				BaseWrapper baseWrapper = new BaseWrapper();
 				baseWrapper.data = key;	
-				CacheFactory.getInstance("MemCache").add(key, baseWrapper,10);
-				BaseWrapper returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
+				CacheFactory.getInstance("MemCache",null).add(key, baseWrapper,10);
+				BaseWrapper returnValue = CacheFactory.getInstance("MemCache",null).get(key,BaseWrapper.class);
 				if(returnValue == null){
 					return false;
 				}
@@ -51,11 +51,11 @@ public class TestMemCached {
 		String key = UUID.randomUUID().toString();
 		BaseWrapper baseWrapper = new BaseWrapper();
 		baseWrapper.data = key;
-		CacheFactory.getInstance("MemCache").add(key, baseWrapper);
-		BaseWrapper returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
+		CacheFactory.getInstance("MemCache",null).add(key, baseWrapper);
+		BaseWrapper returnValue = CacheFactory.getInstance("MemCache",null).get(key,BaseWrapper.class);
 		Assert.assertEquals(key, returnValue.data);
-		CacheFactory.getInstance("MemCache").remove(key);
-		returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
+		CacheFactory.getInstance("MemCache",null).remove(key);
+		returnValue = CacheFactory.getInstance("MemCache",null).get(key,BaseWrapper.class);
 		Assert.assertNull(returnValue);
 	}
 
@@ -67,11 +67,11 @@ public class TestMemCached {
 		BaseWrapper baseWrapper = new BaseWrapper();
 		baseWrapper.data = key;
 
-		CacheFactory.getInstance("MemCache").add(key, baseWrapper);
-		BaseWrapper returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
+		CacheFactory.getInstance("MemCache",null).add(key, baseWrapper);
+		BaseWrapper returnValue = CacheFactory.getInstance("MemCache",null).get(key,BaseWrapper.class);
 		Assert.assertEquals(key, returnValue.data);
 		Thread.currentThread().sleep(1000*60+10);
-		returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
+		returnValue = CacheFactory.getInstance("MemCache",null).get(key,BaseWrapper.class);
 		Assert.assertNull(returnValue);
 	}
 	
@@ -83,11 +83,11 @@ public class TestMemCached {
 		BaseWrapper baseWrapper = new BaseWrapper();
 		baseWrapper.data = key;
 
-		CacheFactory.getInstance("MemCache").add(key, baseWrapper,10);
-		BaseWrapper returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
+		CacheFactory.getInstance("MemCache",null).add(key, baseWrapper,10);
+		BaseWrapper returnValue = CacheFactory.getInstance("MemCache",null).get(key,BaseWrapper.class);
 		Assert.assertEquals(key, returnValue.data);
 		Thread.currentThread().sleep(1000*60+10);
-		returnValue = CacheFactory.getInstance("MemCache").get(key,BaseWrapper.class);
+		returnValue = CacheFactory.getInstance("MemCache",null).get(key,BaseWrapper.class);
 		Assert.assertNull(returnValue);
 	}
 	

@@ -26,11 +26,11 @@ public class TestInMemoryCache {
 		BaseWrapper baseWrapper = new BaseWrapper();
 		baseWrapper.data = key;
 		
-		CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache").add(key, baseWrapper);
-		BaseWrapper returnValue = CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache").get(key,BaseWrapper.class);
+		CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache",null).add(key, baseWrapper);
+		BaseWrapper returnValue = CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache",null).get(key,BaseWrapper.class);
 		Assert.assertEquals(key, returnValue.data);
-		CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache").remove(key);
-		returnValue = CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache").get(key,BaseWrapper.class);
+		CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache",null).remove(key);
+		returnValue = CacheFactory.getInstance("BoilerplateNonProductionInMemoryCache",null).get(key,BaseWrapper.class);
 		Assert.assertNull(returnValue);
 
 		//TODO test cache with explictly putting cache time out

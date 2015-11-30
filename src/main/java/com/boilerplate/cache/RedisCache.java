@@ -10,6 +10,7 @@ import redis.clients.jedis.JedisCommands;
 
 import com.boilerplate.framework.Logger;
 import com.boilerplate.java.Base;
+import com.boilerplate.java.collections.BoilerplateMap;
 import com.boilerplate.java.controllers.WidgetController;
 
 /**
@@ -59,17 +60,16 @@ public class RedisCache  extends BaseCache implements ICache{
 	
 	/**
 	 * This creates an instance of the cache
+	 * @param configurations This is the configs to the cache
 	 */
-	private RedisCache(){	
+	private RedisCache(BoilerplateMap<String,String> configurations){	
 		//First check if this is just one local machine or a cluster
 		
-		//TODO - Read from configuration the connections
 		//This is the connections to redis it is expected in format host:port;host:port;...
-		String redisConnections = "127.0.0.1:6379";
-		int cacheTimeoutInMinutes = 1;
+		String redisConnections = configurations.get("CacheServer");
+		int cacheTimeoutInMinutes = Integer.parseInt(configurations.get("CacheTimeoutInMinutes"));
 		this.cacheExceptionCount = 0;
-		this.maximumCacheExceptionCount = 5;
-		//TODO -read all above from config
+		this.maximumCacheExceptionCount = Integer.parseInt(configurations.get("MaximumCacheExceptionCount"));
 		
 		this.timeOutInSeconds = cacheTimeoutInMinutes*60;
 		String[] hostPort;
@@ -113,7 +113,8 @@ public class RedisCache  extends BaseCache implements ICache{
 	 * This method returns an instance of the redis cache
 	 * @return a singleton instance of the cache
 	 */
-	public static RedisCache getInstance() throws Exception{
+	public static RedisCache getInstance(BoilerplateMap<String, String>confirgurations
+			) throws Exception{
 		try{
 		//if the cacher is null then we have called this method for 1st time
 		if(RedisCache.redisCache ==null){
@@ -125,7 +126,7 @@ public class RedisCache  extends BaseCache implements ICache{
 				//fully prepared hence we check this null again
 				if(RedisCache.redisCache ==null){
 					//create a new instance of the cache
-					RedisCache.redisCache = new RedisCache();
+					RedisCache.redisCache = new RedisCache(confirgurations);
 				}//end 2nd if check
 			}//end sync block
 		}//end 1st if check
