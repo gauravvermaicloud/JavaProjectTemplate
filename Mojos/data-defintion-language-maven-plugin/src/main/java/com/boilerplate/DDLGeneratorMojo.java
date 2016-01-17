@@ -7,30 +7,33 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import com.boilerplate.dbscript.impl.MySQL.MySQLScriptServiceFactory;
-import com.boilerplate.dbscript.impl.MySQL.MySQLUtilities;
-import com.boilerplate.dbscript.interfaces.DBDeployer;
-import com.boilerplate.dbscript.interfaces.DBInstanceInfo;
-import com.boilerplate.dbscript.interfaces.DBScriptService;
-import com.boilerplate.dbscript.interfaces.DBScriptServiceFactory;
+import com.boilerplate.databasescripts.implementations.MySQL.MySQLScriptServiceFactory;
+import com.boilerplate.databasescripts.interfaces.Constants.DB;
+import com.boilerplate.databasescripts.interfaces.DBDeployer;
+import com.boilerplate.databasescripts.interfaces.DBInstanceInfo;
+import com.boilerplate.databasescripts.interfaces.DBScriptService;
+import com.boilerplate.databasescripts.interfaces.DBScriptServiceFactory;
+import com.boilerplate.databasescripts.utilities.LogHelper;
 
 /**
- * Goal which creates Data Definition Statements
- * 
+ * This class is a maven goal which would generate all the database scripts 
+ * pertaining to various databases. The scripts include a PreScript, Data Defintion Language script,
+ * and a PostScript. At the end all these scripts would be combined into a single script, execution of which, 
+ * would set up a complete boilerplate database. 
+ *  
+ * @author shrivb
  */
 @Mojo(name = "generateScripts", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
-public class DDLGeneratorMojo extends AbstractMojo {
-
-	/**
-	 * Path to the bin folder of the DB. Needed to execute some DB specific
-	 * commands
-	 * 
-	 */
-	@Parameter(property = "DBBinDirectoryPath", required = true)
-	private String DBBinDirectoryPath;
+public class DDLGeneratorMojo extends AbstractMojo {	
 
 	// TODO - explore if you can tell to the user in an intuitive way what are
 	// allowed DBs
+	
+	/**
+	 * This is the maven logger which is used to display the messages on the console during plugin execution.  
+	 */
+	private Log log;
+	
 	/**
 	 * The type of the DB for which the plugin would be generating scripts for
 	 * Permissible values: MYSQL,ORACLE,CASSANDRA,MONGODB
@@ -38,7 +41,7 @@ public class DDLGeneratorMojo extends AbstractMojo {
 	@Parameter(property = "DBType", required = true, defaultValue = "MYSQL")
 	private DB DBType;
 	/**
-	 * The name of the target DB. If it does not already exist, plugin would not
+	 * The name of the target DB. If it does not already exist, plugin would
 	 * create it.
 	 */
 	@Parameter(property = "DBName", required = true)
@@ -69,75 +72,42 @@ public class DDLGeneratorMojo extends AbstractMojo {
 	 
 	@Parameter(property = "destinationFolderPath", required = true)
 	private String destinationFolderPath;
+	
+	/**
+	 * The factory which facilitates creation of a set of related objects pertaining to a specific DB
+	 * Since this is a maven plugin and used only during build phases, no DI is used here.  
+	 */
+	DBScriptServiceFactory dbScriptsFactory;
+	
+	/**
+	 * The script service which is used generate scripts for specific databases
+	 */
+	DBScriptService scriptService;	
 
-	public enum DB {
-		MYSQL, ORACLE, CASSANDRA, MONGODB
-
-	}
-
-	DBScriptServiceFactory _dbScriptsFactory;
-	DBScriptService _scriptService;
-	DBDeployer _dbCreator;
-
+	//TODO - implementation
 	public void execute() throws MojoExecutionException {
 		try {
-
-			getLog().info("Java Boiler Plate - DDL Plugin");
-			getLog().info("Mojo params");
-			getLog().info("DBBinDirectoryPath:" + DBBinDirectoryPath);
-			getLog().info("DBName:" + DBName);
-			getLog().info("DBType:" + DBType);
-			getLog().info("adminUserName:" + adminUserName);
-			getLog().info("adminUserPassword:" + adminUserPassword);
-
-			DBInstanceInfo _dbinfo = new DBInstanceInfo(DBBinDirectoryPath,DBName,adminUserName,adminUserPassword);
+			if (log == null)
+				log = getLog();
+			LogHelper.initializeMvnLogger(log);			
 			
 			switch ((DB) DBType) {
 			case CASSANDRA:
 				break;
 			case MONGODB:
 				break;
-			case MYSQL:
-				MySQLUtilities.initializeMvnLogger(getLog());
-				_dbScriptsFactory = new MySQLScriptServiceFactory();
-				_dbCreator = _dbScriptsFactory.createDBDeployer();
-				_scriptService = _dbScriptsFactory.createDBScriptService();			
-				
+			case MYSQL:				
+				dbScriptsFactory = new MySQLScriptServiceFactory();				
+				scriptService = dbScriptsFactory.createDBScriptService();				
 				break;
 			case ORACLE:
 
 				break;
 			default:
 				break;
-			}
-
-			// output = new StringBuffer();
-			// reader =
-			// new BufferedReader(new InputStreamReader(p1.getInputStream()));
-			// while ((line = reader.readLine())!= null) {
-			// output.append(line);
-			// }
-			// getLog().info("Command line output is" + output.toString());
-			//
-			// String line1 = "";
-			// output = new StringBuffer();
-			// reader =
-			// new BufferedReader(new InputStreamReader(p2.getInputStream()));
-			// while ((line1 = reader.readLine())!= null) {
-			// output.append(line1);
-			// }
-		}
-
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+			}		
+		}	
 		catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

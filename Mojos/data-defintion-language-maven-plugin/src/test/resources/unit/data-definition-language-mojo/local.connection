@@ -1,9 +1,7 @@
-<connection>
-	    <DBType>MYSQL</DBType>       
-        <DBBinDirectoryPath>/usr/local/mysql/bin</DBBinDirectoryPath>                
-        <DBHost>localhost</DBHost>  
-        <adminUserName>root</adminUserName> 
-        <adminUserPassword>root</adminUserPassword>       
-<!--         <scriptsFolder>C:\Users\Admin\Desktop\</scriptsFolder>
-        <connectionFile>C:\Users\Admin\Desktop\connection.xml</connectionFile> -->
-</connection>
+<connection>	  
+	  <DBType>MYSQL</DBType>                       
+      <DatabaseHost>localhost</DatabaseHost> 
+      <Port>3306</Port> 
+      <AdminUserName>root</AdminUserName> 
+      <AdminUserPassword>admin@123</AdminUserPassword>       
+</connection> 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.boilerplate.test;
 
 import org.apache.maven.plugin.testing.MojoRule;
@@ -16,7 +13,7 @@ import org.junit.Test;
 
 import com.boilerplate.DBDeployMojo;
 
-public class DDLMojoJUnitTest {
+public class DBDeployMojoJUnitTest {
 	private String testPOMSrcPath = "src/test/resources/unit/data-definition-language-mojo/pom.xml";
 	
     @Rule
@@ -37,25 +34,15 @@ public class DDLMojoJUnitTest {
      * @throws Exception if any
      */
     @Test
-    public void testSomething()
+    public void testBasicExecutionOfDBDeployMojo()
         throws Exception
     {
-
-        DBDeployMojo myMojo = (DBDeployMojo) rule.lookupMojo( "deployDB", testPOMSrcPath );
-        
+        DBDeployMojo myMojo = (DBDeployMojo) rule.lookupMojo( "deployDB", testPOMSrcPath );        
         assertNotNull( myMojo );
-        myMojo.execute();
-
-        
+        myMojo.execute();        
     }
-
-    /** Do not need the MojoRule. */
-    @WithoutMojo
-    @Test
-    public void testSomethingWhichDoesNotNeedTheMojoAndProbablyShouldBeExtractedIntoANewClassOfItsOwn()
-    {
-      
-    }
+    
+   //TODO - write more negative test cases
 
 }
 
